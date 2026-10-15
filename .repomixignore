@@ -16,9 +16,6 @@ flake.lock
 repomix.config.json
 .repomixignore
 
-# Hardware config (генерируется NixOS)
-modules/hardware/hardware-configuration.nix
-
 # Happ-nixos документация (в modules/services/happ/)
 modules/services/happ/LICENSE
 modules/services/happ/README.md

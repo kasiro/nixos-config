@@ -13,7 +13,7 @@
     "removeComments": false,
     "removeEmptyLines": false,
     "compress": false,
-    "topFilesLength": 5,
+    "topFilesLength": 200,
     "showLineNumbers": false,
     "truncateBase64": false,
     "copyToClipboard": false,
@@ -29,7 +29,7 @@
   },
   "include": [],
   "ignore": {
-    "useGitignore": true,
+    "useGitignore": false,
     "useDotIgnore": true,
     "useDefaultPatterns": true,
     "customPatterns": []
