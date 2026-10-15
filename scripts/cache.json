@@ -1,0 +1,6 @@
+{
+  "cargo:d3964ef9b615e12d6c1e2e6d8dbe132fe499bc16299be76eb465bdbdf460d34f": "sha256-e9m175il3hzmMqVzuMF6e+8ByvAF+7XQheIS/f8JyUY=",
+  "nar:https://github.com/kunlinglio/path-server/archive/v1.4.2.tar.gz": "sha256-DKIDQZB9hzbS02fLheGo5yIdelpP2G6+VvRrVs0cj50=",
+  "raw:https://github.com/getlantern/lantern/releases/download/v10.0.0/lantern-installer.deb": "sha256-xzZRdiz2dctWP29cFniCESAu3lvKfiRKepUzd0+P/Ck=",
+  "raw:https://github.com/getlantern/lantern/releases/latest/download/lantern-installer.deb": "sha256-xzZRdiz2dctWP29cFniCESAu3lvKfiRKepUzd0+P/Ck="
+}

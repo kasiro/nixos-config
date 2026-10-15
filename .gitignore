@@ -1,0 +1,14 @@
+# Nix build output symlinks
+result
+result-*
+result/
+
+# Editor files
+*~
+*.swp
+
+# Repomix output
+repomix-output.md
+
+# Hardware config (теперь в modules/hardware/)
+modules/hardware/hardware-configuration.nix

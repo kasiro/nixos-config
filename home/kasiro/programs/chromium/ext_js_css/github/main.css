@@ -1,0 +1,29 @@
+:root {
+    --box-radius: 12px;
+    --btn-radius: 20px;
+    --btn2-radius: 16px;
+}
+
+.Box:not(.md) {
+    border-radius: var(--box-radius) !important;
+}
+.Box-header {
+    border-top-left-radius: var(--box-radius) !important;
+    border-top-right-radius: var(--box-radius) !important;
+}
+.Box-row:last-of-type {
+    border-bottom-left-radius: var(--box-radius) !important;
+    border-bottom-right-radius: var(--box-radius) !important;
+}
+.btn:not(.rounded-right-0):not(.btn-with-count) {
+    border-radius: var(--btn-radius) !important;
+}
+.btn.rounded-right-0,
+.btn.btn-with-count {
+    border-top-left-radius: var(--btn2-radius) !important;
+    border-bottom-left-radius: var(--btn2-radius) !important;
+}
+.social-count {
+    border-top-right-radius: var(--btn2-radius) !important;
+    border-bottom-right-radius: var(--btn2-radius) !important;
+}

@@ -1,0 +1,48 @@
+/* banner-list
+https://mirai.senkuro.net/collectibles/358/c257e86be611382a1e1155b0b949703856ab4f01.jpeg
+https://mirai.senkuro.net/collectibles/356/3a2ee310220b521168e92e0fd5936c716255efb3.jpeg
+https://mirai.senkuro.net/collectibles/353/e75d9d6492dda57839e7f1e81c15f3cdf0ba476c.jpeg
+https://mirai.senkuro.net/collectibles/351/c8bca7aaa99b514bbc86423708a9d9c6113b5d24.jpeg
+https://mirai.senkuro.net/collectibles/349/7ec2b17cd70b5d09cdf22335bb7b9d074095d213.jpeg
+*/
+:root {
+	// --avatar: url(https://mirai.senkuro.net/collectibles/228/d9063d41879066f69066b7e3912d97b8df78384f.webp);
+	// // --banner: url(https://mirai.senkuro.net/collectibles/353/e75d9d6492dda57839e7f1e81c15f3cdf0ba476c.jpeg);
+	// --banner: url(https://mirai.senkuro.net/collectibles/354/e5daf506564fe845d7cb1d6902e0891357ba4c35.jpeg);
+}
+
+img[alt="Kasiro"][src="https://mirai.senkuro.net/collectibles/25/57fcc7d754de62b32f9e614bf5d9282052ee224c.jpeg"] {
+	content: var(--avatar);
+}
+img[alt="Kasiro's banner"] {
+	content: var(--banner);
+}
+.footer .footer-top {
+	display: none;
+}
+a[href="/users/@192400650171074054"] .avatar-frame img {
+	content: var(--avatar-frame);
+}
+
+/* ============================================================
+ *  ОБОИ-СТАТИКА
+ * ============================================================ */
+html[data-wallpaper-kind="image"] video.wallpaper-wrapper-media,
+html[data-wallpaper-kind="image"] .wallpaper-wrapper-media {
+  display: none !important;
+}
+
+/* Фон — на саму обёртку обоев */
+html[data-wallpaper-kind="image"] .wallpaper-wrapper {
+  background: var(--wallpaper) center/cover no-repeat !important;
+}
+
+/* Фолбэк, если класса .wallpaper-wrapper нет */
+html[data-wallpaper-kind="image"] [class*="wallpaper-wrapper"] {
+  background: var(--wallpaper) center/cover no-repeat !important;
+}
+
+// подсмотреть осколки
+// .card-collect-preview__shard-border {
+// 	display: none !important;
+// }

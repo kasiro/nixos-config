@@ -1,0 +1,27 @@
+# Editor/IDE
+.zed/
+
+# OpenCode
+.opencode/
+
+# Nix build outputs
+result/
+
+# Scripts (бэкап/генерация)
+scripts/
+
+# Config files (не код)
+.gitignore
+flake.lock
+repomix.config.json
+.repomixignore
+
+# Hardware config (генерируется NixOS)
+modules/hardware/hardware-configuration.nix
+
+# Happ-nixos документация (в modules/services/happ/)
+modules/services/happ/LICENSE
+modules/services/happ/README.md
+
+# Chromium extension JS/CSS (кэш/генерация)
+home/kasiro/programs/chromium/ext_js_css/
