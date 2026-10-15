@@ -23,7 +23,7 @@
           set commit_message $_flag_m
         end
 
-        git add . ':!modules/hardware/hardware-configuration.nix';git commit -m "$commit_message";nh os switch . --log-format bar -a
+        git add .;git commit -m "$commit_message";nh os switch "path:$PWD" --log-format bar -a
       end
 
       function devshell-init --description "Создать flake.nix + .envrc в текущей директории"
