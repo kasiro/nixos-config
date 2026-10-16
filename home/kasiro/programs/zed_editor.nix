@@ -30,96 +30,91 @@ in
 {
   targets.genericLinux.nixGL.vulkan.enable = true;
 
-  home.packages = (with pkgs; [
-    nixd
-    nil
-    rust-analyzer
-    pyright
-    luaPackages.lua-lsp
-  ]) ++ [
-    zedLaunch
-    path-server
-  ];
+  home.packages =
+    (with pkgs; [
+      nixd
+      nil
+      rust-analyzer
+      pyright
+      luaPackages.lua-lsp
+      fish-lsp
+    ])
+    ++ [
+      zedLaunch
+      path-server
+    ];
 
   programs.zed-editor = {
     enable = true;
     package = pkgs.zed-editor;
 
     userSettings = {
-        # Тема и шрифты
-        theme = "Catppuccin Macchiato - No Italics";
-        show_completions_on_input = true;
+      # Тема и шрифты
+      theme = "Catppuccin Macchiato - No Italics";
+      show_completions_on_input = true;
 
-        # Настройки терминала
-        # terminal = {
-        #   shell = {
-        #     with_arguments = {
-        #       program = "${pkgs.fish}/bin/fish";
-        #     };
-        #   };
-        #   line_height = "comfortable";
-        #   env = {
-        #     PATH = "/run/wrappers/bin:/run/current-system/sw/bin:$PATH";
-        #   };
-        # };
+      # Настройки терминала
+      # terminal = {
+      #   shell = {
+      #     with_arguments = {
+      #       program = "${pkgs.fish}/bin/fish";
+      #     };
+      #   };
+      #   line_height = "comfortable";
+      #   env = {
+      #     PATH = "/run/wrappers/bin:/run/current-system/sw/bin:$PATH";
+      #   };
+      # };
 
-        # Настройки LSP (языковых серверов)
-        # Это решит проблему, когда Zed не может скачать серверы сам
-        lsp = pkgs.lib.genAttrs [
-          "nix"
-          "rust-analyzer"
-          "pyright"
-          "lua"
-          "path-server-lsp"
-        ] (name: {
-          binary.path_lookup = true;
-        });
+      # Настройки LSP (языковых серверов)
+      # Это решит проблему, когда Zed не может скачать серверы сам
+      lsp =
+        pkgs.lib.genAttrs
+          [
+            "nix"
+            "rust-analyzer"
+            "pyright"
+            "lua"
+            "path-server-lsp"
+            "fish-lsp"
+          ]
+          (name: {
+            binary.path_lookup = true;
+          });
 
-        # Другие полезные настройки
-        auto_update = false; # Отключаем автообновление, т.к. управляем через Nix
-        hour_format = "hour24";
-        vim_mode = false;
-      };
+      # Другие полезные настройки
+      auto_update = false; # Отключаем автообновление, т.к. управляем через Nix
+      hour_format = "hour24";
+      vim_mode = false;
+    };
 
-      # Список расширений для автоматической установки
-      extensions = [
-        "nix"
-        "toml"
-        "rust"
-        "make"
-        "pylsp"
-        "lua"
-        "path-server-lsp"
-      ];
+    # Список расширений для автоматической установки
+    extensions = [
+      "nix"
+      "toml"
+      "rust"
+      "make"
+      "pylsp"
+      "lua"
+      "path-server-lsp"
+      "fish"
+    ];
   };
 
   xdg.desktopEntries.zed = {
-    name        = "Zed";
-    comment     = "Code Editor";
-    exec        = "${zedLaunch}/bin/zed-launch %F";
-    icon        = "zed";
-    terminal    = false;
-    categories  = [ "Development" "IDE" "TextEditor" ];
-    mimeType    = [ "text/plain" ];
+    name = "Zed";
+    comment = "Code Editor";
+    exec = "${zedLaunch}/bin/zed-launch %F";
+    icon = "zed";
+    terminal = false;
+    categories = [
+      "Development"
+      "IDE"
+      "TextEditor"
+    ];
+    mimeType = [ "text/plain" ];
     settings = {
       StartupWMClass = "dev.zed.Zed";
     };
   };
-
-  # home.file.".local/share/applications/dev.zed.Zed.desktop" = {
-  #   force = true;
-  #   text = ''
-  #     [Desktop Entry]
-  #     Version=1.0
-  #     Type=Application
-  #     Name=Zed
-  #     GenericName=Code Editor
-  #     Comment=Code Editor
-  #     Exec=${zedLaunch}/bin/zed-launch %F
-  #     Icon=zed
-  #     Categories=Development;IDE;TextEditor;
-  #     MimeType=text/plain;
-  #     StartupWMClass=dev.zed.Zed
-  #   '';
-  # };
 }

@@ -11,7 +11,7 @@ if set -q _flag_m
     set commit_message $_flag_m
 end
 
-git add .;git commit -m "$commit_message";nh os switch . --log-format bar -a
+git add .;git commit -m "$commit_message";nh os switch . --log-format bar -a;git push
 end
 
 function devshell-init --description "Создать flake.nix + .envrc в текущей директории"
