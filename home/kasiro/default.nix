@@ -24,7 +24,6 @@
     qbittorrent
     tree
     nh
-    keet
     # homebank # (посчитай налик)
   ];
 

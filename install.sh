@@ -5,7 +5,7 @@ set -euo pipefail
 
 # ------------------------------- настройки -------------------------------
 # ⚠️ поменяй на свой реальный репозиторий (или передавай через env REPO_URL=...)
-REPO_URL="${REPO_URL:-https://github.com:kasiro/nixos-config}"
+REPO_URL="${REPO_URL:-https://github.com/kasiro/nixos-config}"
 TARGET_DIR="${TARGET_DIR:-$HOME/nixos-config}"
 FLAKE_ATTR="${FLAKE_ATTR:-nixos}"
 HWD_REL="modules/hardware/hardware-configuration.nix"

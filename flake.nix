@@ -39,8 +39,6 @@
             nixpkgs.overlays = [
               (final: prev: {
                 opencode = pkgs-unstable.opencode;
-                # bottles = pkgs-unstable.bottles;
-                keet = pkgs-unstable.keet;
               })
             ];
             home-manager.users.kasiro = import ./home/kasiro;

@@ -7,7 +7,7 @@
 # Nix build outputs
 result/
 
-# Scripts (бэкап/генерация)
+# Scripts
 scripts/
 
 # Config files (не код)
