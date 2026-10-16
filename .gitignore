@@ -9,3 +9,6 @@ result/
 
 # Repomix output
 repomix-output.md
+
+.venv/
+README.md

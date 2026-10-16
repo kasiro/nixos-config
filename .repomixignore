@@ -15,6 +15,9 @@ scripts/
 flake.lock
 repomix.config.json
 .repomixignore
+.venv/
+README.md
+.python-version
 
 # Happ-nixos документация (в modules/services/happ/)
 modules/services/happ/LICENSE
