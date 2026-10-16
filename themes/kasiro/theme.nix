@@ -1,6 +1,6 @@
 {
   cursorTheme = "Bibata-Modern-Ice";
   cursorSize = 24;
-  accent-color = "purple";
+  accent-color = "red";
   color-scheme = "prefer-dark";
 }
