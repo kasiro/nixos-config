@@ -12,8 +12,6 @@
   ];
 
   home.username = "kasiro";
-  home.homeDirectory = "/home/kasiro";
-  home.stateVersion = "26.05";
 
   # Пакеты только для kasiro
   home.packages = with pkgs; [
@@ -29,11 +27,6 @@
     keet
     # homebank # (посчитай налик)
   ];
-
-  nixpkgs.config.allowUnfree = true;
-
-  xdg.enable = true;
-  xdg.mime.enable = true;
 
   # Для Qtile (если вернёшь):
   # xdg.configFile."qtile/config.py".source = ../../modules/qtile/qtile-config.py;
