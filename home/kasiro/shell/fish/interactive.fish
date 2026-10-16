@@ -40,7 +40,7 @@ function devshell-init --description "Создать flake.nix + .envrc в те�
         pkgs = import nixpkgs { inherit system; };
         in
         {
-        devShells.\''${system}.default = pkgs.mkShell {
+        devShells.\${system}.default = pkgs.mkShell {
             packages = with pkgs; [
             # добавь нужные пакеты здесь
             ];
