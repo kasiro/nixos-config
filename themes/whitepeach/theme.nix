@@ -1,0 +1,4 @@
+{
+  cursorTheme = "Bibata-Modern-Ice";
+  cursorSize = 24;
+}

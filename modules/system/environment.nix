@@ -1,5 +1,8 @@
 # Переменные окружения
 { ... }:
+let
+  theme = import ../../themes/kasiro/theme.nix;
+in
 {
   # npm global packages ставятся в home (nix store read-only)
   environment.variables = {
@@ -9,13 +12,13 @@
     # Добавляем bin-директорию Bun в PATH, чтобы глобальные пакеты были доступны
     PATH = "$HOME/.bun/bin:$PATH";
     # Тема курсора для всех приложений (включая Steam)
-    XCURSOR_THEME = "Bibata-Modern-Ice";
-    XDG_ICON_THEME = "Bibata-Modern-Ice";
+    XCURSOR_THEME = theme.cursorTheme;
+    XDG_ICON_THEME = theme.cursorTheme;
   };
 
   environment.sessionVariables = {
     NIXOS_OZONE_WL = "1";
     # Размер курсора (совпадает с cursor-size в dconf)
-    XCURSOR_SIZE = "24";
+    XCURSOR_SIZE = toString theme.cursorSize;
   };
 }

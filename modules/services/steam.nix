@@ -1,5 +1,8 @@
 # Игры: Steam + GameMode
 { ... }:
+let
+  theme = import ../../themes/kasiro/theme.nix;
+in
 {
   programs.steam = {
     enable = true;
@@ -10,6 +13,6 @@
   programs.gamemode.enable = true;
 
   environment.sessionVariables = {
-    STEAM_CURSOR_THEME = "Bibata-Modern-Ice";
+    STEAM_CURSOR_THEME = theme.cursorTheme;
   };
 }
