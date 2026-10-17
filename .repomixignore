@@ -18,6 +18,7 @@ repomix.config.json
 .venv/
 README.md
 .python-version
+pyproject.toml
 
 # Happ-nixos документация (в modules/services/happ/)
 modules/services/happ/LICENSE
