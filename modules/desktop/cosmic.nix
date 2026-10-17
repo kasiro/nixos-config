@@ -15,5 +15,6 @@
     cosmic-term       # терминал
     cosmic-launcher   # лаунчер приложений
     cosmic-settings   # настройки
+    cosmic-panel
   ];
 }
