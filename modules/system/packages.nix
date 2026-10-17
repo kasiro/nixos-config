@@ -48,14 +48,6 @@
     nix-output-monitor
     nh
 
-    (pkgs.nerd-fonts.override {
-       fonts = [
-         "JetBrainsMono"
-         "FiraCode"
-         "Hack"
-      ];
-    })
-
     ydotool
     wtype
     gcc
@@ -75,5 +67,10 @@
     gnomeExtensions.app-hider
     gnomeExtensions.kando-integration
     bibata-cursors
+  ];
+  fonts.packages = with pkgs; [
+    nerd-fonts.jetbrains-mono
+    nerd-fonts.fira-code
+    nerd-fonts.hack
   ];
 }
