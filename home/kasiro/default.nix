@@ -20,7 +20,6 @@
     repomix
     qbittorrent
     tree
-    deezer-desktop
     # homebank # (посчитай налик)
   ];
 

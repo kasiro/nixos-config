@@ -4,7 +4,6 @@ let
 
   ignored = [
     "default.nix"
-    "input.nix"
   ];
 
   entries = builtins.readDir dir;
