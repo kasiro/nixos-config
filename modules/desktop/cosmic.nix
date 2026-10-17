@@ -7,7 +7,6 @@
   # X11-сессия COSMIC (для legacy NVIDIA)
   # Wayland-сессия тоже будет доступна в GDM
   # services.displayManager.defaultSession = "cosmic";
-  services.xserver.xkb.options = [ "grp:shift_alt_toggle" ];
 
   # Дополнительные пакеты COSMIC (опционально)
   environment.systemPackages = with pkgs; [
