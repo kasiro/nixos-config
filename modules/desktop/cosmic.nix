@@ -2,7 +2,7 @@
 {
   # COSMIC Desktop
   services.desktopManager.cosmic.enable = true;
-  services.displayManager.cosmic-greeter.enable = false;
+  # services.displayManager.cosmic-greeter.enable = false;
 
   # X11-сессия COSMIC (для legacy NVIDIA)
   # Wayland-сессия тоже будет доступна в GDM
