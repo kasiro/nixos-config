@@ -8,7 +8,7 @@
           model: "pc104",
           layout: "us,ru",
           variant: ",",
-          options: Some("grp:shift_alt_toggle"),
+          options: Some("terminate:ctrl_alt_bksp,grp:shift_alt_toggle"),
           repeat_delay: 600,
           repeat_rate: 25,
       )
