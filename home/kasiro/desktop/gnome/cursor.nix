@@ -1,7 +1,7 @@
 # Переменные окружения курсора — специфичные для пользователя kasiro
 { ... }:
 let
-  theme = import ../../../themes/kasiro/theme.nix;
+  theme = import ../../../../themes/kasiro/theme.nix;
 in
 {
   home.sessionVariables = {

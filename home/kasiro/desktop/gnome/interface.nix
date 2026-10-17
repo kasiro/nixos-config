@@ -1,7 +1,7 @@
 # Внешний вид интерфейса: курсор, hot corners
 { lib, ... }:
 let
-  theme = import ../../../themes/kasiro/theme.nix;
+  theme = import ../../../../themes/kasiro/theme.nix;
 in
 {
   dconf.settings."org/gnome/desktop/interface" = {
