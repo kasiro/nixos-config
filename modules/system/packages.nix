@@ -48,7 +48,7 @@
     nix-output-monitor
     nh
 
-    (nerdfonts.override { fonts = [
+    (pkgs.nerdfonts.override { fonts = [
      "JetBrainsMono"
      "FiraCode"
      "Hack"
