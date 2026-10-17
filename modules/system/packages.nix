@@ -9,6 +9,8 @@
     obsidian
     telegram-desktop
 
+    xorg.xinit
+
     appimage-run
     gnome-randr
     usbutils

@@ -2,11 +2,11 @@
 {
   # COSMIC Desktop
   services.desktopManager.cosmic.enable = true;
-  services.displayManager.cosmic-greeter.enable = true;
+  # services.displayManager.cosmic-greeter.enable = true;
 
   # X11-сессия COSMIC (для legacy NVIDIA)
   # Wayland-сессия тоже будет доступна в GDM
-  services.displayManager.defaultSession = "cosmic";
+  # services.displayManager.defaultSession = "cosmic";
 
   # Дополнительные пакеты COSMIC (опционально)
   environment.systemPackages = with pkgs; [
