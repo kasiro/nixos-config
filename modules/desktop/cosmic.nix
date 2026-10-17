@@ -6,7 +6,7 @@
 
   # X11-сессия COSMIC (для legacy NVIDIA)
   # Wayland-сессия тоже будет доступна в GDM
-  # services.displayManager.defaultSession = "cosmic";
+  services.displayManager.defaultSession = "cosmic";
 
   # Дополнительные пакеты COSMIC (опционально)
   environment.systemPackages = with pkgs; [
