@@ -7,7 +7,7 @@
     };
     Service = {
       Type = "oneshot";
-      ExecStart = "${pkgs.xorg.setxkbmap}/bin/setxkbmap -option grp:shift_alt_toggle";
+      ExecStart = "${pkgs.setxkbmap}/bin/setxkbmap -option grp:shift_alt_toggle";
     };
     Install = {
       WantedBy = [ "graphical-session.target" ];
