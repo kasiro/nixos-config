@@ -48,11 +48,13 @@
     nix-output-monitor
     nh
 
-    (pkgs.nerdfonts.override { fonts = [
-     "JetBrainsMono"
-     "FiraCode"
-     "Hack"
-    ]; })
+    (pkgs.nerd-fonts.override {
+       fonts = [
+         "JetBrainsMono"
+         "FiraCode"
+         "Hack"
+      ];
+    })
 
     ydotool
     wtype
