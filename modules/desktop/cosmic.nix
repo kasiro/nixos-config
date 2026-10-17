@@ -9,12 +9,19 @@
   # services.displayManager.defaultSession = "cosmic";
 
   # Дополнительные пакеты COSMIC (опционально)
-  environment.systemPackages = with pkgs; [
-    cosmic-edit       # текстовый редактор
-    cosmic-files      # файловый менеджер
-    cosmic-term       # терминал
-    cosmic-launcher   # лаунчер приложений
-    cosmic-settings   # настройки
-    cosmic-panel
-  ];
+    environment.systemPackages = with pkgs; [
+      # Ядро сессии и панель — ОБЯЗАТЕЛЬНО в PATH
+      cosmic-session
+      cosmic-comp
+      cosmic-panel
+      cosmic-applets
+      cosmic-workspaces-epoch
+
+      # Приложения
+      cosmic-edit
+      cosmic-files
+      cosmic-term
+      cosmic-launcher
+      cosmic-settings
+    ];
 }
