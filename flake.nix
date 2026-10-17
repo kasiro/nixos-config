@@ -39,6 +39,8 @@
             nixpkgs.overlays = [
               (final: prev: {
                 opencode = pkgs-unstable.opencode;
+                # COSMIC из unstable
+                cosmic-session = pkgs-unstable.cosmic-session;
               })
             ];
             home-manager.users.kasiro = import ./home/kasiro;
