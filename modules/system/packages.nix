@@ -44,6 +44,15 @@
     dconf2nix
     nix-prefetch-github
     nix-your-shell
+    update-nix-fetchgit
+    nix-output-monitor
+    nh
+
+    (nerdfonts.override { fonts = [
+     "JetBrainsMono"
+     "FiraCode"
+     "Hack"
+    ]; })
 
     ydotool
     wtype

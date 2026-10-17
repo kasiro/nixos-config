@@ -10,5 +10,6 @@ in
     enable-hot-corners = false;
     accent-color = theme.accent-color;
     color-scheme = theme.color-scheme;
+    monospace-font-name = theme.font;
   };
 }
