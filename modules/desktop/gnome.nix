@@ -1,14 +1,7 @@
 # GNOME: дисплей-менеджер, DE, dconf
 { pkgs, ... }:
 {
-  services.displayManager.gdm = {
-    enable = true;
-    # Отключить GNOME Shell в GDM — нужен только greeter
-    wayland = true;
-    # Использовать простой greeter без GNOME Shell
-    # autoLogin отключён — требуется ручной вход
-    # autoLogin = { user = "kasiro"; };  # раскомментировать для авто-входа
-  };
+  services.displayManager.gdm.enable = true;
 
   services.desktopManager.gnome.enable = true;
 
