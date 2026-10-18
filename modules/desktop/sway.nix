@@ -10,12 +10,16 @@ in
     package = pkgs.swayfx;
     xwayland.enable = true;
     wrapperFeatures.gtk = true; # Корректная работа GTK-приложений
+    # Обёртка sway добавит флаг в Exec=sway .desktop-файла сессии,
+    # который GDM читает из services.displayManager.sessionPackages
+    # (store-пакет), а НЕ из /etc/wayland-sessions
+    extraOptions = [ "--unsupported-gpu" ]; # NVIDIA proprietary (GTX 950)
   };
 
   # Пакеты, которые нужны для полноценной работы Sway
   environment.systemPackages = with pkgs; [
-    # Утилиты sway
-    swayfx
+    # NOTE: сам swayfx уже ставится модулем programs.sway (обёрнутый с extraOptions),
+    # сырой пакет здесь конфликтовал бы по bin/sway
     swaylock # Блокировка экрана
     swayidle # Управление питанием/блокировкой
     swaybg # Обои
@@ -43,16 +47,6 @@ in
     XCURSOR_THEME = theme.cursorTheme;
     XCURSOR_SIZE = toString theme.cursorSize;
   };
-
-  # Переопределение .desktop файла для GDM с флагом --unsupported-gpu
-  environment.etc."wayland-sessions/sway.desktop".text = ''
-    [Desktop Entry]
-    Name=Sway
-    Comment=An i3-compatible Wayland compositor
-    Exec=sway --unsupported-gpu
-    Type=Application
-    DesktopNames=sway;wlroots;swayfx
-  '';
 
   # polkit-агент для GUI-запросов прав (нужен в sway, т.к. нет GNOME)
   security.polkit.enable = true;

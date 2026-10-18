@@ -6,7 +6,9 @@
   # Qtile работает ТОЛЬКО на X11 — Wayland сессия отключена
   services.xserver.windowManager.qtile = {
     enable = true;
-    package = pkgs.python3Packages.qtile;
+    # package не указываем: модуль сам возьмёт python3Packages.qtile и
+    # обернёт его через finalPackage с extraPackages (иначе в PATH попадает
+    # сырой бинарь без qtile_extras)
     extraPackages =
       python3Packages: with python3Packages; [
         qtile-extras
@@ -47,9 +49,10 @@
   };
 
   # Пакеты QtileDots на system-level
+  # NOTE: python3Packages.qtile / qtile-extras здесь НЕ кладём — сырые пакеты
+  # дают свой .desktop/bin, перебивая обёртку services.xserver.windowManager.qtile
+  # (finalPackage с extraPackages). Модуль сам ставит обёрнутый qtile.
   environment.systemPackages = with pkgs; [
-    python3Packages.qtile
-    python3Packages.qtile-extras
     alacritty
     firefox
     thunar
