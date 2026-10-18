@@ -3,8 +3,10 @@
   services.xserver.enable = true;
 
   # Qtile как X11-сессия, которую GDM увидит наравне с GNOME
+  # Qtile работает ТОЛЬКО на X11 — Wayland сессия отключена
   services.xserver.windowManager.qtile = {
     enable = true;
+    package = pkgs.python3Packages.qtile;
     extraPackages =
       python3Packages: with python3Packages; [
         qtile-extras
@@ -46,8 +48,8 @@
 
   # Пакеты QtileDots на system-level
   environment.systemPackages = with pkgs; [
-    python313Packages.qtile
-    python313Packages.qtile-extras
+    python3Packages.qtile
+    python3Packages.qtile-extras
     alacritty
     firefox
     thunar

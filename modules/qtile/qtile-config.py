@@ -95,11 +95,11 @@ layouts = [
 ]
 
 # Виджеты для панели
-widget_defaults = dict(
-    font="JetBrainsMono Nerd Font",
-    fontsize=12,
-    padding=3,
-)
+widget_defaults = {
+    "font": "JetBrainsMono Nerd Font",
+    "fontsize": 12,
+    "padding": 3,
+}
 extension_defaults = widget_defaults.copy()
 
 screens = [

@@ -11,7 +11,6 @@
 from libqtile import widget
 from .theme import colors
 from libqtile.lazy import lazy
-from libqtile.command import lazy
 from qtile_extras import widget
 from qtile_extras.widget.decorations import BorderDecoration
 

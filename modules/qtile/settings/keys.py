@@ -8,7 +8,7 @@
 # https://github.com/L4ZYP4CM4N/DOTFILES
 
 from libqtile.config import Key
-from libqtile.command import lazy
+from libqtile.lazy import lazy
 
 
 mod = "mod4"

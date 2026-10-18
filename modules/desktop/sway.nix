@@ -44,6 +44,16 @@ in
     XCURSOR_SIZE = toString theme.cursorSize;
   };
 
+  # Переопределение .desktop файла для GDM с флагом --unsupported-gpu
+  environment.etc."wayland-sessions/sway.desktop".text = ''
+    [Desktop Entry]
+    Name=Sway
+    Comment=An i3-compatible Wayland compositor
+    Exec=sway --unsupported-gpu
+    Type=Application
+    DesktopNames=sway;wlroots;swayfx
+  '';
+
   # polkit-агент для GUI-запросов прав (нужен в sway, т.к. нет GNOME)
   security.polkit.enable = true;
   systemd.user.services.polkit-gnome = {
