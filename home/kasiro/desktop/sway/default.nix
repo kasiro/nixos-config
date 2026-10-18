@@ -82,29 +82,6 @@ in
       };
       floating.border = 2;
 
-      # SwayFX-специфичные настройки
-      default_border = "smart";
-      default_floating_border = "smart";
-      corner_radius = 10;  # Скруглённые углы
-
-      # Размытие для плавающих окон и меню
-      blur = {
-        enable = true;
-        xray = true;
-        passes = 2;
-        radius = 8;
-        noise = 0.02;
-        contrast = 0.9;
-        brightness = 0.95;
-      };
-
-      # Тени
-      shadow = {
-        enable = true;
-        radius = 12;
-        color = "#000000";
-      };
-
       # --- Цвета (Catppuccin Mocha) ---
       colors = {
         focused = {
@@ -151,8 +128,7 @@ in
         "${mod}+a" = "exec ${menu}";
         "${mod}+Shift+q" = "kill";
         "${mod}+Shift+c" = "reload";
-        "${mod}+Shift+e" =
-          "exec ${pkgs.sway}/bin/swaynag -t warning -m 'Выйти из Sway?' -b 'Да' 'swaymsg exit'";
+        "${mod}+Shift+e" = "exec ${pkgs.sway}/bin/swaynag -t warning -m 'Выйти из Sway?' -b 'Да' 'swaymsg exit'";
 
         # Движение фокуса (vim-style)
         "${mod}+h" = "focus left";
@@ -201,8 +177,7 @@ in
 
         # Скриншоты
         "Print" = "exec ${pkgs.grim}/bin/grim - | ${pkgs.wl-clipboard}/bin/wl-copy";
-        "${mod}+Print" =
-          "exec ${pkgs.grim}/bin/grim -g \"$(${pkgs.slurp}/bin/slurp)\" - | ${pkgs.wl-clipboard}/bin/wl-copy";
+        "${mod}+Print" = "exec ${pkgs.grim}/bin/grim -g \"$(${pkgs.slurp}/bin/slurp)\" - | ${pkgs.wl-clipboard}/bin/wl-copy";
 
         # Медиа/звук
         "XF86AudioRaiseVolume" = "exec ${pkgs.pamixer}/bin/pamixer -i 5";
@@ -225,14 +200,33 @@ in
       startup = [
         { command = "${pkgs.mako}/bin/mako"; }
         { command = "${pkgs.waybar}/bin/waybar"; }
-        {
-          command = "${pkgs.swayidle}/bin/swayidle -w timeout 300 '${pkgs.swaylock}/bin/swaylock -f -c ${catppuccin.crust}'";
-        }
+        { command = "${pkgs.swayidle}/bin/swayidle -w timeout 300 '${pkgs.swaylock}/bin/swaylock -f -c ${catppuccin.crust}'"; }
         { command = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"; }
       ];
     };
 
+    # --- SwayFX специфичные настройки (через extraConfig) ---
     extraConfig = ''
+      default_border smart
+      default_floating_border smart
+      corner_radius 10
+
+      blur {
+        enable true
+        xray true
+        passes 2
+        radius 8
+        noise 0.02
+        contrast 0.9
+        brightness 0.95
+      }
+
+      shadow {
+        enable true
+        radius 12
+        color "#000000"
+      }
+
       # Правила для плавающих окон
       for_window [app_id="wofi"] floating enable, border pixel 0
       for_window [app_id="pavucontrol"] floating enable
@@ -260,11 +254,11 @@ in
         all-outputs = true;
         format = "{icon}";
         format-icons = {
-          "1" = "";
-          "2" = "";
-          "3" = "";
+          "1" = "1";
+          "2" = "2";
+          "3" = "3";
           "4" = "";
-          "5" = "";
+          "5" = "5";
           "6" = "";
           "7" = "";
           "8" = "";
@@ -282,9 +276,7 @@ in
       pulseaudio = {
         format = "{icon} {volume}%";
         format-muted = " Mute";
-        format-icons = {
-          default = [ "" "" "" ];
-        };
+        format-icons = { default = [ "" "" "" ]; };
         on-click = "pamixer -t";
         tooltip = false;
       };
@@ -327,21 +319,18 @@ in
         font-weight: 500;
         min-height: 0;
       }
-
       window#waybar {
         background: rgba(24, 24, 37, 0.85);
         color: #cdd6f4;
         border-radius: 12px;
         border: 1px solid #313244;
       }
-
       #workspaces {
         background: #313244;
         border-radius: 8px;
         margin: 4px 8px 4px 4px;
         padding: 2px 4px;
       }
-
       #workspaces button {
         padding: 4px 10px;
         color: #a6adc8;
@@ -349,23 +338,19 @@ in
         margin: 2px;
         transition: all 0.2s ease;
       }
-
       #workspaces button:hover {
         background: #45475a;
         color: #cdd6f4;
       }
-
       #workspaces button.focused {
         background: #cba6f7;
         color: #1e1e2e;
         font-weight: bold;
       }
-
       #workspaces button.urgent {
         background: #f38ba8;
         color: #1e1e2e;
       }
-
       #mode {
         background: #f38ba8;
         color: #1e1e2e;
@@ -374,12 +359,10 @@ in
         margin: 4px 0;
         font-weight: bold;
       }
-
       #window {
         color: #cdd6f4;
         padding: 4px 12px;
       }
-
       #pulseaudio, #network, #cpu, #memory, #clock {
         background: #313244;
         border-radius: 8px;
@@ -387,13 +370,11 @@ in
         margin: 4px 3px;
         color: #cdd6f4;
       }
-
       #pulseaudio { color: #89b4fa; }
       #network { color: #a6e3a1; }
       #cpu { color: #f9e2af; }
       #memory { color: #fab387; }
       #clock { color: #cba6f7; font-weight: bold; }
-
       #tray {
         background: #313244;
         border-radius: 8px;
@@ -443,14 +424,12 @@ in
         font-family: "JetBrainsMono Nerd Font";
         font-size: 13px;
       }
-
       window {
         background: #181825;
         color: #cdd6f4;
         border: 2px solid #cba6f7;
         border-radius: 12px;
       }
-
       #input {
         background: #313244;
         color: #cdd6f4;
@@ -459,27 +438,22 @@ in
         padding: 10px;
         margin: 10px;
       }
-
       #input:focus {
         border: 2px solid #cba6f7;
       }
-
       #scroll {
         margin: 0 10px 10px 10px;
       }
-
       #entry {
         padding: 10px;
         border-radius: 6px;
         margin: 2px 0;
       }
-
       #entry:selected {
         background: #cba6f7;
         color: #1e1e2e;
         font-weight: bold;
       }
-
       #entry image {
         padding-right: 10px;
       }
