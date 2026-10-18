@@ -50,8 +50,6 @@
     python313Packages.qtile-extras
     alacritty
     firefox
-    vscode-oss
-    spotify
     thunar
     rofi-wayland
     picom
@@ -63,6 +61,8 @@
     udiskie
     networkmanagerapplet
     nerd-fonts.ubuntu-mono
+    cbatticon
+    volumeicon
   ];
 
   # Копировать конфиги QtileDots пользователю при активации
