@@ -1,9 +1,13 @@
 # Sway — лёгкий тайловый WM на Wayland
 { pkgs, ... }:
+let
+  theme = import ../../../../themes/kasiro/theme.nix;
+in
 {
   # Сам Sway + XWayland для старых X11-приложений
   programs.sway = {
     enable = true;
+    package = pkgs.swayfx;
     xwayland.enable = true;
     wrapperFeatures.gtk = true; # Корректная работа GTK-приложений
   };
@@ -15,6 +19,7 @@
   # Пакеты, которые нужны для полноценной работы Sway
   environment.systemPackages = with pkgs; [
     # Утилиты sway
+    swayfx
     swaylock # Блокировка экрана
     swayidle # Управление питанием/блокировкой
     swaybg # Обои
@@ -34,14 +39,13 @@
 
   # Переменные окружения для NVIDIA legacy_580 + GTX 950
   environment.sessionVariables = {
-    # Критично для старых NVIDIA на wlroots — иначе курсор мерцает/пропадает
     WLR_NO_HARDWARE_CURSORS = "1";
-    # Рендер через OpenGL (для Maxwell стабильнее, чем Vulkan)
     WLR_RENDERER = "gl";
-    # Для Electron-приложений (Chromium, Obsidian, Happ, Lantern)
     NIXOS_OZONE_WL = "1";
     __GLX_VENDOR_LIBRARY_NAME = "nvidia";
-    SWAY_UNSUPPORTED_GPU = "true";
+    SWAY_UNSUPPORTED_GPU = "true";  # Убирает warning о NVIDIA
+    XCURSOR_THEME = theme.cursorTheme;
+    XCURSOR_SIZE = toString theme.cursorSize;
   };
 
   # polkit-агент для GUI-запросов прав (нужен в sway, т.к. нет GNOME)
