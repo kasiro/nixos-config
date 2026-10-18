@@ -30,10 +30,14 @@ def analyze_build():
             timeout=120
         )
         
+        # Отладочный вывод stdout/stderr отдельно
+        print(f"DEBUG stdout: {result.stdout[:500]}")
+        print(f"DEBUG stderr: {result.stderr[:500]}")
+        
         output = result.stdout + result.stderr
         
         # Отладочный вывод (раскомментировать при проблемах с парсингом)
-        # print(f"DEBUG: {output[:500]}")
+        print(f"DEBUG: {output[:1000]}")
         
         # Парсим количество дериваций
         derivations_count = 0
