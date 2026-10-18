@@ -246,12 +246,14 @@ in
   # --- Mako (нотификации) ---
   services.mako = {
     enable = true;
-    font = theme.font;
-    backgroundColor = "#2e3440";
-    textColor = "#ffffff";
-    borderColor = "#5294e2";
-    defaultTimeout = 5000;
-    layer = "overlay";
+    settings = {
+      font = theme.font;
+      background-color = "#2e3440";
+      text-color = "#ffffff";
+      border-color = "#5294e2";
+      default-timeout = 5000;
+      layer = "overlay";
+    };
   };
 
   # --- Курсор (из темы kasiro) ---
