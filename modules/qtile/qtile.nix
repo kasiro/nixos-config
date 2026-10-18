@@ -43,4 +43,34 @@
       ];
     };
   };
+
+  # Пакеты QtileDots на system-level
+  environment.systemPackages = with pkgs; [
+    python313Packages.qtile
+    python313Packages.qtile-extras
+    alacritty
+    firefox
+    vscode-oss
+    spotify
+    thunar
+    rofi-wayland
+    picom
+    dunst
+    nitrogen
+    pamixer
+    playerctl
+    brightnessctl
+    udiskie
+    networkmanagerapplet
+    nerd-fonts.ubuntu-mono
+  ];
+
+  # Копировать конфиги QtileDots пользователю
+  users.users.kasiro.home.file = {
+    ".config/qtile/config.py".source = ../../modules/qtile/config.py;
+    ".config/qtile/settings".source = ../../modules/qtile/settings;
+    ".config/qtile/themes".source = ../../modules/qtile/themes;
+    ".config/qtile/autostart.sh".source = ../../modules/qtile/autostart.sh;
+    ".config/qtile/scripts".source = ../../modules/qtile/scripts;
+  };
 }
