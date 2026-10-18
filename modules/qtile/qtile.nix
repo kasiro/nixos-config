@@ -65,12 +65,15 @@
     nerd-fonts.ubuntu-mono
   ];
 
-  # Копировать конфиги QtileDots пользователю
-  users.users.kasiro.home.file = {
-    ".config/qtile/config.py".source = ../../modules/qtile/config.py;
-    ".config/qtile/settings".source = ../../modules/qtile/settings;
-    ".config/qtile/themes".source = ../../modules/qtile/themes;
-    ".config/qtile/autostart.sh".source = ../../modules/qtile/autostart.sh;
-    ".config/qtile/scripts".source = ../../modules/qtile/scripts;
-  };
+  # Копировать конфиги QtileDots пользователю при активации
+  system.activationScripts.qtile-config = ''
+    echo "Setting up Qtile config for kasiro..."
+    mkdir -p /home/kasiro/.config/qtile
+    cp -r ${../../modules/qtile/config.py} /home/kasiro/.config/qtile/config.py
+    cp -r ${../../modules/qtile/settings} /home/kasiro/.config/qtile/settings
+    cp -r ${../../modules/qtile/themes} /home/kasiro/.config/qtile/themes
+    cp -r ${../../modules/qtile/autostart.sh} /home/kasiro/.config/qtile/autostart.sh
+    cp -r ${../../modules/qtile/scripts} /home/kasiro/.config/qtile/scripts
+    chown -R kasiro:users /home/kasiro/.config/qtile
+  '';
 }
