@@ -9,6 +9,7 @@ result/
 
 # Scripts
 scripts/
+.git/
 
 # Config files (не код)
 .gitignore

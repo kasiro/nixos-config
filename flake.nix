@@ -13,6 +13,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-flatpak.url = "github:gmodena/nix-flatpak";
+    chaotic.url = "github:chaotic-cx/nyx/main";
   };
 
   outputs =
@@ -21,6 +22,7 @@
       nixpkgs,
       nixpkgs-unstable,
       home-manager,
+      chaotic,
       ...
     }@inputs:
     let
@@ -34,6 +36,7 @@
         modules = [
           ./configuration.nix
           home-manager.nixosModules.home-manager
+          chaotic.nixosModules.chaotic-nix
           {
             _module.args.pkgs-unstable = pkgs-unstable;
             nixpkgs.overlays = [
