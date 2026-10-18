@@ -31,7 +31,7 @@ let
   mod = "Mod4";
   terminal = "${pkgs.foot}/bin/foot";
   menu = "${pkgs.wofi}/bin/wofi --show drun --allow-images";
-  theme = import ../../../../themes/kasiro/theme.nix;
+  theme = import /home/kasiro/nixos-config/themes/kasiro/theme.nix;
 in
 {
   wayland.windowManager.sway = {
