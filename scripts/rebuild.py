@@ -22,22 +22,15 @@ def analyze_build():
     print("─" * 32)
     
     try:
-        # Запускаем nh с --dry-run для получения информации
+        # Запускаем nh с --dry для получения информации
         result = subprocess.run(
-            ["nh", "os", "switch", ".", "--dry-run"],
+            ["nh", "os", "switch", ".", "--dry"],
             capture_output=True,
             text=True,
             timeout=120
         )
         
-        # Отладочный вывод stdout/stderr отдельно
-        print(f"DEBUG stdout: {result.stdout[:500]}")
-        print(f"DEBUG stderr: {result.stderr[:500]}")
-        
         output = result.stdout + result.stderr
-        
-        # Отладочный вывод (раскомментировать при проблемах с парсингом)
-        print(f"DEBUG: {output[:1000]}")
         
         # Парсим количество дериваций
         derivations_count = 0
@@ -99,7 +92,7 @@ def analyze_build():
 
 # Prehook функции - выполняются ДО rebuild
 PREHOOKS = [
-    "analyze_build",  # имя функции без скобок
+    # "analyze_build",  # временно отключено
 ]
 
 # Posthook функции - выполняются ПОСЛЕ rebuild
