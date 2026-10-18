@@ -37,7 +37,7 @@ in
       bars = [ ]; # Отключаем встроенную — используем waybar ниже
       output = {
         "*" = {
-          bg = "${pkgs.swaybg}/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill";
+          bg = "/home/kasiro/Загрузки/wallpapers/8e17dec8d4c889cc98422ea547f57f56.jpg fill";
         };
       };
       gaps = {

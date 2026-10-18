@@ -41,6 +41,7 @@
     # Для Electron-приложений (Chromium, Obsidian, Happ, Lantern)
     NIXOS_OZONE_WL = "1";
     __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+    SWAY_UNSUPPORTED_GPU = "true";
   };
 
   # polkit-агент для GUI-запросов прав (нужен в sway, т.к. нет GNOME)
