@@ -4,7 +4,6 @@ let
   ignored = [
     "default.nix"
     "qtile" # ← Добавь эту строку
-    # "system" # ← system импортируется явно через ./modules/system/default.nix
   ];
   entries = builtins.readDir dir;
   modules = lib.filterAttrs (
