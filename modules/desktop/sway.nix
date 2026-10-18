@@ -1,7 +1,7 @@
 # Sway — лёгкий тайловый WM на Wayland
 { pkgs, ... }:
 let
-  theme = import ../../../../themes/kasiro/theme.nix;
+  theme = import ../../themes/kasiro/theme.nix;;
 in
 {
   # Сам Sway + XWayland для старых X11-приложений
