@@ -32,69 +32,56 @@ def analyze_build():
         
         output = result.stdout + result.stderr
         
+        # Отладочный вывод (раскомментировать при проблемах с парсингом)
+        # print(f"DEBUG: {output[:500]}")
+        
         # Парсим количество дериваций
         derivations_count = 0
         build_count = 0
         download_count = 0
         
-        # Ищем паттерны в выводе nh/nix
-        # Пример: "15 derivations to be built"
-        deriv_match = re.search(r'(\d+)\s+derivations?\s+(?:to be )?built', output, re.IGNORECASE)
+        # Реальный формат вывода nh:
+        # these 8 derivations will be built:
+        #   /nix/store/xxx-foo.drv
+        #   /nix/store/yyy-bar.drv
+        deriv_match = re.search(r'these\s+(\d+)\s+derivations?\s+will be built', output, re.IGNORECASE)
         if deriv_match:
             derivations_count = int(deriv_match.group(1))
         
-        # Ищем что будет построено (build)
-        build_match = re.search(r'(\d+)\s+(?:builder|build)s?\s+to\s+be', output, re.IGNORECASE)
-        if build_match:
-            build_count = int(build_match.group(1))
-        
-        # Ищем что будет скачано (download/cached)
-        download_match = re.search(r'(\d+)\s+(?:download|cached|substituter)', output, re.IGNORECASE)
-        if download_match:
-            download_count = int(download_match.group(1))
-        
-        # Если не нашли явные build/download, пробуем альтернативный парсинг
+        # Если не нашли стандартный паттерн — считаем строки с .drv
         if derivations_count == 0:
-            # Считаем все строки с путями к деривациям
             deriv_lines = [
                 line for line in output.split('\n')
-                if '/nix/store/' in line and ('.drv' in line or 'building' in line.lower())
+                if '/nix/store/' in line and '.drv' in line
             ]
             derivations_count = len(deriv_lines)
         
+        # nh не различает явно build/download в dry-run
+        # Считаем всё как "будет построено" (консервативная оценка)
+        build_count = derivations_count
+        download_count = 0
+        
         # Вычисляем проценты
         if derivations_count > 0:
-            if build_count == 0 and download_count == 0:
-                # Если не нашли явных указаний, предполагаем что всё скачивается
-                download_count = derivations_count
-                build_count = 0
-            
-            build_pct = (build_count / derivations_count) * 100
-            download_pct = (download_count / derivations_count) * 100
+            build_pct = 100
+            download_pct = 0
         else:
             build_pct = 0
             download_pct = 0
-        
-        # Пытаемся найти оценку времени
-        time_estimate = None
-        time_match = re.search(r'(?:estimated|approximate|ETA)[:\s]+(~?\s*\d+\s*(?:min|sec|hour))', output, re.IGNORECASE)
-        if time_match:
-            time_estimate = time_match.group(1).strip()
         
         # Вывод результатов
         print(f"Дериваций: {derivations_count}")
         print(f"Сборка из исходников: {build_count} ({build_pct:.0f}%)")
         print(f"Скачивание бинарников: {download_count} ({download_pct:.0f}%)")
         
-        if time_estimate:
-            print(f"Примерное время: {time_estimate}")
+        # Оценка: ~30 сек на деривацию
+        if build_count > 0:
+            estimated_sec = build_count * 30
+            time_str = f"~{estimated_sec // 60} мин" if estimated_sec >= 60 else f"~{estimated_sec} сек"
         else:
-            # Грубая оценка: ~20 сек на сборку из исходников
-            if build_count > 0:
-                estimated_min = max(1, (build_count * 20) // 60)
-                print(f"Примерное время: ~{estimated_min} мин (оценка)")
-            else:
-                print("Примерное время: <1 мин (только скачивание)")
+            time_str = "<1 мин"
+        
+        print(f"Примерное время: {time_str} (оценка)")
         
         print("─" * 32)
         
@@ -136,7 +123,7 @@ class RebuildProcess:
             if not hook:
                 continue
 
-            print(f"\n>>> Executing {phase_name}: {hook}")
+            print(f"\n> Executing {phase_name}: {hook}")
             
             # Проверяем: есть ли такое имя в globals() и это callable
             if hook in globals() and callable(globals()[hook]):
