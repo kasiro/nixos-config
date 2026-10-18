@@ -86,7 +86,7 @@ in
       keybindings = lib.mkOptionDefault {
         "${mod}+Return" = "exec ${terminal}";
         "${mod}+q" = "kill";
-        "${mod}+d" = "exec ${menu}";
+        "${mod}+a" = "exec ${menu}";
         "${mod}+Shift+q" = "kill";
         "${mod}+Shift+c" = "reload";
         "${mod}+Shift+e" =
@@ -130,9 +130,9 @@ in
         "${mod}+b" = "splith";
         "${mod}+v" = "splitv";
         "${mod}+f" = "fullscreen toggle";
-        "${mod}+Shift+space" = "floating toggle";
+        "${mod}+g" = "floating toggle";
         "${mod}+space" = "focus mode_toggle";
-        "${mod}+a" = "focus parent";
+        "${mod}+d" = "focus parent";
 
         # Resize mode
         "${mod}+r" = "mode resize";
