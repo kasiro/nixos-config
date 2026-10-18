@@ -1,9 +1,24 @@
 # Sway — лёгкий тайловый WM на Wayland
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 let
   theme = import ../../themes/kasiro/theme.nix;
 in
 {
+  # Overlay: подменяем .desktop чтобы GDM запускал sway с обходом Nvidia.
+  # NOTE: патчим swayfx-unwrapped (stdenv.mkDerivation+meson), а НЕ pkgs.swayfx —
+  # pkgs.swayfx это symlinkJoin-обёртка без фазы postInstall, её postInstall игнорируется.
+  # .desktop финального пакета — симлинк на swayfx-unwrapped, правка подхватится.
+  nixpkgs.overlays = [
+    (final: prev: {
+      swayfx-unwrapped = prev.swayfx-unwrapped.overrideAttrs (old: {
+        postInstall = (old.postInstall or "") + ''
+          substituteInPlace $out/share/wayland-sessions/sway.desktop \
+            --replace-fail 'Exec=sway' 'Exec=sway --unsupported-gpu'
+        '';
+      });
+    })
+  ];
+
   # Сам Sway + XWayland для старых X11-приложений
   programs.sway = {
     enable = true;
@@ -40,7 +55,6 @@ in
   # Переменные окружения для NVIDIA legacy_580 + GTX 950
   environment.sessionVariables = {
     WLR_NO_HARDWARE_CURSORS = "1";
-    WLR_RENDERER = "gl";
     NIXOS_OZONE_WL = "1";
     __GLX_VENDOR_LIBRARY_NAME = "nvidia";
     SWAY_UNSUPPORTED_GPU = "true";  # Убирает warning о NVIDIA
