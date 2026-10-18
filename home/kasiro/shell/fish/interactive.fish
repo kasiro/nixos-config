@@ -4,15 +4,8 @@ set fish_greeting
 # Пример установки переменной окружения
 set -gx EDITOR nvim
 
-function rebuild
-set -l commit_message "rebuild"
-argparse 'm=' -- $argv
-if set -q _flag_m
-    set commit_message $_flag_m
-end
-
-git add .;git commit -m "$commit_message";nh os switch . --log-format bar;git push
-end
+# Алиас на Python-скрипт rebuild
+alias rebuild="python3 /home/kasiro/nixos-config/scripts/rebuild.py"
 
 function devshell-init --description "Создать flake.nix + .envrc в текущей директории"
     if test -e flake.nix
