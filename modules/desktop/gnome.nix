@@ -1,10 +1,7 @@
 # GNOME: дисплей-менеджер, DE, dconf
 { pkgs, ... }:
 {
-  services.displayManager.gdm.enable = true;
-
   services.desktopManager.gnome.enable = true;
-
-  # Правильное решение для dconf в GDM
+  services.displayManager.gdm.enable = true;
   programs.dconf.enable = true;
 }
