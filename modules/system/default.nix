@@ -1,20 +1,22 @@
-{ lib, ... }:
-let
-  dir = ./.;
-
-  ignored = [
-    "default.nix"
+{ ... }:
+{
+  imports = [
+    ./nix-settings.nix
+    ./environment.nix
+    ./locale.nix
+    ./network.nix
+    ./packages.nix
+    ./zram.nix
+    ./boot.nix
+    ./fish.nix
   ];
 
-  entries = builtins.readDir dir;
-
-  # Подхватываем и .nix-файлы, и поддиректории (у них внутри тоже default.nix)
-  modules = lib.filterAttrs
-    (name: type:
-      !(builtins.elem name ignored)
-      && (type == "directory" || (type == "regular" && lib.hasSuffix ".nix" name)))
-    entries;
-in
-{
-  imports = map (name: dir + "/${name}") (builtins.attrNames modules);
+  programs.nh = {
+    enable = true;
+    clean = {
+      enable = true;
+      extraArgs = "--keep-since 4d --keep 3";
+    };
+    flake = "/home/kasiro/nixos-config";
+  };
 }

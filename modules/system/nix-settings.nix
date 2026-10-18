@@ -5,11 +5,25 @@
   nixpkgs.config.allowUnfree = true;
 
   nix.settings = {
-    max-jobs = "auto";
-    cores = 0;
+    # Параллелизм (HDD + 8GB RAM)
+    max-jobs = 2;
+    cores = 2;
+    
+    # Кэширование
+    auto-optimise-store = true;
+    builders-use-substitutes = true;
+    substituters = [
+      "https://cache.nixos.org/"
+      "https://nix-community.cachix.org"
+    ];
+    trusted-public-keys = [
+      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+      "nix-community.cachix.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+    ];
+    
+    # Прочее
     keep-outputs = true;
     keep-derivations = true;
-    # Кто имеет право использовать nix/nixos-rebuild
     allowed-users = [ "kasiro" "whitepeach" ];
     experimental-features = [ "nix-command" "flakes" ];
   };
