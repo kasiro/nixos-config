@@ -208,24 +208,18 @@ in
 
     # --- SwayFX специфичные настройки (через extraConfig) ---
     extraConfig = ''
-      default_border smart
-      default_floating_border smart
+      default_border pixel 2
+      default_floating_border pixel 2
       corner_radius 10
 
       blur {
-        enable true
+        enabled true
         xray true
         passes 2
         radius 8
         noise 0.02
         contrast 0.9
         brightness 0.95
-      }
-
-      shadow {
-        enable true
-        radius 12
-        color "#000000"
       }
 
       # Правила для плавающих окон
