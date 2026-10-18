@@ -51,7 +51,7 @@
     alacritty
     firefox
     thunar
-    rofi-wayland
+    rofi
     picom
     dunst
     nitrogen
