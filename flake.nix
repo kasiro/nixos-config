@@ -36,7 +36,7 @@
         modules = [
           ./configuration.nix
           home-manager.nixosModules.home-manager
-          chaotic.nixosModules.chaotic-nix
+          chaotic.nixosModules.default
           {
             _module.args.pkgs-unstable = pkgs-unstable;
             nixpkgs.overlays = [
