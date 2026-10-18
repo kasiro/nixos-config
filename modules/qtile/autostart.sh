@@ -1,12 +1,38 @@
 #!/bin/sh
 
-# Переключение раскладки на Shift+Alt
-setxkbmap -layout us,ru -option grp:shift_alt_toggle
+#  █████╗ ██╗   ██╗████████╗ ██████╗ ███████╗████████╗ █████╗ ██████╗ ████████╗
+# ██╔══██╗██║   ██║╚══██╔══╝██╔═══██╗██╔════╝╚══██╔══╝██╔══██╗██╔══██╗╚══██╔══╝
+# ███████║██║   ██║   ██║   ██║   ██║███████╗   ██║   ███████║██████╔╝   ██║   
+# ██╔══██║██║   ██║   ██║   ██║   ██║╚════██║   ██║   ██╔══██║██╔══██╗   ██║   
+# ██║  ██║╚██████╔╝   ██║   ╚██████╔╝███████║   ██║   ██║  ██║██║  ██║   ██║   
+# ╚═╝  ╚═╝ ╚═════╝    ╚═╝    ╚═════╝ ╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝  
 
-# Запуск picom (композиционер для эффектов)
-picom --config ~/.config/picom/picom.conf &
+# https://github.com/L4ZYP4CM4N/DOTFILES
 
-# Запуск других приложений (раскомментируй что нужно)
+# put you custom resolution config here, you can use arandr
+xrandr --output eDP --mode 1366x768 --pos 0x0 --output HDMI-A-0 --mode 1920x1080 --rate 120  --pos 1366x0 --primary
+
+# keymap us #
+setxkbmap us &
+
+# keymap latam #
+#setxkbmap latam &
+
+# sys icons #
+
+cbatticon -u 5 &
+
+volumeicon &
+
+udiskie -t &
+
 nm-applet &
-blueman-applet &
-clipit &
+
+#wallpaper
+nitrogen --restore &
+
+# transparencia #
+picom &
+
+# notifications #
+dunst &

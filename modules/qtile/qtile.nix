@@ -1,4 +1,7 @@
 { pkgs, ... }: {
+  # Включаем X11 для GDM
+  services.xserver.enable = true;
+
   # Qtile как X11-сессия, которую GDM увидит наравне с GNOME
   services.xserver.windowManager.qtile = {
     enable = true;
