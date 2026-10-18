@@ -12,10 +12,6 @@ in
     wrapperFeatures.gtk = true; # Корректная работа GTK-приложений
   };
 
-  # GDM уже включён в gnome.nix — он увидит sway-сессию автоматически.
-  # Если GNOME больше не нужен, закомментируй services.desktopManager.gnome.enable
-  # в modules/desktop/gnome.nix.
-
   # Пакеты, которые нужны для полноценной работы Sway
   environment.systemPackages = with pkgs; [
     # Утилиты sway
