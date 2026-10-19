@@ -1,4 +1,35 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+let
+  # GDM видит в пакете qtile оба десктопа (xsessions/qtile.desktop и
+  # wayland-sessions/qtile.desktop, оба с Exec=qtile start) и выбирает
+  # wayland-сессию → qtile стартует на wlroots-бэкенде, Systray не работает,
+  # autostart.sh (xrandr, setxkbmap, cbatticon, volumeicon) не запускается.
+  #
+  # Опция backend = "x11" из модуля services.xserver.windowManager.qtile
+  # ВЫПИЛЕНА в NixOS 26.05 (mkRemovedOptionModule: "The qtile package now
+  # provides separate display sessions for both X11 and Wayland"), опция
+  # services.displayManager.gdm.wayland тоже удалена ("no longer supported
+  # with GNOME 50"). Поэтому вырезаем wayland-десктоп у самого пакета.
+  #
+  # Ловушка: модуль делает finalPackage = cfg.package.override { extraPackages },
+  # а makeOverridable пересобирает derivation из исходных аргументов и
+  # ОТКАТЫВАЕТ overrideAttrs. Поэтому переопределяем и .override, чтобы он
+  # пропускал нашу правку пост-сборки.
+  baseQtile = pkgs.python3Packages.qtile;
+  x11Only =
+    drv:
+    drv.overrideAttrs (old: {
+      postInstall =
+        (old.postInstall or "")
+        + ''
+          rm -f $out/share/wayland-sessions/qtile.desktop
+        '';
+    });
+  qtileX11 = x11Only baseQtile // {
+    override = args: x11Only (baseQtile.override args);
+  };
+in
+{
   # Включаем X11 для GDM
   services.xserver.enable = true;
 
@@ -6,9 +37,12 @@
   # Qtile работает ТОЛЬКО на X11 — Wayland сессия отключена
   services.xserver.windowManager.qtile = {
     enable = true;
-    # package не указываем: модуль сам возьмёт python3Packages.qtile и
+    # package переопределяем: внутри qtileX11 убран wayland-десктоп,
+    # чтобы GDM видел только X11-сессию qtile.
+    # ВАЖНО: package не указываем "сырой" python3Packages.qtile — модуль сам
     # обернёт его через finalPackage с extraPackages (иначе в PATH попадает
-    # сырой бинарь без qtile_extras)
+    # бинарь без qtile_extras). Наш qtileX11 сохраняет .override.
+    package = qtileX11;
     extraPackages =
       python3Packages: with python3Packages; [
         qtile-extras
