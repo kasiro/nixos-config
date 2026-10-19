@@ -1,3 +1,8 @@
+# Исправлено 2026-10-19:
+# - GDM запускал wayland-сессию qtile (пакет шипит оба .desktop),
+#   но конфиг сделан под X11 → Systray/autostart не работали,
+#   гонка wayland-бэкенда 'Core' object has no attribute 'qtile'
+# - Фикс: wayland-сессия удаляется при сборке, GDM видит только X11-вход
 { pkgs, ... }:
 let
   # GDM видит в пакете qtile оба десктопа (xsessions/qtile.desktop и

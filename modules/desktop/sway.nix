@@ -1,4 +1,10 @@
 # Sway — лёгкий тайловый WM на Wayland
+# Исправлено 2026-10-19:
+# - GDM запускал .desktop из store-пакета без флага → Nvidia блокировала sway
+#   (3 неудачных входа подряд, логи sway/server.c:175)
+# - Фикс: overlay на swayfx-unwrapped подменяет Exec на 'sway --unsupported-gpu'
+#   + programs.sway.extraOptions как второй уровень защиты
+# - Удалён невалидный WLR_RENDERER=gl (wlroots 0.17+ его не знает)
 { config, pkgs, ... }:
 let
   theme = import ../../themes/kasiro/theme.nix;
