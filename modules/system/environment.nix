@@ -12,5 +12,7 @@
 
   environment.sessionVariables = {
     NIXOS_OZONE_WL = "1";
+    # Cosmic clipboard fix: data-control протокол
+    COSMIC_DATA_CONTROL_ENABLED = 1;
   };
 }

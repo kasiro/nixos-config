@@ -20,4 +20,7 @@
     # Управление питанием
     powerManagement.enable = true;
   };
+
+  # Фикс phantom displays: fbdev-бэкенд для nvidia_drm
+  boot.kernelParams = [ "nvidia_drm.fbdev=1" ];
 }
