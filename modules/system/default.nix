@@ -9,6 +9,7 @@
     ./zram.nix
     ./boot.nix
     ./fish.nix
+    ./fontconfig-cache.nix
   ];
 
   programs.nh = {
