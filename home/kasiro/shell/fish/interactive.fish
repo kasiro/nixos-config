@@ -6,7 +6,7 @@ set -gx EDITOR nvim
 
 # Алиас на Python-скрипт rebuild
 alias rebuild="python3 /home/kasiro/nixos-config/scripts/rebuild.py"
-alias cpx="python /home/kasiro/Документы/mynix/main.py"
+alias spx="python /home/kasiro/Документы/mynix/main.py"
 
 function devshell-init --description "Создать flake.nix + .envrc в текущей директории"
     if test -e flake.nix

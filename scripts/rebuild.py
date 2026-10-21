@@ -271,30 +271,33 @@ class RebuildProcess:
         return rebuild_status
 
     def run(self):
-        """Основная логика rebuild."""
-        # Выполняем prehook (до любых действий с системой, в т.ч. при dry-run)
-        if PREHOOKS:
-            if not self.run_hooks(PREHOOKS, "Prehook"):
-                print("\n❌ Prehook упал, переключение отменено")
-                sys.exit(1)
+        """Основная логика rebuild.
 
+        Порядок: коммит → prehook → rebuild → posthook → push.
+        """
         # Коммитим изменения если есть
         committed = False
         if not self.args.no_commit and self.has_changes():
             committed = self.commit_changes(self.args.message)
 
+        # Выполняем prehook (после коммита, до любых действий с системой, в т.ч. при dry-run)
+        if PREHOOKS:
+            if not self.run_hooks(PREHOOKS, "Prehook"):
+                print("\n❌ Prehook упал, переключение отменено")
+                sys.exit(1)
+
         # Запускаем rebuild
         rebuild_status = self.run_rebuild()
 
-        # Push если коммит был успешен
+        # Выполняем posthook (до push)
+        if POSTHOOKS:
+            self.run_hooks(POSTHOOKS, "Posthook")
+
+        # Push если коммит был успешен (последнее действие перед итоговым статусом)
         if committed and not self.args.no_push:
             push_done = self.push_changes()
         else:
             push_done = False
-
-        # Выполняем posthook
-        if POSTHOOKS:
-            self.run_hooks(POSTHOOKS, "Posthook")
 
         # Итоговый статус
         print(f"\nRebuild: {rebuild_status}")
