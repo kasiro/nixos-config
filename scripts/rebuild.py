@@ -9,6 +9,7 @@ import subprocess
 import signal
 import sys
 import os
+import time
 import re
 from pathlib import Path
 
@@ -160,38 +161,46 @@ class RebuildProcess:
                 continue
 
             print(f"\n> Executing {phase_name}: {hook}")
-            
-            # Проверяем: есть ли такое имя в globals() и это callable
-            if hook in globals() and callable(globals()[hook]):
-                # Это Python-функция
-                try:
-                    ok = globals()[hook]()
-                    # Функция может явно сообщить о провале
-                    if ok is False:
-                        print(f"\n!!! {phase_name} '{hook}' failed")
+
+            t0 = time.perf_counter()
+            try:
+                # Проверяем: есть ли такое имя в globals() и это callable
+                if hook in globals() and callable(globals()[hook]):
+                    # Это Python-функция
+                    try:
+                        ok = globals()[hook]()
+                        # Функция может явно сообщить о провале
+                        if ok is False:
+                            print(f"\n!!! {phase_name} '{hook}' failed")
+                            if phase_name == "Prehook":
+                                return False
+                    except Exception as e:
+                        print(f"\n!!! {phase_name} '{hook}' failed: {e}")
                         if phase_name == "Prehook":
                             return False
-                except Exception as e:
-                    print(f"\n!!! {phase_name} '{hook}' failed: {e}")
-                    if phase_name == "Prehook":
-                        return False
-            else:
-                # Это shell-команда
-                try:
-                    result = subprocess.run(
-                        hook,
-                        shell=True,
-                        check=True,
-                        stdout=subprocess.PIPE,
-                        stderr=subprocess.STDOUT,
-                        text=True
-                    )
-                    if result.stdout:
-                        print(result.stdout, end='')
-                except subprocess.CalledProcessError as e:
-                    print(f"\n!!! {phase_name} '{hook}' failed with code {e.returncode}")
-                    if phase_name == "Prehook":
-                        return False
+                else:
+                    # Это shell-команда
+                    try:
+                        result = subprocess.run(
+                            hook,
+                            shell=True,
+                            check=True,
+                            stdout=subprocess.PIPE,
+                            stderr=subprocess.STDOUT,
+                            text=True
+                        )
+                        if result.stdout:
+                            print(result.stdout, end='')
+                    except subprocess.CalledProcessError as e:
+                        print(f"\n!!! {phase_name} '{hook}' failed with code {e.returncode}")
+                        if phase_name == "Prehook":
+                            return False
+            finally:
+                dt = time.perf_counter() - t0
+                if dt >= 60:
+                    print(f"⏱ {hook}: {int(dt // 60)} мин {dt % 60:.2f}s")
+                else:
+                    print(f"⏱ {hook}: {dt:.2f}s")
         return True
 
     def has_changes(self):
@@ -238,6 +247,7 @@ class RebuildProcess:
 
         try:
             # Запускаем nh с потоковым выводом
+            t0 = time.perf_counter()
             self.nh_process = subprocess.Popen(
                 ["nh", "os", "switch", ".", "--log-format", "bar"],
                 stdout=subprocess.PIPE,
@@ -255,6 +265,12 @@ class RebuildProcess:
             # Ждём завершения процесса
             returncode = self.nh_process.wait()
             rebuild_status = "OK" if returncode == 0 else "FAIL"
+
+            total = time.perf_counter() - t0
+            if total >= 60:
+                print(f"\n⏱ Rebuild: {int(total // 60)} мин {total % 60:.2f}s")
+            else:
+                print(f"\n⏱ Rebuild: {total:.2f}s")
 
         except KeyboardInterrupt:
             self.interrupted = True
