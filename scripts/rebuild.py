@@ -90,8 +90,47 @@ def analyze_build():
         print(f"⚠ Ошибка анализа: {e}")
 
 
+def flake_check():
+    """
+    Prehook: проверка конфига (nix flake check --no-build).
+    Ловит несуществующие NixOS-опции на этапе eval (без долгой сборки).
+    Выполняется в текущей рабочей директории — той же, что у nh os switch .
+    Возвращает False, если проверка упала.
+    """
+    print("\n🔍 Prehook: nix flake check --no-build")
+    print("─" * 32)
+
+    try:
+        result = subprocess.run(
+            ["nix", "flake", "check", "--no-build"],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True
+        )
+
+        if result.stdout:
+            print(result.stdout, end='')
+
+        if result.returncode != 0:
+            print(f"⚠ nix flake check завершился с кодом {result.returncode}")
+            print("─" * 32)
+            return False
+
+        print("✓ Конфигурация прошла проверку")
+        print("─" * 32)
+        return True
+
+    except FileNotFoundError:
+        print("❌ Команда 'nix' не найдена. Установите nix.")
+        return False
+    except Exception as e:
+        print(f"⚠ Ошибка prehook: {e}")
+        return False
+
+
 # Prehook функции - выполняются ДО rebuild
 PREHOOKS = [
+    "flake_check",
     # "analyze_build",  # временно отключено
 ]
 
@@ -126,7 +165,12 @@ class RebuildProcess:
             if hook in globals() and callable(globals()[hook]):
                 # Это Python-функция
                 try:
-                    globals()[hook]()
+                    ok = globals()[hook]()
+                    # Функция может явно сообщить о провале
+                    if ok is False:
+                        print(f"\n!!! {phase_name} '{hook}' failed")
+                        if phase_name == "Prehook":
+                            return False
                 except Exception as e:
                     print(f"\n!!! {phase_name} '{hook}' failed: {e}")
                     if phase_name == "Prehook":
@@ -228,10 +272,10 @@ class RebuildProcess:
 
     def run(self):
         """Основная логика rebuild."""
-        # Выполняем prehook
+        # Выполняем prehook (до любых действий с системой, в т.ч. при dry-run)
         if PREHOOKS:
             if not self.run_hooks(PREHOOKS, "Prehook"):
-                print("\n!!! Prehook failed, aborting rebuild")
+                print("\n❌ Prehook упал, переключение отменено")
                 sys.exit(1)
 
         # Коммитим изменения если есть
