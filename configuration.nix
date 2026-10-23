@@ -4,6 +4,7 @@
     ./modules
     ./users
     # ./modules/qtile/qtile.nix
+    # ./modules/services/lantern/lanternd.nix
   ];
 
   system.stateVersion = "26.05";
