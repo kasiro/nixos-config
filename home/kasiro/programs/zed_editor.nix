@@ -65,6 +65,11 @@ in
       #     PATH = "/run/wrappers/bin:/run/current-system/sw/bin:$PATH";
       #   };
       # };
+      languages.nix = {
+        ensure_final_newline_on_save = false;
+        remove_trailing_whitespace_on_save = false;
+        format_on_save = "off";
+      };
 
       # Настройки LSP (языковых серверов)
       # Это решит проблему, когда Zed не может скачать серверы сам

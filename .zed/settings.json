@@ -1,0 +1,10 @@
+{
+  "languages": {
+    "Nix": {
+      "ensure_final_newline_on_save": false,
+      "remove_trailing_whitespace_on_save": false,
+      "format_on_save": "off",
+      "tab_size": 2,
+    },
+  },
+}
