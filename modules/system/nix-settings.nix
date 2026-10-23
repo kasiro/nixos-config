@@ -39,4 +39,11 @@
 
   # Дедупликация store
   nix.optimise.automatic = true;
+
+  # Пониженный приоритет демона — чтобы сборка не душила HDD и терминал
+  systemd.services.nix-daemon.serviceConfig = {
+    Nice = 10;
+    IOSchedulingClass = "idle";
+    IOWeight = 50;
+  };
 }

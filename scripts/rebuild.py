@@ -5,13 +5,142 @@
 """
 
 import argparse
-import subprocess
-import signal
-import sys
+import fcntl
 import os
-import time
+import pty
 import re
+import select
+import shutil
+import signal
+import struct
+import subprocess
+import sys
+import termios
+import time
 from pathlib import Path
+
+
+# Пониженный приоритет CPU/IO: пока HDD занят сборкой, терминал (foot/sway)
+# остаётся отзывчивым. На результат сборки не влияет — только на её скорость.
+PRIORITY_PREFIX = []
+if shutil.which("nice"):
+    PRIORITY_PREFIX += ["nice", "-n", "19"]
+if shutil.which("ionice"):
+    PRIORITY_PREFIX += ["ionice", "-c", "3"]
+
+
+def stream_subprocess(cmd, *, env=None, stdin=None, on_start=None, prefix=None):
+    """Запуск команды с выводом в реальном времени.
+
+    Дочерний процесс получает pty в качестве stdout/stderr, поэтому считает
+    вывод терминалом: libc/rust не включают блочную буферизацию (4-8 KiB) и
+    nix не отключает прогресс-бар и цвета (`--log-format bar` работает только
+    для TTY). Без pty (экзотическое окружение) — построчный pipe-фолбэк.
+
+    Возвращает код возврата процесса.
+    """
+    if prefix:
+        cmd = [*prefix, *cmd]
+
+    if env is None:
+        env = {**os.environ, "PYTHONUNBUFFERED": "1"}
+
+    master_fd = None
+    slave_fd = -1
+    try:
+        master_fd, slave_fd = pty.openpty()
+    except OSError:
+        master_fd = None
+
+    # Фолбэк: обычный pipe + построчное чтение с явным flush.
+    if master_fd is None:
+        proc = subprocess.Popen(
+            cmd,
+            stdin=stdin,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            bufsize=1,
+            env=env,
+        )
+        if on_start:
+            on_start(proc)
+        try:
+            if proc.stdout:
+                for line in proc.stdout:
+                    print(line, end="", flush=True)
+        finally:
+            if proc.stdout:
+                proc.stdout.close()
+        return proc.wait()
+
+    # pty по умолчанию 80x24 — сообщаем реальный размер, иначе nix рисует
+    # прогресс-бар неправильной ширины.
+    try:
+        size = os.get_terminal_size(sys.stdout.fileno())
+        fcntl.ioctl(
+            slave_fd,
+            termios.TIOCSWINSZ,
+            struct.pack("HHHH", size.lines, size.columns, 0, 0),
+        )
+    except OSError:
+        pass
+
+    # Отключаем OPOST: иначе pty превращает \n в \r\n и мусорит в
+    # перенаправленном выводе (`rebuild.py > log.txt`). Прогресс-строки
+    # с \r при этом продолжают работать.
+    try:
+        attrs = termios.tcgetattr(slave_fd)
+        attrs[1] &= ~termios.OPOST
+        termios.tcsetattr(slave_fd, termios.TCSANOW, attrs)
+    except OSError:
+        pass
+
+    # stdin НЕ перенаправляем: интерактивные вопросы (nh) должны доходить
+    # до настоящего терминала. pty нужен только для stdout/stderr.
+    proc = subprocess.Popen(
+        cmd,
+        stdin=stdin,
+        stdout=slave_fd,
+        stderr=slave_fd,
+        env=env,
+        close_fds=True,
+    )
+    if on_start:
+        on_start(proc)
+    os.close(slave_fd)
+
+    out = sys.stdout.buffer
+    idle_ticks = 0
+    try:
+        while True:
+            ready, _, _ = select.select([master_fd], [], [], 0.2)
+            if ready:
+                idle_ticks = 0
+                try:
+                    chunk = os.read(master_fd, 65536)
+                except OSError:
+                    # EIO — slave закрыт, вывод закончился.
+                    break
+                if not chunk:
+                    break
+                # Пишем байты как есть: \r прогресс-строк и ANSI-цвета
+                # должны дойти до терминала без искажений.
+                out.write(chunk)
+                out.flush()
+                continue
+            if proc.poll() is not None:
+                idle_ticks += 1
+                # Процесс завершился, но pty не отдал EOF — не висим вечно.
+                if idle_ticks >= 5:
+                    break
+    finally:
+        try:
+            os.close(master_fd)
+        except OSError:
+            pass
+
+    return proc.wait()
 
 
 def analyze_build():
@@ -102,18 +231,10 @@ def flake_check():
     print("─" * 32)
 
     try:
-        result = subprocess.run(
-            ["nix", "flake", "check", "--no-build"],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
-            text=True
-        )
+        returncode = stream_subprocess(["nix", "flake", "check", "--no-build"])
 
-        if result.stdout:
-            print(result.stdout, end='')
-
-        if result.returncode != 0:
-            print(f"⚠ nix flake check завершился с кодом {result.returncode}")
+        if returncode != 0:
+            print(f"⚠ nix flake check завершился с кодом {returncode}")
             print("─" * 32)
             return False
 
@@ -241,29 +362,30 @@ class RebuildProcess:
         except subprocess.CalledProcessError:
             return False
 
+    def _terminate(self):
+        """Погасить дочерний процесс rebuild."""
+        proc = self.nh_process
+        if proc and proc.poll() is None:
+            proc.terminate()
+            try:
+                proc.wait(timeout=5)
+            except subprocess.TimeoutExpired:
+                proc.kill()
+                proc.wait()
+
     def run_rebuild(self):
         """Запустить nh os switch с потоковым выводом."""
         rebuild_status = "FAIL"
 
         try:
-            # Запускаем nh с потоковым выводом
+            # Запускаем nh с потоковым выводом через pty (см. stream_subprocess):
+            # nix считает вывод TTY и не буферизует его блоками.
             t0 = time.perf_counter()
-            self.nh_process = subprocess.Popen(
+            returncode = stream_subprocess(
                 ["nh", "os", "switch", ".", "--log-format", "bar"],
-                stdout=subprocess.PIPE,
-                stderr=subprocess.STDOUT,
-                text=True,
-                bufsize=1
+                prefix=PRIORITY_PREFIX,
+                on_start=lambda p: setattr(self, "nh_process", p),
             )
-
-            # Читаем вывод построчно в реальном времени
-            if self.nh_process.stdout:
-                for line in self.nh_process.stdout:
-                    print(line, end='')
-                    sys.stdout.flush()
-
-            # Ждём завершения процесса
-            returncode = self.nh_process.wait()
             rebuild_status = "OK" if returncode == 0 else "FAIL"
 
             total = time.perf_counter() - t0
@@ -274,15 +396,16 @@ class RebuildProcess:
 
         except KeyboardInterrupt:
             self.interrupted = True
-            if self.nh_process and self.nh_process.poll() is None:
-                self.nh_process.terminate()
-                try:
-                    self.nh_process.wait(timeout=5)
-                except subprocess.TimeoutExpired:
-                    self.nh_process.kill()
+            self._terminate()
             print("\n!!! Rebuild interrupted by user")
             rebuild_status = "FAIL"
             sys.exit(130)
+        except SystemExit:
+            # SIGINT перехвачен signal_handler в main() → выходит SystemExit,
+            # а не KeyboardInterrupt. Дочерний процесс всё равно гасим.
+            self.interrupted = True
+            self._terminate()
+            raise
 
         return rebuild_status
 
