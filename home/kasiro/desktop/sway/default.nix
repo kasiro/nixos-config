@@ -3,29 +3,29 @@
 let
   # Catppuccin Mocha палитра
   catppuccin = {
-    base       = "#1e1e2e";
-    mantle     = "#181825";
-    crust      = "#11111b";
-    text       = "#cdd6f4";
-    subtext0   = "#a6adc8";
-    overlay0   = "#6c7086";
-    surface0   = "#313244";
-    surface1   = "#45475a";
-    surface2   = "#585b70";
-    blue       = "#89b4fa";
-    lavender   = "#b4befe";
-    sapphire   = "#74c7ec";
-    sky        = "#89dceb";
-    teal       = "#94e2d5";
-    green      = "#a6e3a1";
-    yellow     = "#f9e2af";
-    peach      = "#fab387";
-    maroon     = "#eba0ac";
-    red        = "#f38ba8";
-    mauve      = "#cba6f7";
-    pink       = "#f5c2e7";
-    flamingo   = "#f2cdcd";
-    rosewater  = "#f5e0dc";
+    base = "#1e1e2e";
+    mantle = "#181825";
+    crust = "#11111b";
+    text = "#cdd6f4";
+    subtext0 = "#a6adc8";
+    overlay0 = "#6c7086";
+    surface0 = "#313244";
+    surface1 = "#45475a";
+    surface2 = "#585b70";
+    blue = "#89b4fa";
+    lavender = "#b4befe";
+    sapphire = "#74c7ec";
+    sky = "#89dceb";
+    teal = "#94e2d5";
+    green = "#a6e3a1";
+    yellow = "#f9e2af";
+    peach = "#fab387";
+    maroon = "#eba0ac";
+    red = "#f38ba8";
+    mauve = "#cba6f7";
+    pink = "#f5c2e7";
+    flamingo = "#f2cdcd";
+    rosewater = "#f5e0dc";
   };
 
   mod = "Mod4";
@@ -61,7 +61,7 @@ in
         size = 11.0;
       };
 
-      bars = [];  # Используем Waybar
+      bars = [ ]; # Используем Waybar
 
       # Обои — сплошной цвет (Catppuccin base)
       output = {
@@ -129,16 +129,17 @@ in
         "${mod}+a" = "exec ${menu}";
         "${mod}+Shift+q" = "kill";
         "${mod}+Shift+c" = "reload";
-        "${mod}+Shift+e" = "exec ${pkgs.sway}/bin/swaynag -t warning -m 'Выйти из Sway?' -b 'Да' 'swaymsg exit'";
+        "${mod}+Shift+e" =
+          "exec ${pkgs.sway}/bin/swaynag -t warning -m 'Выйти из Sway?' -b 'Да' 'swaymsg exit'";
 
         # Движение фокуса (vim-style)
         "${mod}+h" = "focus left";
         "${mod}+j" = "focus down";
         "${mod}+k" = "focus up";
         "${mod}+l" = "focus right";
-        "${mod}+Left"  = "focus left";
-        "${mod}+Down"  = "focus down";
-        "${mod}+Up"    = "focus up";
+        "${mod}+Left" = "focus left";
+        "${mod}+Down" = "focus down";
+        "${mod}+Up" = "focus up";
         "${mod}+Right" = "focus right";
 
         # Перемещение окон
@@ -178,7 +179,8 @@ in
 
         # Скриншоты
         "Print" = "exec ${pkgs.grim}/bin/grim - | ${pkgs.wl-clipboard}/bin/wl-copy";
-        "${mod}+Print" = "exec ${pkgs.grim}/bin/grim -g \"$(${pkgs.slurp}/bin/slurp)\" - | ${pkgs.wl-clipboard}/bin/wl-copy";
+        "${mod}+Print" =
+          "exec ${pkgs.grim}/bin/grim -g \"$(${pkgs.slurp}/bin/slurp)\" - | ${pkgs.wl-clipboard}/bin/wl-copy";
 
         # Медиа/звук
         "XF86AudioRaiseVolume" = "exec ${pkgs.pamixer}/bin/pamixer -i 5";
@@ -216,8 +218,8 @@ in
 
     # --- SwayFX специфичные настройки (через extraConfig) ---
     extraConfig = ''
-      default_border pixel 2
-      default_floating_border pixel 2
+      default_border pixel 3
+      default_floating_border pixel 3
       corner_radius 10
 
       blur {
@@ -240,80 +242,98 @@ in
   # --- Waybar — красивая панель в стиле Catppuccin ---
   programs.waybar = {
     enable = true;
-    settings = [{
-      layer = "top";
-      position = "top";
-      height = 32;
-      spacing = 4;
-      margin-top = 6;
-      margin-left = 6;
-      margin-right = 6;
-      modules-left = [ "sway/workspaces" "sway/mode" ];
-      modules-center = [ "sway/window" ];
-      modules-right = [ "pulseaudio" "network" "cpu" "memory" "clock" "tray" ];
+    settings = [
+      {
+        layer = "top";
+        position = "top";
+        height = 32;
+        spacing = 4;
+        margin-top = 6;
+        margin-left = 6;
+        margin-right = 6;
+        modules-left = [
+          "sway/workspaces"
+          "sway/mode"
+        ];
+        modules-center = [ "sway/window" ];
+        modules-right = [
+          "pulseaudio"
+          "network"
+          "cpu"
+          "memory"
+          "clock"
+          "tray"
+        ];
 
-      "sway/workspaces" = {
-        disable-scroll = true;
-        all-outputs = true;
-        format = "{icon}";
-        format-icons = {
-          "1" = "1";
-          "2" = "2";
-          "3" = "3";
-          "4" = "";
-          "5" = "5";
-          "6" = "";
-          "7" = "";
-          "8" = "";
-          "9" = "";
-          "10" = "";
-          default = "";
+        "sway/workspaces" = {
+          disable-scroll = true;
+          all-outputs = true;
+          format = "{icon}";
+          format-icons = {
+            "1" = "1";
+            "2" = "2";
+            "3" = "3";
+            "4" = "4";
+            "5" = "5";
+            "6" = "6";
+            "7" = "7";
+            "8" = "8";
+            "9" = "9";
+            "10" = "10";
+            default = "";
+          };
         };
-      };
 
-      "sway/window" = {
-        max-length = 50;
-        tooltip = false;
-      };
+        "sway/window" = {
+          max-length = 50;
+          tooltip = false;
+        };
 
-      pulseaudio = {
-        format = "{icon} {volume}%";
-        format-muted = " Mute";
-        format-icons = { default = [ "" "" "" ]; };
-        on-click = "pamixer -t";
-        tooltip = false;
-      };
+        pulseaudio = {
+          format = "{icon} {volume}%";
+          format-muted = " Mute";
+          format-icons = {
+            default = [
+              ""
+              ""
+              ""
+            ];
+          };
+          on-click = "pamixer -t";
+          tooltip = false;
+        };
 
-      network = {
-        format-wifi = " {essid}";
-        format-ethernet = " {ifname}";
-        format-linked = "⚠ No IP";
-        format-disconnected = "";
-        tooltip = false;
-      };
+        network = {
+          format-wifi = " {essid}";
+          format-ethernet = " {ifname}";
+          format-linked = "⚠ No IP";
+          format-disconnected = "";
+          tooltip = false;
+        };
 
-      cpu = {
-        format = " {usage}%";
-        interval = 5;
-        tooltip = false;
-      };
+        cpu = {
+          format = " {usage}%";
+          interval = 5;
+          tooltip = false;
+        };
 
-      memory = {
-        format = " {used:0.1f}G/{total:0.1f}G";
-        interval = 10;
-        tooltip = false;
-      };
+        memory = {
+          format = " {used:0.1f}G/{total:0.1f}G";
+          interval = 10;
+          tooltip = false;
+        };
 
-      clock = {
-        format = "{:%H:%M    %d.%m.%Y}";
-        tooltip-format = "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>";
-      };
+        clock = {
+          format = "{:%H:%M    %d.%m.%Y}";
+          tooltip-format = "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>";
+        };
 
-      tray = {
-        spacing = 10;
-        icon-size = 16;
-      };
-    }];
+        tray = {
+          spacing = 10;
+          icon-size = 16;
+        };
+      }
+    ];
 
     style = ''
       * {
