@@ -5,44 +5,179 @@ https://mirai.senkuro.net/collectibles/353/e75d9d6492dda57839e7f1e81c15f3cdf0ba4
 https://mirai.senkuro.net/collectibles/351/c8bca7aaa99b514bbc86423708a9d9c6113b5d24.jpeg
 https://mirai.senkuro.net/collectibles/349/7ec2b17cd70b5d09cdf22335bb7b9d074095d213.jpeg
 */
-:root {
-	// --avatar: url(https://mirai.senkuro.net/collectibles/228/d9063d41879066f69066b7e3912d97b8df78384f.webp);
-	// // --banner: url(https://mirai.senkuro.net/collectibles/353/e75d9d6492dda57839e7f1e81c15f3cdf0ba476c.jpeg);
-	// --banner: url(https://mirai.senkuro.net/collectibles/354/e5daf506564fe845d7cb1d6902e0891357ba4c35.jpeg);
+
+// original
+// .halloween[data-theme=dark] {
+//     --color-scheme: dark;
+//     --bg-primary: #101014;
+//     --bg-primary-inverse: #fff9f2;
+//     --bg-secondary: #ff873d1f;
+//     --bg-tertiary: #ff873d14;
+//     --bg-quaternary: #ff873d0d;
+//     --bg-other: #252027;
+//     --bg-card: #2b222db8;
+//     --text-primary: #f5eff8;
+//     --text-primary-inverse: #19131c;
+//     --text-secondary: #f5eff8cc;
+//     --text-tertiary: #f5eff899;
+//     --text-disabled: #f5eff833;
+//     --border-primary: #ff873d2e;
+//     --border-secondary: #f5eff821;
+//     --border-tertiary: #ff873d12;
+//     --exp-text: #ff873d;
+//     --guild-color-bronze: #de8f57;
+//     --guild-color-silver: #cfccda;
+//     --guild-color-gold: #ffbe5b;
+//     --guild-color-platinum: #a9d5e0;
+//     --guild-color-amethyst: #c6a5f5;
+//     --guild-color-ruby: #ff7060;
+//     --accent: #ff873d;
+//     --accent-hover: #ffa15c;
+//     --accent-pressed: #ee6c22;
+//     --accent-disable: #ff873d33;
+//     --accent-secondary: #ff873d66;
+//     --accent-tertiary: #ff873d1a;
+//     --accent-quaternary: #ff873d14;
+// }
+
+[data-theme=halloween][data-mode=dark],
+[data-theme=halloween] [data-mode=dark] {
+    --color-scheme: dark !important;
+
+    /* 🎯 Единственная переменная, которую вы меняете */
+    // --color: #5177ff !important; // original
+    --color: #6a5acd !important; // purple
+    // --color: #ff0033 !important; // red
+    // --color: #b0e313 !important; // lime
+
+    /* ═══ Тёмные нейтральные (холодные, контраст к акценту) ═══ */
+    --bg-primary:            oklch(from var(--color) 0.15 0.01 calc(h + 240)) !important;
+    --bg-other:              oklch(from var(--color) 0.22 0.02 calc(h + 240)) !important;
+    --bg-card:               oklch(from var(--color) 0.24 0.02 calc(h + 240) / 0.72) !important;
+    --text-primary-inverse:  oklch(from var(--color) 0.17 0.02 calc(h + 240)) !important;
+
+    /* ═══ Светлые нейтральные (тёплые, в тон акценту) ═══ */
+    --bg-primary-inverse:  oklch(from var(--color) 0.98 0.01 h) !important;
+    --text-primary:        oklch(from var(--color) 0.95 0.01 calc(h + 240)) !important;
+    --text-secondary:      oklch(from var(--color) 0.95 0.01 calc(h + 240) / 0.8) !important;
+    --text-tertiary:       oklch(from var(--color) 0.95 0.01 calc(h + 240) / 0.6) !important;
+    --text-disabled:       oklch(from var(--color) 0.95 0.01 calc(h + 240) / 0.2) !important;
+
+    /* ═══ Акцентные поверхности (та же краска, разная альфа) ═══ */
+    --bg-secondary:      rgb(from var(--color) r g b / 0.12) !important;
+    --bg-tertiary:       rgb(from var(--color) r g b / 0.078) !important;
+    --bg-quaternary:     rgb(from var(--color) r g b / 0.051) !important;
+    --border-primary:    rgb(from var(--color) r g b / 0.18) !important;
+    --border-secondary:  oklch(from var(--color) 0.95 0.01 calc(h + 240) / 0.13) !important;
+    --border-tertiary:   rgb(from var(--color) r g b / 0.07) !important;
+    --exp-text:          var(--color) !important;
+
+    /* ═══ Варианты акцента ═══ */
+    --accent:             var(--color) !important;
+    --accent-hover:       oklch(from var(--color) calc(l + 0.06) c h) !important;
+    --accent-pressed:     oklch(from var(--color) calc(l - 0.06) calc(c + 0.02) h) !important;
+    --accent-disable:     rgb(from var(--color) r g b / 0.2) !important;
+    --accent-secondary:   rgb(from var(--color) r g b / 0.4) !important;
+    --accent-tertiary:    rgb(from var(--color) r g b / 0.1) !important;
+    --accent-quaternary:  rgb(from var(--color) r g b / 0.078) !important;
+
+    /* ═══ Гилд-цвета — декоративные константы, не зависят от --color ═══ */
+    --guild-color-bronze:   #de8f57 !important;
+    --guild-color-silver:   #cfccda !important;
+    --guild-color-gold:     #ffbe5b !important;
+    --guild-color-platinum: #a9d5e0 !important;
+    --guild-color-amethyst: #c6a5f5 !important;
+    --guild-color-ruby:     #ff7060 !important;
 }
 
-img[alt="Kasiro"][src="https://mirai.senkuro.net/collectibles/25/57fcc7d754de62b32f9e614bf5d9282052ee224c.jpeg"] {
-	content: var(--avatar);
+.card-notif-effect:after {
+    content: "";
+    background: var(--color, var(--accent, #4e74fd));
+    filter: blur(75px);
+    pointer-events: none;
+    border-radius: 100%;
+    width: 122px;
+    height: 68px;
+    position: absolute;
+    top: calc(50% - 34px);
+    left: -43px;
 }
-img[alt="Kasiro's banner"] {
-	content: var(--banner);
-}
+
+// img[alt="Kasiro"][src="https://mirai.senkuro.net/collectibles/25/57fcc7d754de62b32f9e614bf5d9282052ee224c.jpeg"] {
+// 	content: var(--avatar);
+// }
+// img[alt="Kasiro's banner"] {
+// 	content: var(--banner);
+// }
 .footer .footer-top {
 	display: none;
 }
-a[href="/users/@192400650171074054"] .avatar-frame img {
-	content: var(--avatar-frame);
-}
+// a[href="/users/@192400650171074054"] .avatar-frame img {
+// 	content: var(--avatar-frame);
+// }
+// .lvl-pumping__top .avatar-frame img {
+// 	content: var(--avatar-frame);
+// }
 
 /* ============================================================
- *  ОБОИ-СТАТИКА
- * ============================================================ */
+*  ОБОИ-СТАТИКА
+* ============================================================ */
 html[data-wallpaper-kind="image"] video.wallpaper-wrapper-media,
 html[data-wallpaper-kind="image"] .wallpaper-wrapper-media {
   display: none !important;
 }
 
-/* Фон — на саму обёртку обоев */
-html[data-wallpaper-kind="image"] .wallpaper-wrapper {
-  background: var(--wallpaper) center/cover no-repeat !important;
+// /* Фон — на саму обёртку обоев */
+// html[data-wallpaper-kind="image"] .wallpaper-wrapper {
+//   background: var(--wallpaper) center/cover no-repeat !important;
+// }
+
+// /* Фолбэк, если класса .wallpaper-wrapper нет */
+// html[data-wallpaper-kind="image"] [class*="wallpaper-wrapper"] {
+//   background: var(--wallpaper) center/cover no-repeat !important;
+// }
+
+// подсмотреть осколки
+.card-collect-preview__shard-border {
+	display: none !important;
 }
 
-/* Фолбэк, если класса .wallpaper-wrapper нет */
+.client-top,
+.client-body__item,
+.card.card--other,
+.client-feature {
+	backdrop-filter: blur(5px);
+}
+// // body {
+// // 	background: url(https://mirai.senkuro.net/collectibles/134/d7a0ca045556e10bc17af3aa758e36c4d63ba372.jpeg) no-repeat;
+// // }
+
+// /*article.card-main:hover {
+// 	scale: 1.1;
+// }*/
+
+
+/* ── Твоя мини-аватарка — работает везде, включая чужие профили ── */
+a[href="/users/@192400650171074054"] .avatar-frame img { content: var(--avatar-frame); }
+.lvl-pumping__top .avatar-frame img                  { content: var(--avatar-frame); }
+
+/* ── Твой большой аватар/баннер на СВОЁМ профиле (можно оставить, можно удалить — работает через [data-fw-*]) ── */
+img[alt="Kasiro"][src="https://mirai.senkuro.net/collectibles/25/57fcc7d754de62b32f9e614bf5d9282052ee224c.jpeg"] { content: var(--avatar); }
+img[alt="Kasiro's banner"] { content: var(--banner); }
+
+/* ── Профиль ЛЮБОГО пользователя (включая тебя) ── */
+[data-fw-profile] img[data-fw-avatar]  { content: var(--user-avatar) !important; }   /* ← ЭТОГО НЕ ХВАТАЛО */
+[data-fw-profile] div[data-fw-avatar-bg] {
+  background: var(--user-avatar) center/cover no-repeat !important;
+}
+[data-fw-profile] div[data-fw-avatar-bg] * { color: transparent !important; text-shadow: none !important; }
+[data-fw-profile] img[data-fw-frame]  { content: var(--user-frame) !important; }
+[data-fw-profile] img[data-fw-banner] { content: var(--banner) !important; }
+
+/* ── Обои-статика ── */
+html[data-wallpaper-kind="image"] video.wallpaper-wrapper-media,
+html[data-wallpaper-kind="image"] .wallpaper-wrapper-media { display: none !important; }
+html[data-wallpaper-kind="image"] .wallpaper-wrapper,
 html[data-wallpaper-kind="image"] [class*="wallpaper-wrapper"] {
   background: var(--wallpaper) center/cover no-repeat !important;
 }
-
-// подсмотреть осколки
-// .card-collect-preview__shard-border {
-// 	display: none !important;
-// }
