@@ -22,6 +22,7 @@
           "network"
           "cpu"
           "memory"
+          "swap"
           "clock"
           "tray"
         ];
@@ -80,6 +81,12 @@
 
         memory = {
           format = " {used:0.1f}G/{total:0.1f}G";
+          interval = 10;
+          tooltip = false;
+        };
+
+        swap = {
+          format = "zram {used:0.1f}G/{total:0.1f}G";
           interval = 10;
           tooltip = false;
         };
@@ -147,7 +154,7 @@
         color: #cdd6f4;
         padding: 4px 12px;
       }
-      #pulseaudio, #network, #cpu, #memory, #clock {
+      #pulseaudio, #network, #cpu, #memory, #swap, #clock {
         background: #313244;
         border-radius: 8px;
         padding: 4px 12px;
@@ -158,6 +165,7 @@
       #network { color: #a6e3a1; }
       #cpu { color: #f9e2af; }
       #memory { color: #fab387; }
+      #swap { color: #94e2d5; }
       #clock { color: #cba6f7; font-weight: bold; }
       #tray {
         background: #313244;
