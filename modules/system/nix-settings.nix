@@ -1,5 +1,5 @@
 # Всё, что касается nix-демона: производительность, GC, политики
-{ ... }:
+{ lib, ... }:
 {
   # Разрешаем unfree-пакеты (obsidian и т.п.)
   nixpkgs.config.allowUnfree = true;
@@ -43,7 +43,7 @@
   # Пониженный приоритет демона — чтобы сборка не душила HDD и терминал
   systemd.services.nix-daemon.serviceConfig = {
     Nice = 10;
-    IOSchedulingClass = "idle";
+    IOSchedulingClass = lib.mkForce "idle";
     IOWeight = 50;
   };
 }

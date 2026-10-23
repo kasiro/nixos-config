@@ -406,6 +406,11 @@ class RebuildProcess:
             self.interrupted = True
             self._terminate()
             raise
+        except Exception as e:
+            # Сборка не запустилась/упала нестандартно (нет nh, ошибка pty и т.п.).
+            # Явно помечаем FAIL — push после такого недопустим.
+            print(f"\n!!! Rebuild failed to run: {e}")
+            rebuild_status = "FAIL"
 
         return rebuild_status
 
@@ -432,6 +437,14 @@ class RebuildProcess:
         if POSTHOOKS:
             self.run_hooks(POSTHOOKS, "Posthook")
 
+        # ГЛАВНОЕ ПРАВИЛО: push разрешён ТОЛЬКО после успешной сборки.
+        # Ненулевой код / исключение / прерывание → FAIL и выход, без push.
+        if rebuild_status != "OK":
+            print("\n❌ Сборка/переключение упали — push пропущен")
+            print(f"\nRebuild: {rebuild_status}")
+            print("Push: skipped (build failed)")
+            sys.exit(1)
+
         # Push если коммит был успешен (последнее действие перед итоговым статусом)
         if committed and not self.args.no_push:
             push_done = self.push_changes()
@@ -447,7 +460,7 @@ class RebuildProcess:
         else:
             print(f"Push: {'done' if push_done else 'failed'}")
 
-        sys.exit(0 if rebuild_status == "OK" else 1)
+        sys.exit(0)
 
 
 def main():
