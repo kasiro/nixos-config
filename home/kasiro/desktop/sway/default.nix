@@ -129,8 +129,7 @@ in
         "${mod}+a" = "exec ${menu}";
         "${mod}+Shift+q" = "kill";
         "${mod}+Shift+c" = "reload";
-        "${mod}+Shift+e" =
-          "exec ${pkgs.sway}/bin/swaynag -t warning -m 'Выйти из Sway?' -b 'Да' 'swaymsg exit'";
+        "${mod}+Shift+e" = "exec ${pkgs.sway}/bin/swaynag -t warning -m 'Выйти из Sway?' -b 'Да' 'swaymsg exit'";
 
         # Движение фокуса (vim-style)
         "${mod}+h" = "focus left";
