@@ -10,7 +10,6 @@ import os
 import pty
 import re
 import select
-import shutil
 import signal
 import struct
 import subprocess
@@ -18,15 +17,6 @@ import sys
 import termios
 import time
 from pathlib import Path
-
-
-# Пониженный приоритет CPU/IO: пока HDD занят сборкой, терминал (foot/sway)
-# остаётся отзывчивым. На результат сборки не влияет — только на её скорость.
-PRIORITY_PREFIX = []
-if shutil.which("nice"):
-    PRIORITY_PREFIX += ["nice", "-n", "19"]
-if shutil.which("ionice"):
-    PRIORITY_PREFIX += ["ionice", "-c", "3"]
 
 
 def stream_subprocess(cmd, *, env=None, stdin=None, on_start=None, prefix=None):
@@ -383,7 +373,7 @@ class RebuildProcess:
             t0 = time.perf_counter()
             returncode = stream_subprocess(
                 ["nh", "os", "switch", ".", "--log-format", "bar"],
-                prefix=PRIORITY_PREFIX,
+                prefix=None,
                 on_start=lambda p: setattr(self, "nh_process", p),
             )
             rebuild_status = "OK" if returncode == 0 else "FAIL"
