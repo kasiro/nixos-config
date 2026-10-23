@@ -4,6 +4,7 @@ let
 
   ignored = [
     "default.nix"
+    "lantern"
   ];
 
   entries = builtins.readDir dir;

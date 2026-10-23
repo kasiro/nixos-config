@@ -1,0 +1,96 @@
+# SwayFX — оформление: шрифты, обои, отступы, рамки, цвета, эффекты
+{ pkgs, lib, sway, ... }:
+{
+  wayland.windowManager.sway = {
+    config = {
+      # --- Оформление ---
+      fonts = {
+        names = [ "JetBrainsMono Nerd Font" ];
+        size = 11.0;
+      };
+
+      bars = [ ]; # Используем Waybar
+
+      # Обои — сплошной цвет (Catppuccin base)
+      output = {
+        "*" = {
+          bg = "${sway.catppuccin.base} solid_color";
+        };
+      };
+
+      # Отступы между окнами
+      gaps = {
+        inner = 10;
+        outer = 6;
+      };
+
+      # Рамки окон
+      window = {
+        border = 2;
+        titlebar = false;
+      };
+      floating.border = 2;
+
+      # --- Цвета (Catppuccin Mocha) ---
+      colors = {
+        focused = {
+          border = sway.catppuccin.mauve;
+          background = sway.catppuccin.mantle;
+          text = sway.catppuccin.text;
+          indicator = sway.catppuccin.mauve;
+          childBorder = sway.catppuccin.mauve;
+        };
+        focusedInactive = {
+          border = sway.catppuccin.surface1;
+          background = sway.catppuccin.mantle;
+          text = sway.catppuccin.subtext0;
+          indicator = sway.catppuccin.surface1;
+          childBorder = sway.catppuccin.surface1;
+        };
+        unfocused = {
+          border = sway.catppuccin.surface0;
+          background = sway.catppuccin.mantle;
+          text = sway.catppuccin.overlay0;
+          indicator = sway.catppuccin.surface0;
+          childBorder = sway.catppuccin.surface0;
+        };
+        urgent = {
+          border = sway.catppuccin.red;
+          background = sway.catppuccin.mantle;
+          text = sway.catppuccin.text;
+          indicator = sway.catppuccin.red;
+          childBorder = sway.catppuccin.red;
+        };
+        placeholder = {
+          border = sway.catppuccin.surface2;
+          background = sway.catppuccin.mantle;
+          text = sway.catppuccin.subtext0;
+          indicator = sway.catppuccin.surface2;
+          childBorder = sway.catppuccin.surface2;
+        };
+      };
+    };
+
+    # --- SwayFX специфичные настройки (через extraConfig) ---
+    extraConfig = ''
+      default_border pixel 3
+      default_floating_border pixel 3
+      corner_radius 10
+
+      blur {
+        enabled true
+        xray true
+        passes 2
+        radius 8
+        noise 0.02
+        contrast 0.9
+        brightness 0.95
+      }
+
+      # Правила для плавающих окон
+      for_window [app_id="wofi"] floating enable, border pixel 0
+      for_window [app_id="pavucontrol"] floating enable
+      for_window [app_id="nm-connection-editor"] floating enable
+    '';
+  };
+}
