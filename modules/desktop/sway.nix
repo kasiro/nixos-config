@@ -5,7 +5,7 @@
 # - Фикс: overlay на swayfx-unwrapped подменяет Exec на 'sway --unsupported-gpu'
 #   + programs.sway.extraOptions как второй уровень защиты
 # - Удалён невалидный WLR_RENDERER=gl (wlroots 0.17+ его не знает)
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 let
   theme = import ../../themes/kasiro/theme.nix;
 in
@@ -63,7 +63,7 @@ in
     WLR_NO_HARDWARE_CURSORS = "1";
     NIXOS_OZONE_WL = "1";
     __GLX_VENDOR_LIBRARY_NAME = "nvidia";
-    SWAY_UNSUPPORTED_GPU = "true";  # Убирает warning о NVIDIA
+    SWAY_UNSUPPORTED_GPU = "true"; # Убирает warning о NVIDIA
     XCURSOR_THEME = theme.cursorTheme;
     XCURSOR_SIZE = toString theme.cursorSize;
   };
