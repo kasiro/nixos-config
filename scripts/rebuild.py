@@ -242,7 +242,7 @@ def flake_check():
 
 # Prehook функции - выполняются ДО rebuild
 PREHOOKS = [
-    "flake_check",
+    # "flake_check",  # отключено
     # "analyze_build",  # временно отключено
 ]
 

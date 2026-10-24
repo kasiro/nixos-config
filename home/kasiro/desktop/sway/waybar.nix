@@ -23,7 +23,7 @@
           "network"
           "cpu"
           "memory"
-          "zram"
+          "swap"
           "clock"
           "tray"
         ];
@@ -91,7 +91,7 @@
           tooltip = false;
         };
 
-        zram = {
+        swap = {
           format = " {swapUsed:0.1f}G/{swapTotal:0.1f}G ({swapPercentage}%)";
           interval = 10;
           tooltip = false;
