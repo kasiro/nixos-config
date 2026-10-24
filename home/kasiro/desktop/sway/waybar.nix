@@ -18,6 +18,7 @@
         ];
         modules-center = [ "sway/window" ];
         modules-right = [
+          "sway/language"
           "pulseaudio"
           "network"
           "cpu"
@@ -48,6 +49,11 @@
 
         "sway/window" = {
           max-length = 50;
+          tooltip = false;
+        };
+
+        "sway/language" = {
+          format = "{short}";
           tooltip = false;
         };
 
@@ -154,13 +160,14 @@
         color: #cdd6f4;
         padding: 4px 12px;
       }
-      #pulseaudio, #network, #cpu, #memory, #swap, #clock {
+      #pulseaudio, #network, #cpu, #memory, #swap, #clock, #language {
         background: #313244;
         border-radius: 8px;
         padding: 4px 12px;
         margin: 4px 3px;
         color: #cdd6f4;
       }
+      #language { color: #89b4fa; }
       #pulseaudio { color: #89b4fa; }
       #network { color: #a6e3a1; }
       #cpu { color: #f9e2af; }
