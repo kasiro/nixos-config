@@ -22,8 +22,8 @@
           "pulseaudio"
           "network"
           "cpu"
-          "memory"
-          "swap"
+          "memory#ram"
+          "memory#swap"
           "clock"
           "tray"
         ];
@@ -85,13 +85,13 @@
           tooltip = false;
         };
 
-        memory = {
+        "memory#ram" = {
           format = " {used:0.1f}G/{total:0.1f}G ({percentage}%)";
           interval = 10;
           tooltip = false;
         };
 
-        swap = {
+        "memory#swap" = {
           format = " {swapUsed:0.1f}G/{swapTotal:0.1f}G ({swapPercentage}%)";
           interval = 10;
           tooltip = false;
