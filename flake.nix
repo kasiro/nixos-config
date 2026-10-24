@@ -44,8 +44,8 @@
                 opencode = pkgs-unstable.opencode;
                 # COSMIC из unstable
                 cosmic-session = pkgs-unstable.cosmic-session;
-                python3Packages = prev.python3Packages.overrideScope (pythonFinal: pythonPrev: {
-                  i3ipc = pkgs-unstable.python3Packages.i3ipc;
+                python314Packages = prev.python314Packages.overrideScope (pythonFinal: pythonPrev: {
+                  i3ipc = pkgs-unstable.python314Packages.i3ipc;
                 });
               })
             ];
