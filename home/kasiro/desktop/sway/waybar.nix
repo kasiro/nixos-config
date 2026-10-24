@@ -57,8 +57,8 @@
         };
 
         pulseaudio = {
-          format = "{icon} {volume}%";
-          format-muted = " Mute";
+          format = "{icon}  {volume}%";
+          format-muted = "  Mute";
           format-icons = {
             default = [
               ""
@@ -71,9 +71,9 @@
         };
 
         network = {
-          format-wifi = " {essid}";
-          format-ethernet = " {ifname}";
-          format-linked = "⚠ No IP";
+          format-wifi = "  {essid}";
+          format-ethernet = "  {ifname}";
+          format-linked = "⚠  No IP";
           format-disconnected = "";
           tooltip = false;
         };
@@ -85,7 +85,7 @@
         };
 
         memory = {
-          format = " {used:0.1f}G/{total:0.1f}G | zram {swapUsed:0.1f}G/{swapTotal:0.1f}G";
+          format = " {used:0.1f}G/{total:0.1f}G ({percent}%) | zram {swapUsed:0.1f}G/{swapTotal:0.1f}G ({swapPercent}%)";
           interval = 10;
           tooltip = false;
         };
