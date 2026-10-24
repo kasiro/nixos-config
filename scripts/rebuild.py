@@ -221,7 +221,7 @@ def flake_check():
     print("─" * 32)
 
     try:
-        returncode = stream_subprocess(["nix", "flake", "check", "--no-build"])
+        returncode = stream_subprocess(["nix", "flake", "check", "--no-build", "--offline"])
 
         if returncode != 0:
             print(f"⚠ nix flake check завершился с кодом {returncode}")
