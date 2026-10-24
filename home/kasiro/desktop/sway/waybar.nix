@@ -15,17 +15,17 @@
         modules-left = [
           "sway/workspaces"
           "sway/mode"
+          "sway/window"
         ];
-        modules-center = [ "sway/window" ];
+        modules-center = [ "clock" ];
         modules-right = [
+          "tray"
           "sway/language"
           "pulseaudio"
           "network"
           "cpu"
           "memory#ram"
           "memory#swap"
-          "clock"
-          "tray"
         ];
 
         "sway/workspaces" = {
