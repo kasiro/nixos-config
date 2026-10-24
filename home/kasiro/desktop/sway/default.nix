@@ -4,6 +4,7 @@ let
 
   ignored = [
     "default.nix"
+    "scripts"
   ];
 
   entries = builtins.readDir dir;
