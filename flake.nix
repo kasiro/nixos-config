@@ -44,6 +44,7 @@
                 opencode = pkgs-unstable.opencode;
                 # COSMIC из unstable
                 cosmic-session = pkgs-unstable.cosmic-session;
+                python3Packages.i3ipc = nixpkgs-unstable.python3Packages.i3ipc;
               })
             ];
             home-manager.users.kasiro = import ./home/kasiro;
