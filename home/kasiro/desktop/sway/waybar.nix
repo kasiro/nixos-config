@@ -86,13 +86,13 @@
         };
 
         memory = {
-          format = " {used:0.1f}G/{total:0.1f}G ({percent}%)";
+          format = " {used:0.1f}G/{total:0.1f}G ({usage}%)";
           interval = 10;
           tooltip = false;
         };
 
         swap = {
-          format = "zram {used:0.1f}G/{total:0.1f}G ({percent}%)";
+          format = "zram {used:0.1f}G/{total:0.1f}G ({usage}%)";
           interval = 10;
           tooltip = false;
         };
