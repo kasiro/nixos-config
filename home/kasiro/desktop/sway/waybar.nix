@@ -19,6 +19,7 @@
         modules-center = [ "sway/window" ];
         modules-right = [
           "sway/language"
+          "swap"
           "pulseaudio"
           "network"
           "cpu"
@@ -53,6 +54,11 @@
 
         "sway/language" = {
           format = "{short}";
+          tooltip = false;
+        };
+
+        swap = {
+          format = " {icon} {percentage}%";
           tooltip = false;
         };
 
@@ -161,6 +167,7 @@
         color: #cdd6f4;
       }
       #language { color: #89b4fa; }
+      #swap { color: #fab387; }
       #pulseaudio { color: #89b4fa; }
       #network { color: #a6e3a1; }
       #cpu { color: #f9e2af; }
