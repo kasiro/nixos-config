@@ -85,7 +85,7 @@
         };
 
         memory = {
-          format = " {used:0.1f}G/{total:0.1f}G | zram {swapUsed:0.1f}G/{swapTotal:0.1f}G";
+          format = " {used:0.1f}G/{total:0.1f}G {percentage}% | zram {swapUsed:0.1f}G/{swapTotal:0.1f}G {swapPercentage}%";
           interval = 10;
           tooltip = false;
         };
