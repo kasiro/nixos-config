@@ -1,5 +1,5 @@
 # Общие значения конфигурации SwayFX: палитра, mod, terminal, menu, theme
-{ pkgs, lib, ... }:
+{ pkgs, ... }:
 {
   _module.args.sway = {
     # Catppuccin Mocha палитра

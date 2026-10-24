@@ -5,6 +5,7 @@ let
   ignored = [
     "default.nix"
     "lantern"
+    "system76-scheduler.nix"
   ];
 
   entries = builtins.readDir dir;
