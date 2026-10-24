@@ -1,5 +1,5 @@
 # SwayFX — ядро: включение, пакет, модификатор, терминал, меню, ввод
-{ pkgs, lib, sway, ... }:
+{ pkgs, sway, ... }:
 {
   wayland.windowManager.sway = {
     enable = true;

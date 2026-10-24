@@ -1,5 +1,5 @@
 # SwayFX — автозапуск (mako, waybar, swayidle, polkit)
-{ pkgs, lib, sway, ... }:
+{ pkgs, sway, ... }:
 {
   wayland.windowManager.sway.config = {
     # --- Автозапуск ---
