@@ -19,7 +19,7 @@
     nodejs
     bun
     python3
-    python314Packages.i3ipc
+    python3Packages.i3ipc
     uv
 
     wl-clipboard
