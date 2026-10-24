@@ -12,42 +12,55 @@
       "${sway.mod}+Shift+e" = "exec ${pkgs.sway}/bin/swaynag -t warning -m 'Выйти из Sway?' -b 'Да' 'swaymsg exit'";
 
       # Движение фокуса (vim-style)
-      "${sway.mod}+h" = "focus left";
-      "${sway.mod}+j" = "focus down";
-      "${sway.mod}+k" = "focus up";
-      "${sway.mod}+l" = "focus right";
       "${sway.mod}+Left" = "focus left";
       "${sway.mod}+Down" = "focus down";
       "${sway.mod}+Up" = "focus up";
       "${sway.mod}+Right" = "focus right";
 
-      # Перемещение окон
-      "${sway.mod}+Shift+h" = "move left";
-      "${sway.mod}+Shift+j" = "move down";
-      "${sway.mod}+Shift+k" = "move up";
-      "${sway.mod}+Shift+l" = "move right";
+      # Перемещение окон (COSMIC-style: между рабочими столами)
+      "${sway.mod}+Shift+Left" = "move container to workspace prev_on_output; workspace prev_on_output";
+      "${sway.mod}+Shift+Down" = "move down";
+      "${sway.mod}+Shift+Up" = "move up";
+      "${sway.mod}+Shift+Right" = "move container to workspace next_on_output; workspace next_on_output";
 
       # Рабочие столы
-      "${sway.mod}+1" = "workspace number 1";
-      "${sway.mod}+2" = "workspace number 2";
-      "${sway.mod}+3" = "workspace number 3";
-      "${sway.mod}+4" = "workspace number 4";
-      "${sway.mod}+5" = "workspace number 5";
-      "${sway.mod}+6" = "workspace number 6";
-      "${sway.mod}+7" = "workspace number 7";
-      "${sway.mod}+8" = "workspace number 8";
-      "${sway.mod}+9" = "workspace number 9";
-      "${sway.mod}+0" = "workspace number 10";
+      "Control+1" = "workspace number 1";
+      "Control+2" = "workspace number 2";
+      "Control+3" = "workspace number 3";
+      "Control+4" = "workspace number 4";
+      "Control+5" = "workspace number 5";
+      "Control+6" = "workspace number 6";
+      "Control+7" = "workspace number 7";
+      "Control+8" = "workspace number 8";
+      "Control+9" = "workspace number 9";
+      "Control+0" = "workspace number 10";
+      
+      # "${sway.mod}+Shift+1" = "move container to workspace number 1";
+      # "${sway.mod}+Shift+2" = "move container to workspace number 2";
+      # "${sway.mod}+Shift+3" = "move container to workspace number 3";
+      # "${sway.mod}+Shift+4" = "move container to workspace number 4";
+      # "${sway.mod}+Shift+5" = "move container to workspace number 5";
+      # "${sway.mod}+Shift+6" = "move container to workspace number 6";
+      # "${sway.mod}+Shift+7" = "move container to workspace number 7";
+      # "${sway.mod}+Shift+8" = "move container to workspace number 8";
+      # "${sway.mod}+Shift+9" = "move container to workspace number 9";
+      # "${sway.mod}+Shift+0" = "move container to workspace number 10";
 
-      "${sway.mod}+Shift+1" = "move container to workspace number 1";
-      "${sway.mod}+Shift+2" = "move container to workspace number 2";
-      "${sway.mod}+Shift+3" = "move container to workspace number 3";
-      "${sway.mod}+Shift+4" = "move container to workspace number 4";
-      "${sway.mod}+Shift+5" = "move container to workspace number 5";
+      # # Перемещение окон на Ctrl+Shift+Num
+      # "Control+Shift+1" = "move container to workspace number 1";
+      # "Control+Shift+2" = "move container to workspace number 2";
+      # "Control+Shift+3" = "move container to workspace number 3";
+      # "Control+Shift+4" = "move container to workspace number 4";
+      # "Control+Shift+5" = "move container to workspace number 5";
+      # "Control+Shift+6" = "move container to workspace number 6";
+      # "Control+Shift+7" = "move container to workspace number 7";
+      # "Control+Shift+8" = "move container to workspace number 8";
+      # "Control+Shift+9" = "move container to workspace number 9";
+      # "Control+Shift+0" = "move container to workspace number 10";
 
       # Layout
-      "${sway.mod}+b" = "splith";
-      "${sway.mod}+v" = "splitv";
+      # "${sway.mod}+b" = "splith";
+      # "${sway.mod}+v" = "splitv";
       "${sway.mod}+f" = "fullscreen toggle";
       "${sway.mod}+g" = "floating toggle";
       "${sway.mod}+space" = "focus mode_toggle";
