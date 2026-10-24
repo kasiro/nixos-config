@@ -17,11 +17,11 @@
       "${sway.mod}+Up" = "focus up";
       "${sway.mod}+Right" = "focus right";
 
-      # Перемещение окон (COSMIC-style: между рабочими столами)
-      "${sway.mod}+Shift+Left" = "move container to workspace prev_on_output; workspace prev_on_output";
+      # Перемещение окон (COSMIC-style: умное — если край, то workspace)
+      "${sway.mod}+Shift+Left" = "exec ~/.config/sway/scripts/smart-move.py left";
       "${sway.mod}+Shift+Down" = "move down";
       "${sway.mod}+Shift+Up" = "move up";
-      "${sway.mod}+Shift+Right" = "move container to workspace next_on_output; workspace next_on_output";
+      "${sway.mod}+Shift+Right" = "exec ~/.config/sway/scripts/smart-move.py right";
 
       # Рабочие столы
       "Control+1" = "workspace number 1";
