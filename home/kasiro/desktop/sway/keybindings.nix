@@ -5,10 +5,9 @@
     # --- Горячие клавиши ---
     keybindings = lib.mkOptionDefault {
       "${sway.mod}+Return" = "exec ${sway.terminal}";
-      "${sway.mod}+q" = "kill";
+      "Control+q" = "kill";
       "${sway.mod}+a" = "exec ${sway.menu}";
-      "${sway.mod}+Shift+q" = "kill";
-      "${sway.mod}+Shift+c" = "reload";
+      # "${sway.mod}+Shift+c" = "reload";
       "${sway.mod}+Shift+e" = "exec ${pkgs.sway}/bin/swaynag -t warning -m 'Выйти из Sway?' -b 'Да' 'swaymsg exit'";
 
       # Движение фокуса (vim-style)
@@ -35,16 +34,16 @@
       "Control+9" = "workspace number 9";
       "Control+0" = "workspace number 10";
       
-      "${sway.mod}+Shift+1" = "move container to workspace number 1";
-      "${sway.mod}+Shift+2" = "move container to workspace number 2";
-      "${sway.mod}+Shift+3" = "move container to workspace number 3";
-      "${sway.mod}+Shift+4" = "move container to workspace number 4";
-      "${sway.mod}+Shift+5" = "move container to workspace number 5";
-      "${sway.mod}+Shift+6" = "move container to workspace number 6";
-      "${sway.mod}+Shift+7" = "move container to workspace number 7";
-      "${sway.mod}+Shift+8" = "move container to workspace number 8";
-      "${sway.mod}+Shift+9" = "move container to workspace number 9";
-      "${sway.mod}+Shift+0" = "move container to workspace number 10";
+      # "${sway.mod}+Shift+1" = "move container to workspace number 1";
+      # "${sway.mod}+Shift+2" = "move container to workspace number 2";
+      # "${sway.mod}+Shift+3" = "move container to workspace number 3";
+      # "${sway.mod}+Shift+4" = "move container to workspace number 4";
+      # "${sway.mod}+Shift+5" = "move container to workspace number 5";
+      # "${sway.mod}+Shift+6" = "move container to workspace number 6";
+      # "${sway.mod}+Shift+7" = "move container to workspace number 7";
+      # "${sway.mod}+Shift+8" = "move container to workspace number 8";
+      # "${sway.mod}+Shift+9" = "move container to workspace number 9";
+      # "${sway.mod}+Shift+0" = "move container to workspace number 10";
 
       # # Перемещение окон на Ctrl+Shift+Num
       # "Control+Shift+1" = "move container to workspace number 1";
