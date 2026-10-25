@@ -8,6 +8,10 @@
         font = "JetBrainsMono Nerd Font:size=12";
         pad = "12x12";
       };
+      # Фон терминала = фон Sway (Catppuccin base), hex без '#'
+      colors = {
+        background = lib.removePrefix "#" sway.catppuccin.base;
+      };
     };
   };
 }
