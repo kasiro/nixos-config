@@ -21,7 +21,7 @@
   , wayland
   , wayland-protocols
   , wlroots_0_19
-, xorg
+, libxcb-wm
 , swaybg
 }:
 
@@ -62,7 +62,7 @@ stdenv.mkDerivation {
     wayland
     wayland-protocols
     wlroots_0_19
-    xorg.xcbutilwm
+    libxcb-wm
   ];
 
   propagatedBuildInputs = [ swaybg ];
@@ -81,6 +81,12 @@ stdenv.mkDerivation {
     substituteInPlace $out/share/wayland-sessions/sway.desktop \
       --replace-fail 'Exec=sway' 'Exec=sway --unsupported-gpu'
   '';
+
+  # Требуется модулем programs.sway: sessionPackages в display-manager
+  # проверяет наличие passthru.providedSessions и файла <имя>.desktop
+  passthru = {
+    providedSessions = [ "sway" ];
+  };
 
   meta = {
     description = "SwayFX Enhanced — Sway with Liquid Glass animations and effects";
