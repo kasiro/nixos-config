@@ -43,7 +43,6 @@
               (import ./overlays/swayfx-enhanced.nix)
               (final: prev: {
                 opencode = pkgs-unstable.opencode;
-                # COSMIC из unstable
                 cosmic-session = pkgs-unstable.cosmic-session;
               })
             ];

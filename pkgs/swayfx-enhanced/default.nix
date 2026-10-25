@@ -1,4 +1,5 @@
 { stdenv
+, lib
 , fetchFromGitHub
 , meson
 , ninja
@@ -84,8 +85,8 @@ stdenv.mkDerivation {
   meta = {
     description = "SwayFX Enhanced — Sway with Liquid Glass animations and effects";
     homepage = "https://github.com/CreitinGameplays/swayfx-enhanced";
-    license = stdenv.lib.licenses.mit;
-    platforms = stdenv.lib.platforms.linux;
+    license = lib.licenses.mit;
+    platforms = lib.platforms.linux;
     mainProgram = "sway";
 
     longDescription = ''

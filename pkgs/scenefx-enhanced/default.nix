@@ -1,4 +1,5 @@
 { stdenv
+, lib
 , fetchFromGitHub
 , meson
 , ninja
@@ -47,7 +48,7 @@ stdenv.mkDerivation {
   meta = {
     description = "SceneFX Enhanced — drop-in replacement for wlroots scene API with Liquid Glass effects";
     homepage = "https://github.com/CreitinGameplays/scenefx-enhanced";
-    license = stdenv.lib.licenses.mit;
-    platforms = stdenv.lib.platforms.linux;
+    license = lib.licenses.mit;
+    platforms = lib.platforms.linux;
   };
 }
