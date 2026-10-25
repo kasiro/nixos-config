@@ -38,6 +38,11 @@ stdenv.mkDerivation {
 
   strictDeps = true;
 
+  # Как в nixpkgs sway-unwrapped: meson ищет scdoc через `dependency(native: true)`,
+  # то есть build-машине нужен pkg-config в роли build-build, иначе .pc нативной
+  # зависимости (scdoc) в PKG_CONFIG_PATH_FOR_BUILD не попадает в область видимости.
+  depsBuildBuild = [ pkg-config ];
+
   nativeBuildInputs = [
     meson
     ninja
