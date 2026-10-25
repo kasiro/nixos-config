@@ -18,10 +18,10 @@
       "${sway.mod}+Right" = "focus right";
 
       # Перемещение окон (COSMIC-style: умное — если край, то workspace)
-      "${sway.mod}+Shift+Left" = "move left";
+      "${sway.mod}+Shift+Left" = "exec cd /home/kasiro/nixos-config/home/kasiro/desktop/sway/scripts && uv run python smart-move.py left";
       "${sway.mod}+Shift+Down" = "move down";
       "${sway.mod}+Shift+Up" = "move up";
-      "${sway.mod}+Shift+Right" = "move right";
+      "${sway.mod}+Shift+Right" = "exec cd /home/kasiro/nixos-config/home/kasiro/desktop/sway/scripts && uv run python smart-move.py right";
 
       # Рабочие столы
       "Control+1" = "workspace number 1";

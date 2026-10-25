@@ -1,12 +1,6 @@
 # SwayFX — автозапуск (mako, waybar, swayidle, polkit)
 { pkgs, sway, ... }:
 {
-  # Развёртывание скриптов
-  home.file.".config/sway/scripts/smart-move.py" = {
-    source = ./scripts/smart-move.py;
-    executable = true;
-  };
-
   wayland.windowManager.sway.config = {
     # --- Автозапуск ---
     startup = [
