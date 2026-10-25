@@ -9,7 +9,7 @@
         pad = "12x12";
       };
       # Фон терминала = фон Sway (Catppuccin base), hex без '#'
-      colors = {
+      "colors-dark" = {
         background = lib.removePrefix "#" sway.catppuccin.base;
       };
     };
