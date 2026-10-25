@@ -1,24 +1,24 @@
 # Оверлей для swayfx-enhanced — форк swayfx с Liquid Glass анимациями
 # Репозиторий: https://github.com/CreitinGameplays/swayfx-enhanced
 # Версия: 0.5.3-enhanced.1 (main branch, commit 21f8194)
-{ final, prev }:
+self: super:
 
 let
   # scenefx-enhanced — форк scenefx с Liquid Glass поддержкой
-  scenefx-enhanced = final.stdenv.mkDerivation {
+  scenefx-enhanced = super.stdenv.mkDerivation {
     pname = "scenefx-enhanced";
     version = "0.4.1-enhanced";
 
-    src = final.fetchFromGitHub {
+    src = super.fetchFromGitHub {
       owner = "CreitinGameplays";
       repo = "scenefx-enhanced";
       rev = "33b6837";
       hash = "sha256-0bgzjqsxfc5vh6xrsm9igj01f08m8j1nx3iblmy5yhy5pr3q3d8h=";
     };
 
-    nativeBuildInputs = with final; [ meson ninja pkg-config ];
+    nativeBuildInputs = with super; [ meson ninja pkg-config ];
 
-    buildInputs = with final; [
+    buildInputs = with super; [
       wayland
       wlroots
       pango
@@ -36,19 +36,19 @@ let
     meta = {
       description = "SceneFX Enhanced — drop-in replacement for wlroots scene API with Liquid Glass effects";
       homepage = "https://github.com/CreitinGameplays/scenefx-enhanced";
-      license = final.lib.licenses.mit;
-      platforms = final.lib.platforms.linux;
+      license = super.lib.licenses.mit;
+      platforms = super.lib.platforms.linux;
     };
   };
 
 in
 {
   # swayfx-enhanced — основной пакет
-  swayfx-enhanced = final.stdenv.mkDerivation {
+  swayfx-enhanced = super.stdenv.mkDerivation {
     pname = "swayfx-enhanced";
     version = "0.5.3-enhanced.1";
 
-    src = final.fetchFromGitHub {
+    src = super.fetchFromGitHub {
       owner = "CreitinGameplays";
       repo = "swayfx-enhanced";
       rev = "21f81947114bd4c7bfb56bc7a870cd2c4263f635";
@@ -57,7 +57,7 @@ in
 
     strictDeps = true;
 
-    nativeBuildInputs = with final; [
+    nativeBuildInputs = with super; [
       meson
       ninja
       pkg-config
@@ -65,7 +65,7 @@ in
       scdoc
     ];
 
-    buildInputs = with final; [
+    buildInputs = with super; [
       cairo
       gdk-pixbuf
       json-c
@@ -77,14 +77,14 @@ in
       libxkbcommon
       pango
       pcre2
-      scenefx-enhanced  # Используем форк scenefx-enhanced
+      self.scenefx-enhanced  # Используем форк scenefx-enhanced
       wayland
       wayland-protocols
       wlroots_0_19
       xorg.xcbutilwm
     ];
 
-    propagatedBuildInputs = with final; [ swaybg ];
+    propagatedBuildInputs = with super; [ swaybg ];
 
     mesonFlags = [
       "-Dsd-bus-provider=libsystemd"
@@ -104,8 +104,8 @@ in
     meta = {
       description = "SwayFX Enhanced — Sway with Liquid Glass animations and effects";
       homepage = "https://github.com/CreitinGameplays/swayfx-enhanced";
-      license = final.lib.licenses.mit;
-      platforms = final.lib.platforms.linux;
+      license = super.lib.licenses.mit;
+      platforms = super.lib.platforms.linux;
       mainProgram = "sway";
 
       longDescription = ''
