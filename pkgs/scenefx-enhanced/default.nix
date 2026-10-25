@@ -20,6 +20,8 @@
 , libxkbcommon
 , pcre2
 , libevdev
+, libxcb
+, libxcb-wm
 }:
 
 stdenv.mkDerivation {
@@ -50,6 +52,8 @@ stdenv.mkDerivation {
     libxkbcommon
     pcre2
     libevdev
+    libxcb
+    libxcb-wm
   ];
 
   meta = {
