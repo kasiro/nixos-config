@@ -1,34 +1,14 @@
 # Sway — лёгкий тайловый WM на Wayland
-# Исправлено 2026-10-19:
-# - GDM запускал .desktop из store-пакета без флага → Nvidia блокировала sway
-#   (3 неудачных входа подряд, логи sway/server.c:175)
-# - Фикс: overlay на swayfx-unwrapped подменяет Exec на 'sway --unsupported-gpu'
-#   + programs.sway.extraOptions как второй уровень защиты
-# - Удалён невалидный WLR_RENDERER=gl (wlroots 0.17+ его не знает)
+# swayfx-enhanced — форк с Liquid Glass анимациями (CreitinGameplays/swayfx-enhanced)
 { pkgs, ... }:
 let
   theme = import ../../themes/kasiro/theme.nix;
 in
 {
-  # Overlay: подменяем .desktop чтобы GDM запускал sway с обходом Nvidia.
-  # NOTE: патчим swayfx-unwrapped (stdenv.mkDerivation+meson), а НЕ pkgs.swayfx —
-  # pkgs.swayfx это symlinkJoin-обёртка без фазы postInstall, её postInstall игнорируется.
-  # .desktop финального пакета — симлинк на swayfx-unwrapped, правка подхватится.
-  nixpkgs.overlays = [
-    (final: prev: {
-      swayfx-unwrapped = prev.swayfx-unwrapped.overrideAttrs (old: {
-        postInstall = (old.postInstall or "") + ''
-          substituteInPlace $out/share/wayland-sessions/sway.desktop \
-            --replace-fail 'Exec=sway' 'Exec=sway --unsupported-gpu'
-        '';
-      });
-    })
-  ];
-
   # Сам Sway + XWayland для старых X11-приложений
   programs.sway = {
     enable = true;
-    package = pkgs.swayfx;
+    package = pkgs.swayfx-enhanced;
     xwayland.enable = true;
     wrapperFeatures.gtk = true; # Корректная работа GTK-приложений
     # Обёртка sway добавит флаг в Exec=sway .desktop-файла сессии,

@@ -1,5 +1,5 @@
 # SwayFX — оформление: шрифты, обои, отступы, рамки, цвета, эффекты
-{ pkgs, lib, sway, ... }:
+{ sway, ... }:
 {
   wayland.windowManager.sway = {
     config = {
@@ -76,7 +76,6 @@
       default_border pixel 3
       default_floating_border pixel 3
       corner_radius 10
-      animation_duration_ms 250
 
       blur {
         enabled true

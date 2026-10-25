@@ -40,6 +40,7 @@
           {
             _module.args.pkgs-unstable = pkgs-unstable;
             nixpkgs.overlays = [
+              (import ./overlays/swayfx-enhanced.nix)
               (final: prev: {
                 opencode = pkgs-unstable.opencode;
                 # COSMIC из unstable
