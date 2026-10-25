@@ -5,7 +5,11 @@
 , ninja
 , pkg-config
 , wayland
-, wlroots
+, wlroots_0_19
+, pixman
+, libgbm
+, wayland-protocols
+, wayland-scanner
 , pango
   , cairo
   , gdk-pixbuf
@@ -29,10 +33,13 @@ stdenv.mkDerivation {
     hash = "sha256-ELWBR77FQ198pSuOboNEFQEXgHwxVZ27gbsw1zWW/y0=";
   };
 
-  nativeBuildInputs = [ meson ninja pkg-config ];
+  nativeBuildInputs = [ meson ninja pkg-config wayland-scanner ];
   buildInputs = [
     wayland
-    wlroots
+    wayland-protocols
+    pixman
+    libgbm
+    wlroots_0_19
     pango
     cairo
     gdk-pixbuf
