@@ -82,9 +82,15 @@ stdenv.mkDerivation {
     "-Dswaynag=true"
   ];
 
+  # Апстримный sway.desktop содержит Exec=/usr/local/bin/sway-xwayland-session
+  # (meson install_data копирует файл как есть). Заменяем точную строку:
+  # убираем несуществующий /usr/local/bin (скрипт ставится в $out/bin и
+  # находится через PATH) и добавляем --unsupported-gpu для NVIDIA.
   postInstall = ''
     substituteInPlace $out/share/wayland-sessions/sway.desktop \
-      --replace-fail 'Exec=sway' 'Exec=sway --unsupported-gpu'
+      --replace-fail \
+        'Exec=/usr/local/bin/sway-xwayland-session' \
+        'Exec=sway-xwayland-session --unsupported-gpu'
   '';
 
   # Требуется модулем programs.sway: sessionPackages в display-manager
