@@ -1,9 +1,20 @@
 { pkgs, lib, sway, ... }:
 {
   # --- Курсор и GTK-тема ---
+  home.pointerCursor = {
+    enable = true;
+    name = sway.theme.cursorTheme;
+    package = pkgs.bibata-cursors;
+    size = sway.theme.cursorSize;
+    # Создаёт symlink ~/.icons/default -> ~/.nix-profile/share/icons/Bibata-Modern-Ice
+    dotIcons.enable = true;
+    # Генерирует конфиг Sway: seat "*" { xcursor_theme = "Bibata-Modern-Ice 24" }
+    sway.enable = true;
+    # Для GTK-приложений
+    gtk.enable = true;
+  };
+
   home.sessionVariables = {
-    XCURSOR_THEME = sway.theme.cursorTheme;
-    XCURSOR_SIZE = toString sway.theme.cursorSize;
     GTK_THEME = "catppuccin-mocha-mauve-compact";
   };
 
@@ -17,6 +28,7 @@
       name = "Papirus-Dark";
       package = pkgs.papirus-icon-theme;
     };
+    # home.pointerCursor.gtk.enable уже задаёт cursorTheme, но оставляем для явности
     cursorTheme = {
       name = sway.theme.cursorTheme;
       package = pkgs.bibata-cursors;
