@@ -18,10 +18,10 @@
       "${sway.mod}+Right" = "focus right";
 
       # Перемещение окон (COSMIC-style: умное — если край, то workspace)
-      "${sway.mod}+Shift+Left" = "exec ~/.config/sway/scripts/smart-move.py left";
+      "${sway.mod}+Shift+Left" = "move left";
       "${sway.mod}+Shift+Down" = "move down";
       "${sway.mod}+Shift+Up" = "move up";
-      "${sway.mod}+Shift+Right" = "exec ~/.config/sway/scripts/smart-move.py right";
+      "${sway.mod}+Shift+Right" = "move right";
 
       # Рабочие столы
       "Control+1" = "workspace number 1";
@@ -35,16 +35,16 @@
       "Control+9" = "workspace number 9";
       "Control+0" = "workspace number 10";
       
-      # "${sway.mod}+Shift+1" = "move container to workspace number 1";
-      # "${sway.mod}+Shift+2" = "move container to workspace number 2";
-      # "${sway.mod}+Shift+3" = "move container to workspace number 3";
-      # "${sway.mod}+Shift+4" = "move container to workspace number 4";
-      # "${sway.mod}+Shift+5" = "move container to workspace number 5";
-      # "${sway.mod}+Shift+6" = "move container to workspace number 6";
-      # "${sway.mod}+Shift+7" = "move container to workspace number 7";
-      # "${sway.mod}+Shift+8" = "move container to workspace number 8";
-      # "${sway.mod}+Shift+9" = "move container to workspace number 9";
-      # "${sway.mod}+Shift+0" = "move container to workspace number 10";
+      "${sway.mod}+Shift+1" = "move container to workspace number 1";
+      "${sway.mod}+Shift+2" = "move container to workspace number 2";
+      "${sway.mod}+Shift+3" = "move container to workspace number 3";
+      "${sway.mod}+Shift+4" = "move container to workspace number 4";
+      "${sway.mod}+Shift+5" = "move container to workspace number 5";
+      "${sway.mod}+Shift+6" = "move container to workspace number 6";
+      "${sway.mod}+Shift+7" = "move container to workspace number 7";
+      "${sway.mod}+Shift+8" = "move container to workspace number 8";
+      "${sway.mod}+Shift+9" = "move container to workspace number 9";
+      "${sway.mod}+Shift+0" = "move container to workspace number 10";
 
       # # Перемещение окон на Ctrl+Shift+Num
       # "Control+Shift+1" = "move container to workspace number 1";
