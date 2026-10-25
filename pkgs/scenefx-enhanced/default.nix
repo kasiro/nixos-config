@@ -7,7 +7,7 @@
 , wlroots
 , pango
   , cairo
-  , gdk_pixbuf
+  , gdk-pixbuf
   , json_c
   , libdrm
 , libinput
@@ -34,7 +34,7 @@ stdenv.mkDerivation {
     wlroots
     pango
     cairo
-    gdk_pixbuf
+    gdk-pixbuf
     json_c
     libdrm
     libinput
