@@ -92,7 +92,9 @@ in
       hour_format = "hour24";
       vim_mode = false;
 
-      extension_development_paths = [ "/home/kasiro/Документы/dl/zed-dl" ];
+      extension_development_paths = [
+        "/home/kasiro/Документы/dl/zed-dl"
+      ];
     };
 
     # Список расширений для автоматической установки
