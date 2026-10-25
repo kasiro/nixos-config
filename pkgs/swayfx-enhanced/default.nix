@@ -5,21 +5,21 @@
 , pkg-config
 , wayland-scanner
 , scdoc
-, cairo
-, gdk-pixbuf
-, json-c
-, libdrm
+  , cairo
+  , gdk_pixbuf
+  , json_c
+  , libdrm
 , libevdev
 , libGL
 , libinput
 , librsvg
 , libxkbcommon
 , pango
-, pcre2
-, scenefx-enhanced
-, wayland
-, wayland-protocols
-, wlroots_0_19
+  , pcre2
+  , scenefx_enhanced
+  , wayland
+  , wayland_protocols
+  , wlroots_0_19
 , xorg
 , swaybg
 }:
@@ -47,8 +47,8 @@ stdenv.mkDerivation {
 
   buildInputs = [
     cairo
-    gdk-pixbuf
-    json-c
+    gdk_pixbuf
+    json_c
     libdrm
     libevdev
     libGL
@@ -57,9 +57,9 @@ stdenv.mkDerivation {
     libxkbcommon
     pango
     pcre2
-    scenefx-enhanced
+    scenefx_enhanced
     wayland
-    wayland-protocols
+    wayland_protocols
     wlroots_0_19
     xorg.xcbutilwm
   ];

@@ -6,10 +6,10 @@
 , wayland
 , wlroots
 , pango
-, cairo
-, gdk-pixbuf
-, json-c
-, libdrm
+  , cairo
+  , gdk_pixbuf
+  , json_c
+  , libdrm
 , libinput
 , libGL
 , libxkbcommon
@@ -34,8 +34,8 @@ stdenv.mkDerivation {
     wlroots
     pango
     cairo
-    gdk-pixbuf
-    json-c
+    gdk_pixbuf
+    json_c
     libdrm
     libinput
     libGL
