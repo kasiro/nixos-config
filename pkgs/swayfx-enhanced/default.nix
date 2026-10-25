@@ -33,7 +33,7 @@ stdenv.mkDerivation {
     owner = "CreitinGameplays";
     repo = "swayfx-enhanced";
     rev = "21f81947114bd4c7bfb56bc7a870cd2c4263f635";
-    hash = "sha256-1978hv94gxl95ls4kwgr9vsmaz1blbbdbyj1wxdy46p91mg5lmdx=";
+    hash = "sha256-vVVaXg3pGuJb50H61daiK3xV9U758Uk0LYn2R9KG6KQ=";
   };
 
   strictDeps = true;

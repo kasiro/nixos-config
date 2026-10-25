@@ -26,7 +26,7 @@ stdenv.mkDerivation {
     owner = "CreitinGameplays";
     repo = "scenefx-enhanced";
     rev = "33b6837";
-    hash = "sha256-0bgzjqsxfc5vh6xrsm9igj01f08m8j1nx3iblmy5yhy5pr3q3d8h=";
+    hash = "sha256-ELWBR77FQ198pSuOboNEFQEXgHwxVZ27gbsw1zWW/y0=";
   };
 
   nativeBuildInputs = [ meson ninja pkg-config ];
