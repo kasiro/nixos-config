@@ -1,4 +1,4 @@
-{ pkgs, lib, sway, ... }:
+{ lib, sway, ... }:
 {
   # --- Foot — терминал Wayland (крупный шрифт + внутренние отступы) ---
   programs.foot = {

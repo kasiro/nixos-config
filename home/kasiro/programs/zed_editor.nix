@@ -91,6 +91,8 @@ in
       auto_update = false; # Отключаем автообновление, т.к. управляем через Nix
       hour_format = "hour24";
       vim_mode = false;
+
+      extension_development_paths = [ "/home/kasiro/Документы/dl/zed-dl" ];
     };
 
     # Список расширений для автоматической установки
