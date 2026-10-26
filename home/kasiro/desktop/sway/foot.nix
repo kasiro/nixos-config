@@ -6,7 +6,7 @@
     settings = {
       main = {
         font = "JetBrainsMono Nerd Font:size=12";
-        pad = "12x12";
+        # pad = "12x12";
       };
       # Фон терминала = фон Sway (Catppuccin base), hex без '#'
       "colors-dark" = {

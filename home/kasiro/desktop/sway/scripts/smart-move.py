@@ -13,6 +13,7 @@ from pathlib import Path
 # Абсолютный путь для лога
 LOG_FILE = "/tmp/smart-move.log"
 
+
 # Простое логирование без logging модуля
 def log(msg):
     try:
@@ -21,6 +22,7 @@ def log(msg):
     except:
         pass
 
+
 log("=== Script started ===")
 log(f"Python: {sys.executable}")
 log(f"PATH: {os.environ.get('PATH', 'N/A')}")
@@ -28,6 +30,7 @@ log(f"PATH: {os.environ.get('PATH', 'N/A')}")
 # Теперь импорты
 try:
     import i3ipc
+
     log("i3ipc imported successfully")
 except ImportError as e:
     log(f"FATAL: i3ipc not found: {e}")
@@ -78,31 +81,31 @@ def get_edge_direction(conn, direction):
             log("No sibling: right (edge)")
             return "next"  # На краю — перейти на next workspace
 
-        elif direction == "up":
-            nodes = workspace.leaves()
-            current_rect = focused.rect
-            for node in nodes:
-                if node.id != focused.id:
-                    node_rect = node.rect
-                    # Узел сверху, если его нижний край <= верхнего края текущего
-                    if node_rect.y + node_rect.height <= current_rect.y:
-                        log("Has sibling: up")
-                        return None  # Есть сосед сверху
-            log("No sibling: up (edge)")
-            return "up"  # На краю — стандартное move up
+        # elif direction == "up":
+        #     nodes = workspace.leaves()
+        #     current_rect = focused.rect
+        #     for node in nodes:
+        #         if node.id != focused.id:
+        #             node_rect = node.rect
+        #             # Узел сверху, если его нижний край <= верхнего края текущего
+        #             if node_rect.y + node_rect.height <= current_rect.y:
+        #                 log("Has sibling: up")
+        #                 return None  # Есть сосед сверху
+        #     log("No sibling: up (edge)")
+        #     return "up"  # На краю — стандартное move up
 
-        elif direction == "down":
-            nodes = workspace.leaves()
-            current_rect = focused.rect
-            for node in nodes:
-                if node.id != focused.id:
-                    node_rect = node.rect
-                    # Узел снизу, если его верхний край >= нижнего края текущего
-                    if node_rect.y >= current_rect.y + current_rect.height:
-                        log("Has sibling: down")
-                        return None  # Есть сосед снизу
-            log("No sibling: down (edge)")
-            return "down"  # На краю — стандартное move down
+        # elif direction == "down":
+        #     nodes = workspace.leaves()
+        #     current_rect = focused.rect
+        #     for node in nodes:
+        #         if node.id != focused.id:
+        #             node_rect = node.rect
+        #             # Узел снизу, если его верхний край >= нижнего края текущего
+        #             if node_rect.y >= current_rect.y + current_rect.height:
+        #                 log("Has sibling: down")
+        #                 return None  # Есть сосед снизу
+        #     log("No sibling: down (edge)")
+        #     return "down"  # На краю — стандартное move down
 
         return None
     except Exception as e:
@@ -120,8 +123,8 @@ def main():
 
         direction = sys.argv[1].lower()
         log(f"Smart move started: direction={direction}")
-        
-        if direction not in ("left", "right", "up", "down"):
+
+        if direction not in ("left", "right"):
             msg = f"Неверное направление: {direction}"
             log(f"ERROR: {msg}")
             print(msg, file=sys.stderr)
@@ -140,11 +143,11 @@ def main():
             command = f"move container to workspace {edge_action}_on_output; workspace {edge_action}_on_output"
             log(f"Executing: {command}")
             conn.command(command)
-        else:
-            # Край по вертикали — стандартное move up/down
-            command = f"move {edge_action}"
-            log(f"Executing: {command}")
-            conn.command(command)
+        # else:
+        #     # Край по вертикали — стандартное move up/down
+        #     command = f"move {edge_action}"
+        #     log(f"Executing: {command}")
+        #     conn.command(command)
 
         conn.close()
         log("Smart move completed successfully")
