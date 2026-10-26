@@ -9,7 +9,7 @@
     mimeType    = [ "x-scheme-handler/obsidian" ];
     settings = {
       StartupWMClass = "md.obsidian.Obsidian";
-      StartupNotify  = "true";
+      # StartupNotify  = "true";
     };
   };
 }

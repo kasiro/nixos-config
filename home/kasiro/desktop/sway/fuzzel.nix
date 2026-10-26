@@ -1,4 +1,4 @@
-{ pkgs, lib, sway, ... }:
+{ lib, sway, ... }:
 let
   inherit (lib) removePrefix;
 
@@ -14,17 +14,23 @@ in
     enable = true;
     settings = {
       main = {
-        font = "JetBrainsMono Nerd Font:size=13";
+        # Как foot: 12pt, а не 13 — на 1080p крупнее выглядит грубо
+        font = "JetBrainsMono Nerd Font:size=12";
         # В кавычках — иначе fuzzel срезает пробелы в конце строки
-        prompt = "\"Поиск: \"";
+        prompt = "\"› \"";
+        placeholder = "\"Поиск…\"";
         icons-enabled = "yes";
         icon-theme = "Papirus-Dark";
         terminal = sway.terminal;
-        lines = 12;
-        width = 45;
-        horizontal-pad = 20;
-        vertical-pad = 20;
-        inner-pad = 8;
+        lines = 10;
+        width = 42;
+        horizontal-pad = 14;
+        vertical-pad = 14;
+        inner-pad = 5;
+        line-height = 22;
+        letter-spacing = 0.3;
+        # Счётчик совпадений справа от ввода
+        match-counter = "yes";
         anchor = "center";
         layer = "overlay";
         dpi-aware = "no";
@@ -32,21 +38,26 @@ in
       };
 
       colors = {
-        background = rgba palette.base "ee";
+        # Непрозрачный base — без «мутного» просвета поверх обоев
+        background = rgba palette.base "ff";
         text = rgba palette.text "ff";
         match = rgba palette.mauve "ff";
-        selection = rgba palette.mauve "ff";
-        selection-text = rgba palette.base "ff";
-        selection-match = rgba palette.mauve "ff";
-        border = rgba palette.mauve "ff";
+        # Мягкая mauve-подсветка строки, а не сплошная заливка
+        selection = rgba palette.mauve "44";
+        selection-text = rgba palette.text "ff";
+        selection-match = rgba palette.rosewater "ff";
+        border = rgba palette.surface1 "ff";
         prompt = rgba palette.mauve "ff";
         input = rgba palette.text "ff";
-        counter = rgba palette.overlay0 "ff";
+        counter = rgba palette.subtext0 "ff";
+        placeholder = rgba palette.overlay0 "ff";
       };
 
       border = {
-        width = 2;
-        radius = 8;
+        width = 1;
+        radius = 6;
+        # Скругление выделенной строки внутри окна
+        selection-radius = 4;
       };
     };
   };

@@ -1,5 +1,7 @@
 # Сервис Lantern (lanternd + симлинк в /usr/lib)
 { ... }:
 {
-  imports = [ ./lanternd.nix ];
+  # imports = [
+  #   ./lanternd.nix
+  # ];
 }
