@@ -31,10 +31,10 @@
 
     mod = "Mod4";
     terminal = "${pkgs.foot}/bin/foot";
-    # Основной лаунчер — Walker (elephant); 500px как у wofi, высота +40px под подсказки клавиш
-    menu = "${pkgs.walker}/bin/walker --width 500 --height 440";
-    # Второй лаунчер (Mod4+Shift+a)
-    fuzzelMenu = "${pkgs.fuzzel}/bin/fuzzel";
+    # Основной лаунчер — fuzzel
+    menu = "${pkgs.fuzzel}/bin/fuzzel";
+    # Fallback лаунчер (Mod4+Shift+a)
+    wofiMenu = "${pkgs.wofi}/bin/wofi --show drun --allow-images";
     theme = import ../../../../themes/kasiro/theme.nix;
   };
 }
