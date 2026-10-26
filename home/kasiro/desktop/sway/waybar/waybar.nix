@@ -1,4 +1,4 @@
-{ builtins, ... }:
+{ ... }:
 {
   # --- Waybar — красивая панель в стиле Catppuccin ---
   programs.waybar = {
