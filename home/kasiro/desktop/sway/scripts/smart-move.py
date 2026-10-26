@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Умное перемещение окон в Sway (COSMIC-style).
-- Left/Right: если окно на краю — переместить на prev/next workspace
+- Left/Right: если окно на краю — переместить на соседний (в т.ч. новый) workspace
 - Up/Down: стандартное move up/down
 """
 
@@ -113,6 +113,49 @@ def get_edge_direction(conn, direction):
         raise
 
 
+def get_output_name(node):
+    """Имя output, которому принадлежит узел (output — родитель workspace)."""
+    while node is not None and node.type != "output":
+        node = node.parent
+    return node.name if node is not None else None
+
+
+def get_target_workspace_number(tree, workspace, direction):
+    """Номер workspace, на который уходит окно за краем в direction.
+
+    Sway создаёт workspace по `workspace number N`, если его ещё нет,
+    поэтому right всегда даёт current + 1. Left от первого workspace
+    заворачивается на последний существующий workspace своего output.
+    Номера, занятые workspace'ом другого output, пропускаются: иначе
+    `workspace number N` увёл бы фокус (и окно) на другой монитор.
+    Возвращает None, если номер применить нельзя (именованный workspace,
+    нет соседей для wrap) — тогда используется *_on_output.
+    """
+    if workspace is None or workspace.num is None or workspace.num < 1:
+        return None
+
+    output = get_output_name(workspace)
+    workspaces = tree.workspaces()
+    step = 1 if direction == "right" else -1
+    target = workspace.num + step
+
+    while target >= 1 and any(
+        ws.num == target and get_output_name(ws) != output for ws in workspaces
+    ):
+        target += step
+
+    if target >= 1:
+        return target
+
+    # Left от первого workspace: wrap на последний существующий на этом output.
+    numbers = [
+        ws.num
+        for ws in workspaces
+        if ws.num is not None and ws.num > 0 and get_output_name(ws) == output
+    ]
+    return max(numbers) if numbers else None
+
+
 def main():
     try:
         if len(sys.argv) != 2:
@@ -139,8 +182,17 @@ def main():
             log(f"Executing: {command}")
             conn.command(command)
         elif edge_action in ("prev", "next"):
-            # Край по горизонтали — перейти на другой workspace с окном
-            command = f"move container to workspace {edge_action}_on_output; workspace {edge_action}_on_output"
+            # Край по горизонтали — уйти на соседний workspace (в т.ч. новый).
+            # prev/next_on_output видят только существующие workspace, поэтому
+            # для числовых workspace адресуем соседа по номеру.
+            tree = conn.get_tree()
+            focused = tree.find_focused()
+            workspace = focused.workspace() if focused else None
+            target = get_target_workspace_number(tree, workspace, direction)
+            if target is None:
+                command = f"move container to workspace {edge_action}_on_output; workspace {edge_action}_on_output"
+            else:
+                command = f"move container to workspace number {target}; workspace number {target}"
             log(f"Executing: {command}")
             conn.command(command)
         # else:
