@@ -1,4 +1,4 @@
-{ pkgs, lib, sway, ... }:
+{ pkgs, sway, ... }:
 {
   # --- Курсор и GTK-тема ---
   home.pointerCursor = {

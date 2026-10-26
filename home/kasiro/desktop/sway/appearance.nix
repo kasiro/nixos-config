@@ -75,7 +75,8 @@
     extraConfig = ''
       default_border pixel 3
       default_floating_border pixel 3
-      corner_radius 10
+      corner_radius 0
+      animation_duration_ms 0
 
       blur {
         enabled true
