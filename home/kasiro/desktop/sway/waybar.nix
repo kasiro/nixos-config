@@ -139,12 +139,12 @@
         background: #45475a;
         /* color: #cdd6f4; */
       }
-      /*
       #workspaces button.focused {
         background: #cba6f7;
         color: #1e1e2e;
         font-weight: bold;
       }
+      /*
       #workspaces button.urgent {
         background: #f38ba8;
         color: #1e1e2e;
