@@ -27,7 +27,7 @@
       # Рамки окон
       window = {
         border = 2;
-        titlebar = false;
+        titlebar = true;
       };
       floating.border = 2;
 
