@@ -12,6 +12,7 @@
   SWAYMSG                  — путь к swaymsg (иначе ищем в PATH и типовых местах)
 """
 
+import glob
 import os
 import random
 import shutil
@@ -22,6 +23,17 @@ from pathlib import Path
 
 EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp"}
 MODES = {"fill", "fit", "center", "stretch", "tile"}
+
+
+def find_sway_sock():
+    """Находит сокет Sway через glob, если SWAYSOCK не задан в окружении.
+
+    Ищет в /run/user/<uid>/sway-ipc.*.sock и возвращает первый найденный.
+    """
+    uid = os.getuid()
+    pattern = f"/run/user/{uid}/sway-ipc.*.sock"
+    matches = glob.glob(pattern)
+    return matches[0] if matches else None
 
 # Так swaymsg сообщает, что Sway-сессии нет — это не ошибка таймера.
 SWAY_UNAVAILABLE_MARKERS = (
@@ -158,6 +170,12 @@ def main():
     if not images:
         print(f"Ошибка: в папке нет изображений: {directory}", file=sys.stderr)
         return 1
+
+    # Автопоиск SWAYSOCK, если не задан в окружении (например, для systemd-юнита)
+    if "SWAYSOCK" not in os.environ:
+        sock = find_sway_sock()
+        if sock:
+            os.environ["SWAYSOCK"] = sock
 
     swaymsg, error = find_swaymsg()
     if swaymsg is None:
