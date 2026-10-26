@@ -28,7 +28,8 @@ in
         vertical-pad = 14;
         inner-pad = 5;
         line-height = 22;
-        letter-spacing = 0.3;
+        # Строкой, иначе Nix отрендерит 0.300000
+        letter-spacing = "0.3";
         # Счётчик совпадений справа от ввода
         match-counter = "yes";
         anchor = "center";

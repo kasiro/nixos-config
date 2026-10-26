@@ -137,7 +137,7 @@
       }
       #workspaces button:hover {
         background: #45475a;
-        color: #cdd6f4;
+        // color: #cdd6f4;
       }
       #workspaces button.focused {
         background: #cba6f7;
