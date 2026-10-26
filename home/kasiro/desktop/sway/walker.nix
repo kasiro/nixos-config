@@ -52,10 +52,12 @@ in
         }
 
         popover {
-          background: @mantle;
+          background: rgba(30, 30, 46, 0.85);
           border: 1px solid @surface1;
           border-radius: 10px;
           padding: 8px;
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
         }
 
         .box-wrapper {

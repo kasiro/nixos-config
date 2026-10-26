@@ -78,20 +78,27 @@
       corner_radius 10
       animation_duration_ms 10
 
-      blur {
-        enabled true
-        xray true
-        passes 2
-        radius 8
-        noise 0.02
-        contrast 0.9
-        brightness 0.95
+      # Blur — плоский синтаксис (swayfx-enhanced 0.5.3)
+      blur enable
+      blur_xray enable
+      blur_passes 2
+      blur_radius 8
+      blur_noise 0.02
+      blur_contrast 0.9
+      blur_brightness 0.95
+
+      # Layer-shell поверхности: waybar
+      layer_effects "waybar" {
+        blur enable
+        blur_ignore_transparent enable
+        shadows enable
+        corner_radius 10
       }
 
-      # Правила для плавающих окон
-      for_window [app_id="wofi"] floating enable, border pixel 0
-      for_window [app_id="pavucontrol"] floating enable
-      for_window [app_id="nm-connection-editor"] floating enable
+      # Per-window blur для плавающих окон
+      for_window [app_id="wofi"] floating enable, border pixel 0, blur enable, blur_ignore_transparent enable, shadows enable, corner_radius 10
+      for_window [app_id="pavucontrol"] floating enable, blur enable, blur_ignore_transparent enable, shadows enable, corner_radius 10
+      for_window [app_id="nm-connection-editor"] floating enable, blur enable, blur_ignore_transparent enable, shadows enable, corner_radius 10
     '';
   };
 }

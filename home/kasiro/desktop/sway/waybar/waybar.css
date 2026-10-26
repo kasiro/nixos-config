@@ -9,6 +9,8 @@ window#waybar {
     color: #cdd6f4;
     border-radius: 12px;
     border: 1px solid #313244;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
 }
 #workspaces {
     background: #313244;

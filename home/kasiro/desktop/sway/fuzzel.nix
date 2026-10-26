@@ -39,8 +39,8 @@ in
       };
 
       colors = {
-        # Непрозрачный base — без «мутного» просвета поверх обоев
-        background = rgba palette.base "ff";
+        # Полупрозрачный base с blur (80% opacity)
+        background = rgba palette.base "cc";
         text = rgba palette.text "ff";
         match = rgba palette.mauve "ff";
         # Мягкая mauve-подсветка строки, а не сплошная заливка
