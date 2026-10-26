@@ -91,7 +91,6 @@
       layer_effects "waybar" {
         blur enable
         blur_ignore_transparent enable
-        shadows enable
         corner_radius 10
       }
 
