@@ -32,12 +32,10 @@ window#waybar {
     color: #1e1e2e;
     font-weight: bold;
 }
-/*
 #workspaces button.urgent {
-  background: #f38ba8;
-  color: #1e1e2e;
+    background: #f38ba8;
+    color: #1e1e2e;
 }
-*/
 #mode {
     background: #f38ba8;
     color: #1e1e2e;

@@ -91,17 +91,14 @@ nix hash convert --hash-algo sha256 --to sri <base32>
   `lantern` и `system76-scheduler.nix`. Включение = правка `ignored` + импорт.
 - **flatpak** (`enable = false`) и **docker** (`enableOnBoot = false`) настроены, но
   выключены/не стартуют автоматически — не «чинить» это без запроса.
-- **`README.md` в `.gitignore`**, а `AGETNS.md` — пустой файл с опечаткой в имени.
-  Не переименовывать и не удалять.
 
 ## Что НЕ делать
 
 - Не запускать `nixos-rebuild`, `nh`, `install.sh` — пересборку делает сэр
-  (единственное исключение — `python scripts/rebuild.py`).
+  (единственное исключение — `python scripts/rebuild.py` и то спросить разрешение).
 - Не коммитить и не пушить вручную: это делает `rebuild.py`.
 - Не менять `system.stateVersion` / `home.stateVersion` (`26.05`).
 - Не включать отключённые модули (qtile, lantern, system76-scheduler, flatpak, docker)
   и не менять `users.mutableUsers = false` без явного запроса.
 - Не удалять и не переименовывать `AGETNS.md`, не трогать `.opencode/` и `themes/`
   вне задачи.
-- Не добавлять секреты в репозиторий: пароли хранятся только как `hashedPassword`.
