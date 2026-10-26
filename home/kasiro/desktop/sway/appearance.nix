@@ -92,6 +92,7 @@
       for_window [app_id="wofi"] floating enable, border pixel 0
       for_window [app_id="pavucontrol"] floating enable
       for_window [app_id="nm-connection-editor"] floating enable
+      for_window [app_id="foot"] gaps inner 8
     '';
   };
 }
