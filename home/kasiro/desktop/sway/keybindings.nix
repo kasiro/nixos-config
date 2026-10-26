@@ -7,7 +7,9 @@
       "${sway.mod}+Return" = "exec ${sway.terminal}";
       "Control+q" = "kill";
       "${sway.mod}+a" = "exec ${sway.menu}";
-      "${sway.mod}+Shift+a" = "exec ${sway.wofiMenu}"; # fallback: wofi
+      "${sway.mod}+Shift+a" = "exec ${sway.fuzzelMenu}";
+      # wofi-бинд снят; файл home/kasiro/desktop/sway/wofi.nix сохранён как fallback
+      # "${sway.mod}+Shift+a" = "exec ${pkgs.wofi}/bin/wofi --show drun --allow-images";
       # "${sway.mod}+Shift+c" = "reload";
       "${sway.mod}+Shift+e" = "exec ${pkgs.sway}/bin/swaynag -t warning -m 'Выйти из Sway?' -b 'Да' 'swaymsg exit'";
 
