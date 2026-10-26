@@ -81,13 +81,13 @@
     };
 
     # --- Режим resize ---
-    modes.resize = {
-      "h" = "resize shrink width 10 px";
-      "j" = "resize grow height 10 px";
-      "k" = "resize shrink height 10 px";
-      "l" = "resize grow width 10 px";
-      "Escape" = "mode default";
-      "Return" = "mode default";
-    };
+    # modes.resize = {
+    #   "h" = "resize shrink width 10 px";
+    #   "j" = "resize grow height 10 px";
+    #   "k" = "resize shrink height 10 px";
+    #   "l" = "resize grow width 10 px";
+    #   "Escape" = "mode default";
+    #   "Return" = "mode default";
+    # };
   };
 }
