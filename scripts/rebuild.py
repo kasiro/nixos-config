@@ -315,14 +315,14 @@ class RebuildProcess:
         return True
 
     def has_changes(self):
-        """Проверить наличие изменений в git."""
+        """Проверить наличие изменений в git (tracked + untracked)."""
         try:
             result = subprocess.run(
-                ["git", "diff", "--quiet"],
+                ["git", "status", "--porcelain"],
                 capture_output=True,
                 text=True
             )
-            return result.returncode != 0
+            return result.stdout.strip() != ""
         except Exception:
             return False
 
