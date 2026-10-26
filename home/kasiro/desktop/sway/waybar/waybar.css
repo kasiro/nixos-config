@@ -22,10 +22,22 @@ window#waybar {
     border-radius: 6px;
     margin: 2px;
     transition: all 0.2s ease;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    outline: none;
 }
 #workspaces button:hover {
     background: #45475a;
     color: #cdd6f4;
+    border: none;
+    box-shadow: none;
+    outline: none;
+}
+#workspaces button:focus {
+    outline: none;
+    box-shadow: none;
+    border: none;
 }
 #workspaces button.focused {
     background: #cba6f7;
