@@ -6,7 +6,7 @@
   ];
 
   services.flatpak = {
-    enable = true;
+    enable = false;
     remotes = [
       {
         name = "flathub";
