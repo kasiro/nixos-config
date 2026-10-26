@@ -5,7 +5,7 @@
     min-height: 0;
 }
 window#waybar {
-    background: rgba(24, 24, 37, 0.85);
+    background: rgba(24, 24, 37, 0.5);
     color: #cdd6f4;
     border-radius: 12px;
     border: 1px solid #313244;
