@@ -201,7 +201,6 @@ def main():
         #     log(f"Executing: {command}")
         #     conn.command(command)
 
-        conn.close()
         log("Smart move completed successfully")
     except Exception as e:
         log(f"ERROR: {e}")
