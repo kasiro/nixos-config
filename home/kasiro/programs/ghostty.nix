@@ -15,8 +15,8 @@
     background-opacity-cells = true
     
     # Отступы
-    window-padding-x = 0
-    window-padding-y = 0
+    window-padding-x = 10
+    window-padding-y = 10
     
     # Шрифт
     font-family = "JetBrains Mono Nerd Font"
