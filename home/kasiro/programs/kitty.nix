@@ -20,7 +20,7 @@
     color5 ${sway.catppuccin.pink}
     color6 ${sway.catppuccin.teal}
     color7 ${sway.catppuccin.subtext0}
-    color8 ${sway.catppuccin.overlay1}
+    color8 ${sway.catppuccin.overlay0}
     color9 ${sway.catppuccin.red}
     color10 ${sway.catppuccin.green}
     color11 ${sway.catppuccin.yellow}
