@@ -15,6 +15,12 @@
       # КРИТИЧНО: применять прозрачность ко ВСЕМ ячейкам (TUI, bubbletea)
       background-opacity-cells = true
 
+      # Scrollback — 500,000 строк (50 MB)
+      scrollback-limit = 52428800
+
+      # Прокрутка колёсиком (3 строки за скролл)
+      mouse-scroll-multiplier = 3
+
       # Отступы
       window-padding-x = 10
       window-padding-y = 10

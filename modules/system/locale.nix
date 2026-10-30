@@ -4,6 +4,7 @@
   time.timeZone = "Asia/Novosibirsk";
 
   i18n.defaultLocale = "ru_RU.UTF-8";
+  i18n.supportedLocales = [ "en_US.UTF-8/UTF-8" "ru_RU.UTF-8/UTF-8" ];
   i18n.extraLocaleSettings = {
     LC_ADDRESS = "ru_RU.UTF-8";
     LC_IDENTIFICATION = "ru_RU.UTF-8";
