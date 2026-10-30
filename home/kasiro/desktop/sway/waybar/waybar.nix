@@ -99,7 +99,8 @@
 
         clock = {
           format = "{:%H:%M    %d.%m.%Y}";
-          tooltip-format = "<big>{:%Y %B}</big>\n<tt><big>{calendar}</big></tt>";
+          on-click = "pkill -x waycal || waycal";
+          tooltip = false;
         };
 
         tray = {
