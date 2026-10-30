@@ -5,7 +5,10 @@
   nixpkgs.config.allowUnfree = true;
   documentation = {
     enable = false;
-    man.enable = false;
+    man = {
+      enable = false;
+      cache.enable = false;  # Отключить man-cache (apropos, man -k)
+    };
     info.enable = false;
     doc.enable = false;
     nixos.enable = false;

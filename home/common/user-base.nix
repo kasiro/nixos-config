@@ -5,4 +5,7 @@
   xdg.enable = true;
   xdg.mime.enable = true;
   nixpkgs.config.allowUnfree = true;
+
+  # Отключаем man-страницы home-manager
+  manual.manpages.enable = false;
 }
