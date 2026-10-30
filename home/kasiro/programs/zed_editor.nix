@@ -114,6 +114,7 @@ in
       "lua"
       "path-server-lsp"
       "fish"
+      "color-highlight"
     ];
   };
 

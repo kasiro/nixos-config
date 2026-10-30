@@ -27,7 +27,7 @@
     color12 ${sway.catppuccin.blue}
     color13 ${sway.catppuccin.pink}
     color14 ${sway.catppuccin.teal}
-    color15 ${sway.catppuccin.white}
+    color15 ${sway.catppuccin.text}
     
     # ========== Прозрачность и blur ==========
     # Kitty не поддерживает нативный blur — только через композитор (swayfx)
