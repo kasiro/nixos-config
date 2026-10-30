@@ -9,6 +9,7 @@ alias rebuild="python3 /home/kasiro/nixos-config/scripts/rebuild.py"
 alias cpx="python /home/kasiro/Документы/project_scope/main.py"
 
 function opencode
+    set -x KITTY_LISTEN_ON unix:/tmp/kitty
     kitty @ set-padding --all margin=0 padding=0 2>/dev/null
     command opencode $argv
     kitty @ set-padding --all margin=10 padding=10 2>/dev/null

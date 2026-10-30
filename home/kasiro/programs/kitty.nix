@@ -88,6 +88,9 @@
     map ctrl+alt+right resize_window wider
     map ctrl+alt+up resize_window taller
     map ctrl+alt+down resize_window shorter
+
+    allow_remote_control socket-only
+    listen_on unix:/tmp/kitty
   '';
   
   # ========== Wrapper для opencode с нулевым padding ==========
