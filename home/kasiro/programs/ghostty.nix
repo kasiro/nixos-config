@@ -38,8 +38,5 @@
     
     # Window
     window-decoration = false
-
-    keybind = ctrl+shift+0=set_padding=0
-    keybind = ctrl+shift+9=set_padding=10
   '';
 }
