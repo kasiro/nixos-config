@@ -7,12 +7,14 @@
       main = {
         font = "JetBrainsMono Nerd Font:size=12";
         pad = "12x12";
-        alpha = "0.85";
-        blur = "yes";
       };
       # Фон терминала = фон Sway (Catppuccin base), hex без '#'
       "colors-dark" = {
         background = lib.removePrefix "#" sway.catppuccin.base;
+        alpha = "0.85";
+      };
+      tweak = {
+        blur = "yes";
       };
     };
   };
