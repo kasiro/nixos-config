@@ -20,7 +20,7 @@
     
     # Шрифт
     font-family = "JetBrains Mono Nerd Font"
-    font-size = 14
+    font-size = 12
     
     # Тема
     theme = "Catppuccin Mocha"
