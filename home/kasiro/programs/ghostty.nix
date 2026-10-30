@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, sway, ... }:
 {
   # Ghostty — терминал с нативной поддержкой blur
   # https://ghostty.org/docs/config/reference
@@ -6,7 +6,7 @@
   home.packages = with pkgs; [ ghostty ];
   
   # Конфиг Ghostty
-  xdg.configFile."ghostty/config".text = ''
+  xdg.configFile."ghostty/config".text = lib.mkAfter ''
     # Прозрачность и blur (как KGX с blur-my-shell)
     background-opacity = 0.85
     background-blur = true
@@ -25,8 +25,8 @@
     # Тема
     theme = "Catppuccin Mocha"
     
-    # Цвет фона (как в foot — Catppuccin Mocha base)
-    background-color = "#1e1e2e"
+    # Цвет фона (из sway.catppuccin.base — Catppuccin Mocha base)
+    background = "${sway.catppuccin.base}"
 
     # Cursor
     cursor-style = "block"
