@@ -103,6 +103,9 @@
         corner_radius 6
       }
 
+      # Per-window blur для терминала (blur содержимого, а не только фона)
+      for_window [app_id="foot"] blur enable
+
       # Per-window blur для приложений
       # Браузеры
       for_window [app_id="firefox"] blur enable
