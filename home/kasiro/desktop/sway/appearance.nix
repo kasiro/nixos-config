@@ -107,6 +107,8 @@
       for_window [app_id="com.mitchellh.ghostty"] blur enable
       for_window [app_id="ghostty"] blur enable
 
+      for_window [app_id="chromium"] blur enable
+
       # Per-window blur для приложений
       # Редакторы кода и IDE
       for_window [app_id="dev.zed.Zed"] blur enable
