@@ -19,8 +19,8 @@ function opencode
     ghostty +reload-config 2>/dev/null
     command opencode $argv
 
-    cp $cfg.bak $cfg
-    rm $cfg.bak
+    doas cp $cfg.bak $cfg
+    doas rm $cfg.bak
     ghostty +reload-config 2>/dev/null
 end
 
