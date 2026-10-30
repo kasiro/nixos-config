@@ -104,7 +104,6 @@
       }
 
       # Per-window blur для терминалов (blur содержимого, а не только фона)
-      for_window [app_id="foot"] blur enable
       for_window [app_id="com.mitchellh.ghostty"] blur enable
       for_window [app_id="ghostty"] blur enable
 
