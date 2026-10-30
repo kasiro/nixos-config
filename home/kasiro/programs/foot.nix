@@ -2,7 +2,7 @@
 {
   # --- Foot — терминал Wayland (крупный шрифт + внутренние отступы) ---
   programs.foot = {
-    enable = true;
+    enable = false;
     settings = {
       main = {
         font = "JetBrainsMono Nerd Font:size=12";
