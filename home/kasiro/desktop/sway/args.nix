@@ -30,7 +30,7 @@
     };
 
     mod = "Mod4";
-    terminal = "${pkgs.ghostty}/bin/ghostty";
+    terminal = "${pkgs.kitty}/bin/kitty";
     # Основной лаунчер — fuzzel
     menu = "${pkgs.fuzzel}/bin/fuzzel";
     # Fallback лаунчер (Mod4+Shift+a)

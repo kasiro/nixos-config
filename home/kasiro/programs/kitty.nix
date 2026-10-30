@@ -42,7 +42,6 @@
     font_size        12.0
     
     # ========== Отступы (по умолчанию 10px) ==========
-    # Для opencode используется wrapper с --override window_padding_width=0
     window_padding_width 10
     
     # ========== Cursor ==========
@@ -93,12 +92,12 @@
   
   # ========== Wrapper для opencode с нулевым padding ==========
   # Используется вместо обычного opencode для запуска в Kitty без padding
-  home.file.".local/bin/opencode-kitty".text = ''
-    #!/bin/sh
-    # Wrapper для запуска opencode в Kitty с нулевым padding
-    # Используется при запуске через горячие клавиши
+  # home.file.".local/bin/opencode-kitty".text = ''
+  #   #!/bin/sh
+  #   # Wrapper для запуска opencode в Kitty с нулевым padding
+  #   # Используется при запуске через горячие клавиши
     
-    exec kitty -o window_padding_width=0 -- opencode "$@"
-  '';
-  home.file.".local/bin/opencode-kitty".executable = true;
+  #   exec kitty -o window_padding_width=0 -- opencode "$@"
+  # '';
+  # home.file.".local/bin/opencode-kitty".executable = true;
 }
