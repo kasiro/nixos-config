@@ -87,14 +87,44 @@
       blur_contrast 0.9
       blur_brightness 0.95
 
-      # Layer-shell поверхности: waybar
+      # Layer-shell поверхности: waybar, mako, fuzzel
       layer_effects "waybar" {
         blur enable
         blur_ignore_transparent enable
         corner_radius 10
       }
+      layer_effects "notifications" {
+        blur enable
+        blur_ignore_transparent enable
+      }
+      layer_effects "fuzzel" {
+        blur enable
+        blur_ignore_transparent enable
+        corner_radius 6
+      }
 
-      # Per-window blur для плавающих окон
+      # Per-window blur для приложений
+      # Браузеры
+      for_window [app_id="firefox"] blur enable
+      for_window [app_id="org.mozilla.firefox"] blur enable
+      for_window [app_id="chromium"] blur enable
+      for_window [app_id="google-chrome"] blur enable
+
+      # Мессенджеры
+      for_window [app_id="org.telegram.desktop"] blur enable
+
+      # Почта
+      for_window [app_id="thunderbird"] blur enable
+
+      # Редакторы кода и IDE
+      for_window [app_id="dev.zed.Zed"] blur enable
+      for_window [app_id="zed"] blur enable
+
+      # Заметки
+      for_window [app_id="md.obsidian.Obsidian"] blur enable
+      for_window [app_id="obsidian"] blur enable
+
+      # Системные утилиты (плавающие окна)
       for_window [app_id="wofi"] floating enable, border pixel 0, blur enable, blur_ignore_transparent enable, shadows enable, corner_radius 10
       for_window [app_id="pavucontrol"] floating enable, blur enable, blur_ignore_transparent enable, shadows enable, corner_radius 10
       for_window [app_id="nm-connection-editor"] floating enable, blur enable, blur_ignore_transparent enable, shadows enable, corner_radius 10
