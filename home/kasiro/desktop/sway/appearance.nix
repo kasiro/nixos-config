@@ -115,12 +115,9 @@
       # Мессенджеры
       for_window [app_id="org.telegram.desktop"] blur enable
 
-      # Почта
-      for_window [app_id="thunderbird"] blur enable
 
       # Редакторы кода и IDE
       for_window [app_id="dev.zed.Zed"] blur enable
-      for_window [app_id="zed"] blur enable
 
       # Заметки
       for_window [app_id="md.obsidian.Obsidian"] blur enable

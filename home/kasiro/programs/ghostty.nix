@@ -8,7 +8,7 @@
   # Конфиг Ghostty
   xdg.configFile."ghostty/config".text = lib.mkAfter ''
     # Прозрачность и blur (как KGX с blur-my-shell)
-    background-opacity = 0.65
+    background-opacity = 0.75
     background-blur = true
     
     # КРИТИЧНО: применять прозрачность ко ВСЕМ ячейкам (TUI, bubbletea)

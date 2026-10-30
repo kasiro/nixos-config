@@ -5,7 +5,6 @@ let
   # Файлы, которые НЕ нужно импортировать
   ignored = [
     "default.nix"
-    "kitty.nix"
   ];
 
   entries = builtins.readDir dir;
