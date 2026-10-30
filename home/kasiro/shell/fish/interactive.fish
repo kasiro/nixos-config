@@ -11,10 +11,10 @@ alias cpx="python /home/kasiro/Документы/project_scope/main.py"
 function opencode
     set -l cfg ~/.config/ghostty/config
     cp $cfg $cfg.bak
-    sed -i 's/window-padding-[xy] = 10/window-padding-\1 = 0/' $cfg
+    # sed -i 's/window-padding-[xy] = 10/window-padding-\1 = 0/' $cfg
     # или проще — две строки:
-    # sed -i 's/window-padding-x = 10/window-padding-x = 0/' $cfg
-    # sed -i 's/window-padding-y = 10/window-padding-y = 0/' $cfg
+    sed -i 's/window-padding-x = 10/window-padding-x = 0/' $cfg
+    sed -i 's/window-padding-y = 10/window-padding-y = 0/' $cfg
 
     ghostty +reload-config 2>/dev/null
     command opencode $argv
@@ -23,6 +23,7 @@ function opencode
     rm $cfg.bak
     ghostty +reload-config 2>/dev/null
 end
+
 function devshell-init --description "Создать flake.nix + .envrc в текущей директории"
     if test -e flake.nix
         echo "flake.nix уже существует — прерываю" >&2
