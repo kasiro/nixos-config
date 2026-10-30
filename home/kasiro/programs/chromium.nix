@@ -5,9 +5,9 @@
       enableWideVine = true;
     };
     commandLineArgs = [
-      "--enable-features=AcceleratedVideoEncoder,VaapiOnNvidiaGPUs,VaapiIgnoreDriverChecks,Vulkan,DefaultANGLEVulkan,VulkanFromANGLE,VaapiVideoDecoder,PlatformHEVCDecoderSupport,UseMultiPlaneFormatForHardwareVideo"
-      "--ignore-gpu-blocklist"
-      "--enable-zero-copy"
+      # Оставить только Vaapi для видео + Wayland
+      "--enable-features=VaapiOnNvidiaGPUs,VaapiVideoDecoder,PlatformHEVCDecoderSupport,UseOzonePlatform"
+      "--ozone-platform=wayland"
     ];
     extensions = [
       { id = "omghfjlpggmjjaagoclmmobgdodcjboh"; } # vpn

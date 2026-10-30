@@ -108,14 +108,6 @@
       for_window [app_id="ghostty"] blur enable
 
       # Per-window blur для приложений
-      # Браузеры
-      for_window [app_id="firefox"] blur enable
-      for_window [app_id="org.mozilla.firefox"] blur enable
-
-      # Мессенджеры
-      for_window [app_id="org.telegram.desktop"] blur enable
-
-
       # Редакторы кода и IDE
       for_window [app_id="dev.zed.Zed"] blur enable
 
