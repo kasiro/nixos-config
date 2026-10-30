@@ -53,6 +53,13 @@ in
       theme = "Catppuccin Macchiato - No Italics";
       show_completions_on_input = true;
 
+      keymap = [
+        {
+          key = "alt+d";
+          command = "editor::DuplicateLineDown";
+        }
+      ];
+
       # Настройки терминала
       # terminal = {
       #   shell = {
