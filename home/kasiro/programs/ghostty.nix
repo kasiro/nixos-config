@@ -23,7 +23,7 @@
     font-size = 14
     
     # Тема
-    theme = "dark:Catppuccin Mocha"
+    theme = "Catppuccin Mocha"
     
     # Cursor
     cursor-style = "block"
@@ -35,6 +35,5 @@
     
     # Window
     window-decoration = false
-    window-align = "center"
   '';
 }
