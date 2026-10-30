@@ -8,8 +8,9 @@
         font = "JetBrainsMono Nerd Font:size=12";
         pad = "12x12";
       };
-      # Прозрачный фон (background удалён — Opencode рисует свой)
+      # Прозрачный фон с размытием
       "colors-dark" = {
+        background = lib.removePrefix "#" sway.catppuccin.base;
         alpha = "0.85";
         blur = "yes";
       };

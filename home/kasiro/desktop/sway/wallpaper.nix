@@ -15,6 +15,7 @@ let
     "B1WsW.jpg"
     "miCia.jpg"
     "agZCBoVc.webp"
+    "fAxxvFbe.webp"
   ];
 
   script = "${config.home.homeDirectory}/.config/sway/scripts/wallpaper-rotate.py";
