@@ -12,8 +12,6 @@
       "colors-dark" = {
         background = lib.removePrefix "#" sway.catppuccin.base;
         alpha = "0.85";
-      };
-      tweak = {
         blur = "yes";
       };
     };
