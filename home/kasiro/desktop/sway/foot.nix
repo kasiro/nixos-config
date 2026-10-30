@@ -8,9 +8,8 @@
         font = "JetBrainsMono Nerd Font:size=12";
         pad = "12x12";
       };
-      # Фон терминала = фон Sway (Catppuccin base), hex без '#'
+      # Прозрачный фон (background удалён — Opencode рисует свой)
       "colors-dark" = {
-        background = lib.removePrefix "#" sway.catppuccin.base;
         alpha = "0.85";
         blur = "yes";
       };
