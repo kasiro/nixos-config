@@ -3,6 +3,7 @@
 {
   # Разрешаем unfree-пакеты (obsidian и т.п.)
   nixpkgs.config.allowUnfree = true;
+  documentation.man.enable = false;
 
   nix.settings = {
     # Параллелизм (HDD + 8GB RAM)
