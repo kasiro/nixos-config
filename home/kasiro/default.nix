@@ -3,23 +3,23 @@
   ...
 }:
 {
-  imports = [
-    ./desktop
-    ./programs
-    ./shell
-    ./fish.nix
-    ../common
-  ];
+  imports =
+    [
+      ./desktop/common
+      ./desktop/gnome
+      ./desktop/sway
+      ./desktop/cosmic
+      ./programs
+      ./shell
+      ./fish.nix
+      ../common
+    ];
 
   home.username = "kasiro";
 
-  # Пакеты только для kasiro
+  # Пакеты только для kasiro (DE-specific в desktop/*/packages.nix)
   home.packages = with pkgs; [
     nvtopPackages.nvidia
-    winetricks
-    repomix
-    qbittorrent
-    tree
     # homebank # (посчитай налик)
   ];
 }

@@ -4,11 +4,15 @@ let
 
   ignored = [
     "default.nix"
+    "common"
+    "gnome"
+    "sway"
+    "cosmic"
   ];
 
   entries = builtins.readDir dir;
 
-  # Подхватываем и .nix-файлы, и поддиректории (у них внутри тоже default.nix)
+  # Подхватываем только дополнительные модули вне common/gnome/sway/cosmic
   modules = lib.filterAttrs (
     name: type:
     !(builtins.elem name ignored)
@@ -16,5 +20,9 @@ let
   ) entries;
 in
 {
-  imports = map (name: dir + "/${name}") (builtins.attrNames modules);
+  imports =
+    [
+      ./common
+    ]
+    ++ (map (name: dir + "/${name}") (builtins.attrNames modules));
 }

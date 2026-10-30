@@ -17,5 +17,9 @@ let
   ) entries;
 in
 {
-  imports = map (name: dir + "/${name}") (builtins.attrNames modules);
+  imports =
+    [
+      ../common
+    ]
+    ++ (map (name: dir + "/${name}") (builtins.attrNames modules));
 }
