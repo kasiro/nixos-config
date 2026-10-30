@@ -8,7 +8,7 @@
   # Конфиг Ghostty
   xdg.configFile."ghostty/config".text = lib.mkAfter ''
     # Прозрачность и blur (как KGX с blur-my-shell)
-    background-opacity = 0.75
+    background-opacity = 0.65
     background-blur = true
     
     # КРИТИЧНО: применять прозрачность ко ВСЕМ ячейкам (TUI, bubbletea)
@@ -38,5 +38,8 @@
     
     # Window
     window-decoration = false
+
+    keybind = ctrl+shift+0=set_padding=0
+    keybind = ctrl+shift+9=set_padding=10
   '';
 }

@@ -9,11 +9,10 @@ alias rebuild="python3 /home/kasiro/nixos-config/scripts/rebuild.py"
 alias cpx="python /home/kasiro/Документы/project_scope/main.py"
 
 function opencode
-    kitty @ load-config --override window_padding_width=0
+    wtype -k lctrl -k lshift -k 0
     command opencode $argv
-    kitty @ load-config --override window_padding_width=10
+    wtype -k lctrl -k lshift -k 9
 end
-
 function devshell-init --description "Создать flake.nix + .envrc в текущей директории"
     if test -e flake.nix
         echo "flake.nix уже существует — прерываю" >&2
