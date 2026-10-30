@@ -3,7 +3,6 @@ let
   dir = ./.;
   ignored = [
     "default.nix"
-    "qtile" # ← Добавь эту строку
   ];
   entries = builtins.readDir dir;
   modules = lib.filterAttrs (

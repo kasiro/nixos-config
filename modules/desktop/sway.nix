@@ -33,9 +33,6 @@ in
     brightnessctl # Яркость
     playerctl # Управление медиа
     pamixer # Громкость из CLI
-    foot # Сверхлёгкий терминал для Wayland
-    alacritty # Запасной терминал
-    kitty # Ещё один вариант
   ];
 
   # Переменные окружения для NVIDIA legacy_580 + GTX 950

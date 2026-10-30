@@ -7,7 +7,6 @@
         (lib.gvariant.mkTuple [ "xkb" "us" ])
         (lib.gvariant.mkTuple [ "xkb" "ru" ])
       ];
-      # xkb-options = [ "grp:shift_alt_toggle" ];
     };
     "org/gnome/desktop/wm/keybindings" = {
       switch-input-source = [ "<Shift>Alt_L" ];
