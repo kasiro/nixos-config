@@ -111,8 +111,6 @@
       # Браузеры
       for_window [app_id="firefox"] blur enable
       for_window [app_id="org.mozilla.firefox"] blur enable
-      for_window [app_id="chromium"] blur enable
-      for_window [app_id="google-chrome"] blur enable
 
       # Мессенджеры
       for_window [app_id="org.telegram.desktop"] blur enable
