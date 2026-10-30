@@ -25,6 +25,9 @@
     # Тема
     theme = "Catppuccin Mocha"
     
+    # Цвет фона (как в foot — Catppuccin Mocha base)
+    background-color = "#1e1e2e"
+
     # Cursor
     cursor-style = "block"
     cursor-style-blink = false
