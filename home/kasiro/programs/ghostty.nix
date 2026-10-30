@@ -8,15 +8,15 @@
   # Конфиг Ghostty
   xdg.configFile."ghostty/config".text = lib.mkAfter ''
     # Прозрачность и blur (как KGX с blur-my-shell)
-    background-opacity = 0.85
+    background-opacity = 0.50
     background-blur = true
     
     # КРИТИЧНО: применять прозрачность ко ВСЕМ ячейкам (TUI, bubbletea)
     background-opacity-cells = true
     
     # Отступы
-    window-padding-x = 10
-    window-padding-y = 10
+    window-padding-x = 0
+    window-padding-y = 0
     
     # Шрифт
     font-family = "JetBrains Mono Nerd Font"
