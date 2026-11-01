@@ -28,6 +28,8 @@
     cargo
     rustc
     rustup
+    pkg-config
+    openssl
 
     btop
     pciutils
