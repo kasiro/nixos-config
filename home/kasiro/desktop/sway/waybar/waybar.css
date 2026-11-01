@@ -66,8 +66,8 @@ window#waybar {
 #memory,
 #clock,
 #language {
-    background: #313244;
-    border-radius: 8px;
+    /*background: #313244;
+    border-radius: 8px;*/
     padding: 4px 12px;
     margin: 4px 3px;
     color: #cdd6f4;
