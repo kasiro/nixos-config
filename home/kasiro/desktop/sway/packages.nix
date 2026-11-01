@@ -14,8 +14,8 @@ let
 
     cargoHash = "sha256-brC1igJxiX5JB0BfpZqpQf88JEZFfQcGnWtW3QElrvE=";
 
-    nativeBuilds = with pkgs; [
-      pkg-config
+    nativeBuildInputs = with pkgs; [
+      pkg-config  # ← Добавить это
     ];
     
     buildInputs = with pkgs; [
