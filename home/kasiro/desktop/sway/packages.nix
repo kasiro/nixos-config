@@ -14,6 +14,10 @@ let
 
     cargoHash = "sha256-brC1igJxiX5JB0BfpZqpQf88JEZFfQcGnWtW3QElrvE=";
 
+    nativeBuilds = with pkgs; [
+      pkg-config
+    ];
+    
     buildInputs = with pkgs; [
       gtk4
       glib
