@@ -24,7 +24,10 @@ from pathlib import Path
 PROJECTS = [
     {"path": "~/Документы/kasiro-proxy", "git": "https://github.com/kasiro/proxy"},
     {"path": "~/.config/opencode", "git": "https://github.com/kasiro/opencode-config"},
-    {"path": "~/.agents/skills", "git": "https://github.com/kasiro/agents_skills_backup"},
+    {
+        "path": "~/.agents/skills",
+        "git": "https://github.com/kasiro/agents_skills_backup",
+    },
     {"path": "~/.config/nvim", "git": "https://github.com/kasiro/nvim_config"},
     {"path": "~/Документы/dl", "git": "https://github.com/kasiro/dl"},
 ]
@@ -151,44 +154,47 @@ def analyze_build():
     """
     print("\n📦 Предстоящая сборка:")
     print("─" * 32)
-    
+
     try:
         # Запускаем nh с --dry для получения информации
         result = subprocess.run(
             ["nh", "os", "switch", ".", "--dry"],
             capture_output=True,
             text=True,
-            timeout=120
+            timeout=120,
         )
-        
+
         output = result.stdout + result.stderr
-        
+
         # Парсим количество дериваций
         derivations_count = 0
         build_count = 0
         download_count = 0
-        
+
         # Реальный формат вывода nh:
         # these 8 derivations will be built:
         #   /nix/store/xxx-foo.drv
         #   /nix/store/yyy-bar.drv
-        deriv_match = re.search(r'these\s+(\d+)\s+derivations?\s+will be built', output, re.IGNORECASE)
+        deriv_match = re.search(
+            r"these\s+(\d+)\s+derivations?\s+will be built", output, re.IGNORECASE
+        )
         if deriv_match:
             derivations_count = int(deriv_match.group(1))
-        
+
         # Если не нашли стандартный паттерн — считаем строки с .drv
         if derivations_count == 0:
             deriv_lines = [
-                line for line in output.split('\n')
-                if '/nix/store/' in line and '.drv' in line
+                line
+                for line in output.split("\n")
+                if "/nix/store/" in line and ".drv" in line
             ]
             derivations_count = len(deriv_lines)
-        
+
         # nh не различает явно build/download в dry-run
         # Считаем всё как "будет построено" (консервативная оценка)
         build_count = derivations_count
         download_count = 0
-        
+
         # Вычисляем проценты
         if derivations_count > 0:
             build_pct = 100
@@ -196,23 +202,27 @@ def analyze_build():
         else:
             build_pct = 0
             download_pct = 0
-        
+
         # Вывод результатов
         print(f"Дериваций: {derivations_count}")
         print(f"Сборка из исходников: {build_count} ({build_pct:.0f}%)")
         print(f"Скачивание бинарников: {download_count} ({download_pct:.0f}%)")
-        
+
         # Оценка: ~30 сек на деривацию
         if build_count > 0:
             estimated_sec = build_count * 30
-            time_str = f"~{estimated_sec // 60} мин" if estimated_sec >= 60 else f"~{estimated_sec} сек"
+            time_str = (
+                f"~{estimated_sec // 60} мин"
+                if estimated_sec >= 60
+                else f"~{estimated_sec} сек"
+            )
         else:
             time_str = "<1 мин"
-        
+
         print(f"Примерное время: {time_str} (оценка)")
-        
+
         print("─" * 32)
-        
+
     except FileNotFoundError:
         print("❌ Команда 'nh' не найдена. Установите nh или используйте nix-build.")
     except subprocess.TimeoutExpired:
@@ -232,7 +242,9 @@ def flake_check():
     print("─" * 32)
 
     try:
-        returncode = stream_subprocess(["nix", "flake", "check", "--no-build", "--offline"])
+        returncode = stream_subprocess(
+            ["nix", "flake", "check", "--no-build", "--offline"]
+        )
 
         if returncode != 0:
             print(f"⚠ nix flake check завершился с кодом {returncode}")
@@ -425,12 +437,14 @@ class RebuildProcess:
                             check=True,
                             stdout=subprocess.PIPE,
                             stderr=subprocess.STDOUT,
-                            text=True
+                            text=True,
                         )
                         if result.stdout:
-                            print(result.stdout, end='')
+                            print(result.stdout, end="")
                     except subprocess.CalledProcessError as e:
-                        print(f"\n!!! {phase_name} '{hook}' failed with code {e.returncode}")
+                        print(
+                            f"\n!!! {phase_name} '{hook}' failed with code {e.returncode}"
+                        )
                         if phase_name == "Prehook":
                             return False
             finally:
@@ -445,9 +459,7 @@ class RebuildProcess:
         """Проверить наличие изменений в git (tracked + untracked)."""
         try:
             result = subprocess.run(
-                ["git", "status", "--porcelain"],
-                capture_output=True,
-                text=True
+                ["git", "status", "--porcelain"], capture_output=True, text=True
             )
             return result.stdout.strip() != ""
         except Exception:
@@ -585,20 +597,13 @@ def main():
         description="Rebuild NixOS конфигурации с поддержкой хуков"
     )
     parser.add_argument(
-        "-m", "--message",
+        "-m",
+        "--message",
         default="rebuild",
-        help="Сообщение коммита (по умолчанию: rebuild)"
+        help="Сообщение коммита (по умолчанию: rebuild)",
     )
-    parser.add_argument(
-        "--no-commit",
-        action="store_true",
-        help="Не делать коммит"
-    )
-    parser.add_argument(
-        "--no-push",
-        action="store_true",
-        help="Не делать push"
-    )
+    parser.add_argument("--no-commit", action="store_true", help="Не делать коммит")
+    parser.add_argument("--no-push", action="store_true", help="Не делать push")
 
     args = parser.parse_args()
 
