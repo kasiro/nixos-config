@@ -1,5 +1,6 @@
 # Editor/IDE
 .zed/
+.git/
 
 # OpenCode
 .opencode/
@@ -9,7 +10,6 @@ result/
 
 # Scripts
 scripts/
-.git/
 
 # Config files (не код)
 .gitignore
