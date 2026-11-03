@@ -18,6 +18,17 @@ import termios
 import time
 from pathlib import Path
 
+# Проекты: полная информация (путь + git URL).
+# Используется в push_projects().
+# Формат: {"path": "~...", "git": "https://..."}
+PROJECTS = [
+    {"path": "~/Документы/kasiro-proxy", "git": "https://github.com/kasiro/proxy"},
+    {"path": "~/.config/opencode", "git": "https://github.com/kasiro/opencode-config"},
+    {"path": "~/.agents/skills", "git": "https://github.com/kasiro/agents_skills_backup"},
+    {"path": "~/.config/nvim", "git": "https://github.com/kasiro/nvim_config"},
+    {"path": "~/Документы/dl", "git": "https://github.com/kasiro/dl"},
+]
+
 
 def stream_subprocess(cmd, *, env=None, stdin=None, on_start=None, prefix=None):
     """Запуск команды с выводом в реальном времени.
@@ -240,6 +251,123 @@ def flake_check():
         return False
 
 
+def push_projects():
+    """
+    Posthook: коммит и push изменений в проектах из PROJECTS.
+    Для каждого пути: проверяем незакоммиченные изменения и ahead-коммиты,
+    при необходимости коммитим, затем пушим.
+    Провал одного проекта не прерывает остальные; функция возвращает None
+    (не False), чтобы run_hooks не помечал весь posthook как упавший.
+    """
+    print("\n🚀 Posthook: push_projects")
+    print("─" * 32)
+
+    ok_count = 0
+    fail_count = 0
+    skip_count = 0
+
+    for p in PROJECTS:
+        path = Path(p["path"]).expanduser()
+
+        if not path.is_dir():
+            print(f"⚠ Папка не найдена, пропущено: {path}")
+            skip_count += 1
+            continue
+
+        if not (path / ".git").exists():
+            print(f"⚠ Не git-репозиторий, пропущено: {path}")
+            skip_count += 1
+            continue
+
+        # Проект без remote не трогаем вовсе: ни add, ни commit — иначе
+        # останется закоммиченное, которое некуда пушить.
+        remotes = subprocess.run(
+            ["git", "-C", str(path), "remote"],
+            capture_output=True,
+            text=True,
+        )
+        if remotes.returncode != 0 or remotes.stdout.strip() == "":
+            print(f"⚠ remote не настроен, пропуск: {path}")
+            skip_count += 1
+            continue
+
+        try:
+            # 1. Проверяем незакоммиченные изменения
+            status = subprocess.run(
+                ["git", "-C", str(path), "status", "--porcelain"],
+                capture_output=True,
+                text=True,
+            )
+            if status.returncode != 0:
+                print(f"❌ git status упал в {path}: {status.stderr.strip()}")
+                fail_count += 1
+                continue
+
+            has_uncommitted = status.stdout.strip() != ""
+
+            # 2. Проверяем ahead-коммиты (закоммичено, но не запушено)
+            ahead = subprocess.run(
+                ["git", "-C", str(path), "rev-list", "@{u}..HEAD"],
+                capture_output=True,
+                text=True,
+            )
+            # returncode != 0 означает отсутствие upstream — считаем ahead=0
+            has_ahead = ahead.returncode == 0 and ahead.stdout.strip() != ""
+
+            # 3. Если нет изменений и нет ahead — пропускаем
+            if not has_uncommitted and not has_ahead:
+                print(f"○ Нет изменений для push: {path}")
+                skip_count += 1
+                continue
+
+            # 4. Коммитим только если есть незакоммиченные изменения
+            if has_uncommitted:
+                add_result = subprocess.run(
+                    ["git", "-C", str(path), "add", "."],
+                    capture_output=True,
+                    text=True,
+                )
+                if add_result.returncode != 0:
+                    err = (add_result.stderr or add_result.stdout).strip()
+                    print(f"❌ git add упал в {path}: {err}")
+                    fail_count += 1
+                    continue
+
+                commit_result = subprocess.run(
+                    ["git", "-C", str(path), "commit", "-m", "push"],
+                    capture_output=True,
+                    text=True,
+                )
+                if commit_result.returncode != 0:
+                    err = (commit_result.stderr or commit_result.stdout).strip()
+                    print(f"❌ git commit упал в {path}: {err}")
+                    fail_count += 1
+                    continue
+
+            # 5. Push делаем всегда (либо новый коммит, либо ahead)
+            push_result = subprocess.run(
+                ["git", "-C", str(path), "push"],
+                capture_output=True,
+                text=True,
+            )
+            if push_result.returncode != 0:
+                err = (push_result.stderr or push_result.stdout).strip()
+                print(f"❌ git push упал в {path}: {err}")
+                fail_count += 1
+                continue
+
+            print(f"✓ Запушено: {path}")
+            ok_count += 1
+
+        except Exception as e:
+            print(f"❌ Ошибка в {path}: {e}")
+            fail_count += 1
+
+    print(f"Итог: ок {ok_count}, с ошибками {fail_count}, пропущено {skip_count}")
+    print("─" * 32)
+    return None
+
+
 # Prehook функции - выполняются ДО rebuild
 PREHOOKS = [
     # "flake_check",  # отключено
@@ -248,8 +376,7 @@ PREHOOKS = [
 
 # Posthook функции - выполняются ПОСЛЕ rebuild
 POSTHOOKS = [
-    # "command1",
-    # "command2",
+    "push_projects",
 ]
 
 
