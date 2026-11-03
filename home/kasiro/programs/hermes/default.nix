@@ -2,23 +2,20 @@
 let
   dir = ./.;
 
+  # Файлы, которые НЕ нужно импортировать
   ignored = [
     "default.nix"
   ];
 
   entries = builtins.readDir dir;
 
-  # Подхватываем только дополнительные модули вне common/gnome/sway/cosmic
-  modules = lib.filterAttrs (
-    name: type:
-    !(builtins.elem name ignored)
-    && (type == "directory" || (type == "regular" && lib.hasSuffix ".nix" name))
-  ) entries;
+  modules = lib.filterAttrs
+    (name: type:
+      type == "regular"
+      && lib.hasSuffix ".nix" name
+      && !(builtins.elem name ignored))
+    entries;
 in
 {
-  imports =
-    [
-      ./common
-    ]
-    ++ (map (name: dir + "/${name}") (builtins.attrNames modules));
+  imports = map (name: dir + "/${name}") (builtins.attrNames modules);
 }
