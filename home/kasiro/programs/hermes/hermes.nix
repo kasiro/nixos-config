@@ -10,14 +10,33 @@
     settings = {
       model = {
         default = "";            # id модели выберем позже (hermes model)
-        provider = "auto";       # детект: config → OPENROUTER_API_KEY → ANTHROPIC_API_KEY/GLM_API_KEY/DEEPSEEK_API_KEY → OAuth → free tier
+        provider = "localproxy"; # auto не увидит localproxy (детект только по env-ключам) — фиксируем провайдер явно
       };
+      # Модели localproxy (9 шт.): free-gemini-2.5-pro, free-minimax-m2.7,
+      # free-claude-haiku-4-5-20251001, free-gemini-2.5-flash, free-qwen3.5-plus,
+      # free-qwen3.5-flash, free-minimax-m2.5, free-gemini-2.5-flash-lite,
+      # free-gemini-3-flash-preview. Выбор: `hermes model`.
+
+      # Локальный прокси-провайдер (перенесён из opencode.json)
+      providers.localproxy = {
+        base_url = "http://localhost:9625/v1";
+        api_mode = "chat_completions";
+        # discover_models = true;  # дефолт: список моделей берётся из /v1/models
+        # key_env = "LOCALPROXY_API_KEY";  # раскомментировать, если прокси начнёт требовать ключ
+      };
+
+      # localhost-запросы не должны идти через HTTP_PROXY (урок 2026-09-17: httpx
+      # не понимает CIDR в NO_PROXY — только точные адреса)
+      environment.NO_PROXY = "localhost,127.0.0.1";
+      environment.no_proxy = "localhost,127.0.0.1";
 
       # Часовой пояс агента
       timezone = "Asia/Novosibirsk";
 
       # Читать навыки из каталога OpenCode
-      skills.external_dirs = [ "~/.agents/skills" ];
+      skills.external_dirs = [
+        "~/.agents/skills"
+      ];
     };
 
     # Инструменты на PATH агента (и у пользователя)
