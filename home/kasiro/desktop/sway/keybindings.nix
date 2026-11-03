@@ -5,7 +5,7 @@
     # --- Горячие клавиши ---
     keybindings = lib.mkOptionDefault {
       "${sway.mod}+Return" = "exec ${sway.terminal}";
-      "Control+q" = "kill";
+      "${sway.mod}+q" = "kill";
       "${sway.mod}+a" = "exec ${sway.menu}";  # fuzzel (основной)
       "${sway.mod}+Shift+a" = "exec ${sway.wofiMenu}";  # wofi (fallback)
       # "${sway.mod}+Shift+c" = "reload";
