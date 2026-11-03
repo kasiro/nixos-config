@@ -1,19 +1,11 @@
 { lib, ... }:
 let
   dir = ./.;
-
-  # Файлы, которые НЕ нужно импортировать
-  ignored = [
-    "default.nix"
-  ];
-
+  ignored = [ "default.nix" ];
   entries = builtins.readDir dir;
-
   modules = lib.filterAttrs
     (name: type:
-      type == "regular"
-      && lib.hasSuffix ".nix" name
-      && !(builtins.elem name ignored))
+      type == "regular" && lib.hasSuffix ".nix" name && !(builtins.elem name ignored))
     entries;
 in
 {
