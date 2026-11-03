@@ -10,6 +10,7 @@
       ./desktop/sway
       ./desktop/cosmic
       ./programs
+      ./programs/hermes
       ./shell
       ./fish.nix
       ../common
