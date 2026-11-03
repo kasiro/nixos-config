@@ -12,6 +12,7 @@
       ./programs
       ./shell
       ./fish.nix
+      ./hermes.nix
       ../common
     ];
 

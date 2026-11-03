@@ -14,6 +14,7 @@
     };
     nix-flatpak.url = "github:gmodena/nix-flatpak";
     chaotic.url = "github:chaotic-cx/nyx/main";
+    hermes-agent.url = "github:NousResearch/hermes-agent";
   };
 
   outputs =
@@ -23,6 +24,7 @@
       nixpkgs-unstable,
       home-manager,
       chaotic,
+      hermes-agent,
       ...
     }@inputs:
     let
@@ -46,6 +48,7 @@
                 cosmic-session = pkgs-unstable.cosmic-session;
               })
             ];
+            home-manager.extraSpecialArgs = { inherit inputs; };
             home-manager.users.kasiro = import ./home/kasiro;
             home-manager.users.whitepeach = import ./home/whitepeach;
           }
