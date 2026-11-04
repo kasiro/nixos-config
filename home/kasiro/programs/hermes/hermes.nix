@@ -42,7 +42,7 @@
     # Инструменты на PATH агента (и у пользователя)
     extraPackages = with pkgs; [ ripgrep fd jq ];
 
-    # gateway.enable = true;  # шлюзы Telegram/Discord — пока не нужен
+    gateway.enable = true;  # шлюзы Telegram/Discord
 
     # API-ключи через environmentFiles (список путей-строк, НЕ path-литералов).
     # Файл создать вручную: chmod 600, формат KEY=value (по строке на переменную).
