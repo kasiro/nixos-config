@@ -23,7 +23,6 @@
       nixpkgs-unstable,
       home-manager,
       chaotic,
-      hermes-agent,
       ...
     }@inputs:
     let
