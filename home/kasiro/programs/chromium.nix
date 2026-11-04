@@ -5,10 +5,8 @@
       enableWideVine = true;
     };
     commandLineArgs = [
-      "--enable-features=PlatformHEVCDecoderSupport,UseOzonePlatform"
-      "--ozone-platform=wayland"
-      # Хранилище паролей v10, независимое от gnome-keyring — иначе старые v11-пароли не расшифровываются в Sway
-      "--password-store=basic"
+      "--ozone-platform=wayland"      # Нативный Wayland (не XWayland)
+      "--password-store=basic"         # Хранилище паролей v10, независимо от keyring
     ];
     extensions = [
       { id = "omghfjlpggmjjaagoclmmobgdodcjboh"; } # vpn

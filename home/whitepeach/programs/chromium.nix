@@ -5,12 +5,8 @@
       enableWideVine = true;
     };
     commandLineArgs = [
-      "--enable-features=AcceleratedVideoEncoder,Vulkan,DefaultANGLEVulkan,VulkanFromANGLE"
-      "--enable-features=PlatformHEVCDecoderSupport"
-      "--enable-features=UseMultiPlaneFormatForHardwareVideo"
-      "--ignore-gpu-blocklist"
-      "--enable-zero-copy"
-      "--password-store=basic"
+      "--ozone-platform=wayland"      # Нативный Wayland (не XWayland)
+      "--password-store=basic"         # Хранилище паролей v10, независимо от keyring
     ];
     extensions = [
       { id = "majdfhpaihoncoakbjgbdhglocklcgno"; } # vpn
