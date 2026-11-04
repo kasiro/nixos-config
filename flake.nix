@@ -14,7 +14,6 @@
     };
     nix-flatpak.url = "github:gmodena/nix-flatpak";
     chaotic.url = "github:chaotic-cx/nyx/main";
-    hermes-agent.url = "github:NousResearch/hermes-agent";
   };
 
   outputs =
