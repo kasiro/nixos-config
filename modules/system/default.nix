@@ -12,12 +12,8 @@
     ./fontconfig-cache.nix
   ];
 
-  programs.nh = {
+  programs.nh.clean = {
     enable = true;
-    clean = {
-      enable = true;
-      extraArgs = "--keep-since 10d --keep 8";
-    };
-    flake = "/home/kasiro/nixos-config";
+    extraArgs = "--keep-since 4d --keep 4";
   };
 }
