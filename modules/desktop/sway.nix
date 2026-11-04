@@ -59,4 +59,18 @@ in
       RestartSec = 3;
     };
   };
+
+  # GNOME Keyring — автозапуск в Sway-сессии для Zed editor
+  # Разблокируется PAM при входе через GDM (enableGnomeKeyring выше)
+  systemd.user.services.gnome-keyring = {
+    description = "GNOME Keyring Daemon";
+    wantedBy = [ "graphical-session.target" ];
+    wants = [ "graphical-session.target" ];
+    after = [ "graphical-session.target" ];
+    serviceConfig = {
+      Type = "notify";
+      ExecStart = "${pkgs.gnome-keyring}/bin/gnome-keyring-daemon --start --components=secrets";
+      Restart = "on-failure";
+    };
+  };
 }

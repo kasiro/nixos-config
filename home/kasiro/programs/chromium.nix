@@ -5,9 +5,10 @@
       enableWideVine = true;
     };
     commandLineArgs = [
-      # Оставить только Vaapi для видео + Wayland
-      "--enable-features=VaapiOnNvidiaGPUs,VaapiVideoDecoder,PlatformHEVCDecoderSupport,UseOzonePlatform"
+      "--enable-features=PlatformHEVCDecoderSupport,UseOzonePlatform"
       "--ozone-platform=wayland"
+      # Хранилище паролей v10, независимое от gnome-keyring — иначе старые v11-пароли не расшифровываются в Sway
+      "--password-store=basic"
     ];
     extensions = [
       { id = "omghfjlpggmjjaagoclmmobgdodcjboh"; } # vpn
