@@ -2,6 +2,9 @@
 # Пауза видеообоев, когда на видимом workspace есть окно.
 # Waybar, fuzzel, mako и сам mpvpaper — layer-shell, их в get_tree нет.
 
+# Ждём пока mpvpaper создаст сокет и будет готов
+sleep 3
+
 SOCK="${MPV_SOCKET:-/tmp/mpv-socket}"
 last=""
 
