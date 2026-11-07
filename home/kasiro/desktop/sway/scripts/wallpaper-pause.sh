@@ -1,27 +1,28 @@
 #!/usr/bin/env bash
-# Умная пауза mpvpaper: ставит на паузу, если есть focused окно
-# Игнорирует layer-shell поверхности (waybar, mako, mpvpaper)
+# Пауза видеообоев, когда на видимом workspace есть окно.
+# Waybar, fuzzel, mako и сам mpvpaper — layer-shell, их в get_tree нет.
 
-SOCKET="/tmp/mpv-socket"
-PAUSED=0
+SOCK="${MPV_SOCKET:-/tmp/mpv-socket}"
+last=""
 
-send_cmd() {
-  [ -S "$SOCKET" ] && echo "$1" | socat - "$SOCKET" >/dev/null 2>&1
+send() { printf '%s\n' "$1" | socat - UNIX-CONNECT:"$SOCK" >/dev/null 2>&1; }
+
+state() {
+  swaymsg -t get_tree | jq -r '
+    [ .. | objects | select(.type? == "workspace" and .visible == true) ] as $ws
+    | [ $ws[] | .. | objects | select((.pid? // 0) > 0) ]
+    | if length > 0 then "pause" else "play" end'
 }
 
-swaymsg -t subscribe '["window","workspace"]' -m | while read -r _; do
-  # Считаем только focused обычные окна (con/floating_con) с app_id
-  count=$(swaymsg -t get_tree | jq '
-    .. | select(.type? == "con" or .type? == "floating_con") |
-    select(.app_id != null and .app_id != "" and .focused == true) |
-    .id
-  ' | wc -l)
+apply() {
+  local s; s="$(state)"
+  [ -z "$s" ] && return
+  [ "$s" = "$last" ] && return
+  if [ "$s" = pause ]; then send 'set pause yes'; else send 'set pause no'; fi
+  last="$s"
+}
 
-  if [ "$count" -gt 0 ] && [ "$PAUSED" -eq 0 ]; then
-    send_cmd "set pause yes"
-    PAUSED=1
-  elif [ "$count" -eq 0 ] && [ "$PAUSED" -eq 1 ]; then
-    send_cmd "set pause no"
-    PAUSED=0
-  fi
-done
+apply   # стартовое состояние — критично, иначе скрипт врёт о паузе до первого события
+
+swaymsg -t subscribe -m '["window","workspace","output","mode"]' \
+  | while read -r _; do apply; done
