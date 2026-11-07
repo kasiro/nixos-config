@@ -12,11 +12,11 @@
       bars = [ ]; # Используем Waybar
 
       # Обои — сплошной цвет (Catppuccin base)
-      output = {
-        "*" = {
-          bg = "${sway.catppuccin.base} solid_color";
-        };
-      };
+      # output = {
+      #   "*" = {
+      #     bg = "${sway.catppuccin.base} solid_color";
+      #   };
+      # };
 
       # Отступы между окнами
       gaps = {
