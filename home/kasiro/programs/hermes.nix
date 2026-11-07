@@ -9,7 +9,7 @@
 
     settings = {
       model = {
-        default = "";
+        default = "free-qwen3.5-plus";  # Рабочая модель из localproxy
         provider = "localproxy";
       };
 
