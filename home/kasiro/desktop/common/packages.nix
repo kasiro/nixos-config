@@ -7,5 +7,6 @@
     qbittorrent
     winetricks
     repomix
+    mpvpaper # mp4 как обои (sway)
   ];
 }

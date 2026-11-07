@@ -5,6 +5,7 @@ let
   ignored = [
     "default.nix"
     "scripts"
+    "wallpaper.nix"
   ];
 
   entries = builtins.readDir dir;

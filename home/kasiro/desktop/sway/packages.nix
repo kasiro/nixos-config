@@ -26,5 +26,7 @@ let
   };
 in
 {
-  home.packages = [ waycal ];
+  home.packages = [
+    waycal
+  ];
 }
