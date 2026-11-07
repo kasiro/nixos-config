@@ -1,7 +1,7 @@
 {
   programs.mpvpaper = {
     enable = true;
-    # Видео встанет на паузу, если запущен любой из этих процессов
-    pauseList = "firefox chromium ghostty alacritty sway zeditor";
+    # pauseList намеренно не задаём: он смотрит на pgrep, а не на видимость
+    # обоев, и дрался бы за IPC с wallpaper-pause.sh
   };
 }

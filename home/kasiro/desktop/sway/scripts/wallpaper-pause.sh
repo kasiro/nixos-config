@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Умная пауза mpvpaper: ставит на паузу, если на активном workspace есть обычные окна
+# Умная пауза mpvpaper: ставит на паузу, если есть focused окно
 # Игнорирует layer-shell поверхности (waybar, mako, mpvpaper)
 
 SOCKET="/tmp/mpv-socket"
@@ -10,11 +10,10 @@ send_cmd() {
 }
 
 swaymsg -t subscribe '["window","workspace"]' -m | while read -r _; do
-  # Считаем только обычные окна (con/floating_con) с app_id, игнорируя layer-shell
+  # Считаем только focused обычные окна (con/floating_con) с app_id
   count=$(swaymsg -t get_tree | jq '
-    .. | select(.type? == "workspace" and .focused == true) |
     .. | select(.type? == "con" or .type? == "floating_con") |
-    select(.app_id != null and .app_id != "") |
+    select(.app_id != null and .app_id != "" and .focused == true) |
     .id
   ' | wc -l)
 
