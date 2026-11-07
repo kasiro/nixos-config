@@ -13,7 +13,10 @@
       {
         command = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
       }
-      { command = "${config.home.homeDirectory}/.config/sway/scripts/wallpaper-pause.sh"; always = true; }
+      {
+        command = "${config.home.homeDirectory}/nixos-config/home/kasiro/desktop/sway/scripts/wallpaper-pause.sh";
+        always = true;
+      }
     ];
   };
 }
