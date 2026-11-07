@@ -11,9 +11,11 @@ last=""
 send() { printf '%s\n' "$1" | socat - UNIX-CONNECT:"$SOCK" >/dev/null 2>&1; }
 
 state() {
-  swaymsg -t get_tree | jq -r '
-    [ .. | objects | select(.type? == "workspace" and .visible == true) ] as $ws
-    | [ $ws[] | .. | objects | select((.pid? // 0) > 0) ]
+  local visible_ws
+  visible_ws="$(swaymsg -t get_workspaces | jq -r '.[] | select(.visible == true) | .name')"
+  
+  swaymsg -t get_tree | jq -r --arg ws "$visible_ws" '
+    [.. | objects | select(.type? == "workspace" and .name == $ws) | .. | objects | select(.pid? != null and .pid > 0)]
     | if length > 0 then "pause" else "play" end'
 }
 
