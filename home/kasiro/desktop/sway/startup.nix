@@ -15,6 +15,9 @@
       }
       {
         command = "${config.home.homeDirectory}/.config/sway/scripts/wallpaper-pause.sh";
+      }
+      {
+        command = "mpvpaper -p "*" Downloads/QhJKFx9emn-power-dancing-live-wallpaper.mp4 --mpv-options \"loop=yes hwdec=auto ao=null input-ipc-server=/tmp/mpv-socket\"";
         always = true;
       }
     ];
