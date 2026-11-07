@@ -14,7 +14,7 @@
         command = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
       }
       {
-        command = "mpvpaper -p '*' ${config.home.homeDirectory}/Downloads/QhJKFx9emn-power-dancing-live-wallpaper.mp4 --mpv-options \"loop=yes hwdec=auto\"";
+        command = "mpvpaper -p '*' ${config.home.homeDirectory}/Downloads/QhJKFx9emn-power-dancing-live-wallpaper.mp4 --mpv-options \"loop=yes hwdec=auto ao=null\"";
         always = true;
       }
     ];
