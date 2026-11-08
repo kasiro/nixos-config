@@ -14,7 +14,7 @@
         command = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
       }
       {
-        command = "mpvpaper -p \"*\" Downloads/CjTQ7muSEU-honeypie.mp4 --mpv-options \"loop=yes hwdec=auto ao=null input-ipc-server=/tmp/mpv-socket\"";
+        command = "mpvpaper -p \"*\" \"Downloads/DwWrUmr8BXslX9w_Old Town Rain Live Wallpaper_4_105827.mp4\" --mpv-options \"loop=yes hwdec=auto ao=null input-ipc-server=/tmp/mpv-socket\"";
         always = true;
       }
       {
