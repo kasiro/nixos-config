@@ -8,8 +8,9 @@
     winetricks
     repomix
     mpvpaper # mp4 как обои (sway)
-    socat
+    socat # зависимость mpvpaper
     mpv
     ranger
+    nwg-dock # док для sway
   ];
 }
