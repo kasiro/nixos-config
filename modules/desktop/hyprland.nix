@@ -8,7 +8,7 @@
     xwayland.enable = true;
   };
   
-  xdg.portal.extraPortals = with pkgs; [ xdg-desktop-portal-hyprland ];
+  # Портал регистрирует nixpkgs-модуль programs.hyprland сам (portalPackage выше).
   security.polkit.enable = true;
   hardware.graphics = {
     enable = true;

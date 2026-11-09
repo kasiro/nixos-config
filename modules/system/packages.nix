@@ -74,7 +74,6 @@
     nemo
     nemo-fileroller
     noctalia
-    xdg-desktop-portal-hyprland
     xdg-desktop-portal-gtk
 
     gnomeExtensions.appindicator
