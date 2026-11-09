@@ -92,7 +92,8 @@
     nerd-fonts.jetbrains-mono
     nerd-fonts.fira-code
     nerd-fonts.hack
-    (nerdfonts.override { fonts = [ "0xProto" "ComicShannsMono" ]; })
+    nerd-fonts._0xproto
+    nerd-fonts.comic-shanns-mono
     noto-fonts-cjk-sans
     noto-fonts-cjk-serif
   ];
