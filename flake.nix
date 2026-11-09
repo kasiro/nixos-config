@@ -15,6 +15,10 @@
     nix-flatpak.url = "github:gmodena/nix-flatpak";
     chaotic.url = "github:chaotic-cx/nyx/main";
     hermes-agent.url = "github:NousResearch/hermes-agent";
+    hyprland = {
+      url = "github:hyprwm/Hyprland";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -25,6 +29,7 @@
       home-manager,
       chaotic,
       hermes-agent,
+      hyprland,
       ...
     }@inputs:
     let
@@ -45,7 +50,6 @@
               (import ./overlays/swayfx-enhanced.nix)
               (final: prev: {
                 opencode = pkgs-unstable.opencode;
-                cosmic-session = pkgs-unstable.cosmic-session;
               })
             ];
             home-manager.extraSpecialArgs = { inherit inputs; };

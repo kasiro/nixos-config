@@ -59,6 +59,24 @@
     ripgrep
     tree-sitter
 
+    # Hyprland
+    hyprland
+    hyprlock
+    hypridle
+    hyprpicker
+    hyprlang
+    grim
+    slurp
+    brightnessctl
+    playerctl
+    wireplumber
+    pipewire
+    nemo
+    nemo-fileroller
+    noctalia
+    xdg-desktop-portal-hyprland
+    xdg-desktop-portal-gtk
+
     gnomeExtensions.appindicator
     gnomeExtensions.dash-to-dock
     gnomeExtensions.blur-my-shell
@@ -74,5 +92,8 @@
     nerd-fonts.jetbrains-mono
     nerd-fonts.fira-code
     nerd-fonts.hack
+    (nerdfonts.override { fonts = [ "0xProto" "ComicShannsMono" ]; })
+    noto-fonts-cjk-sans
+    noto-fonts-cjk-serif
   ];
 }

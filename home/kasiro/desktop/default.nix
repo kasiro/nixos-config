@@ -7,7 +7,6 @@ let
     "common"
     "gnome"
     "sway"
-    "cosmic"
   ];
 
   entries = builtins.readDir dir;
