@@ -64,11 +64,11 @@
 
     # Системные
     btop
-    xorg.xrdb
-    xorg.xrandr
-    xorg.xsetroot
-    xorg.xprop
-    xorg.xwininfo
+    xrdb
+    xrandr
+    xsetroot
+    xprop
+    xwininfo
     xdg-utils
   ];
 
