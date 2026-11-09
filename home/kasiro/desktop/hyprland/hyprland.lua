@@ -27,7 +27,7 @@ local features = {
 
 local terminal     = "kitty"
 local fileManager  = "nemo"
-local browser      = "zen-browser"
+local browser      = "firefox" -- zen-browser в системе не установлен
 local taskManager  = terminal .. " -e btop"
 local menu         = "noctalia msg panel-toggle launcher"
 
@@ -48,18 +48,16 @@ hl.monitor({
 
 hl.on("hyprland.start", function()
     hl.exec_cmd("hyprpm reload")
-    hl.exec_cmd("hyprlock")
     hl.exec_cmd("noctalia -d")
     hl.exec_cmd("/run/wrappers/bin/xdg-desktop-portal-hyprland")
     hl.exec_cmd("/run/wrappers/bin/xdg-desktop-portal-gtk")
-    hl.exec_cmd("xrdb ~/.Xresources")
 
     if features.extra_autostart then
         hl.exec_cmd("Telegram -startintray")
         hl.exec_cmd("udiskie -s -m flat --menu-update-workaround")
         hl.exec_cmd("steam -silent", { workspace = "10 silent" })
         hl.exec_cmd("discord --start-minimized", { workspace = "10 silent" })
-        hl.exec_cmd("zen-browser", { workspace = "1 silent" })
+        hl.exec_cmd("firefox", { workspace = "1 silent" })
     end
 end)
 
@@ -81,6 +79,11 @@ hl.env("GTK_USE_PORTAL", "1")
 hl.env("XCURSOR_SIZE", "24")
 hl.env("HYPRCURSOR_THEME", "afterglow")
 hl.env("HYPRCURSOR_SIZE", "24")
+
+-- NVIDIA (GTX 950, legacy_580) — выставляем всегда, независимо от features.nvidia
+hl.env("LIBVA_DRIVER_NAME", "nvidia")
+hl.env("__GLX_VENDOR_LIBRARY_NAME", "nvidia")
+hl.env("GBM_BACKEND", "nvidia-drm")
 
 if features.nvidia then
     hl.env("LIBVA_DRIVER_NAME", "nvidia")
@@ -295,6 +298,21 @@ for key, dir in pairs(directions) do
         { repeating = true })
 end
 
+-- Стрелки: навигация / перемещение / ресайз (дублируют HJKL)
+local arrowDirections = { left = "left", right = "right", up = "up", down = "down" }
+local arrowResize = { left = { -20, 0 }, right = { 20, 0 }, up = { 0, -20 }, down = { 0, 20 } }
+
+for key, dir in pairs(arrowDirections) do
+    bind(key, hl.dsp.focus({ direction = dir }))
+    bind("SHIFT + " .. key, hl.dsp.window.swap({ direction = dir }))
+    bind("ALT + " .. key, hl.dsp.window.move({ direction = dir }))
+
+    local step = arrowResize[key]
+    bind("CONTROL + " .. key,
+        hl.dsp.window.resize({ x = step[1], y = step[2], relative = true }),
+        { repeating = true })
+end
+
 -- Cycle floating / tiled
 bind("N",         hl.dsp.window.cycle_next({ floating = true }))
 bind("SHIFT + N", hl.dsp.window.cycle_next({ tiled = true }))
@@ -376,7 +394,7 @@ hl.layer_rule({
 -- WORKSPACE RULES --
 -- =============== --
 
-local workspaceNames = { "一", "二", "三", "四", "五", "六", "七", "八", "九", "十" }
+local workspaceNames = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }
 
 for i, name in ipairs(workspaceNames) do
     hl.workspace_rule({

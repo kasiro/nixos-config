@@ -2,13 +2,15 @@
 { config, pkgs, ... }:
 {
   systemd.user.services = {
-    gnome-keyring = {
-      Unit.ConditionEnvironment = "XDG_CURRENT_DESKTOP=GNOME";
-    };
+    # gnome-keyring НЕ переопределяем: юнит с корректным ExecStart определён
+    # в modules/desktop/sway.nix и работает во всех сессиях (Sway, Hyprland,
+    # GNOME). Перекрытие без Service.ExecStart давало
+    # «Service has no ExecStart= … Refusing».
+    #
+    # polkit-агент — без условия по DE, иначе в Sway/Hyprland его нет.
     polkit-gnome = {
       Unit = {
         Description = "PolicyKit GNOME Authentication Agent";
-        ConditionEnvironment = "XDG_CURRENT_DESKTOP=GNOME";
       };
       Service = {
         ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";

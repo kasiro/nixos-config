@@ -8,6 +8,7 @@
       ./desktop/common
       ./desktop/gnome
       ./desktop/sway
+      ./desktop/hyprland.nix
       ./programs
       ./shell
       ./fish.nix
