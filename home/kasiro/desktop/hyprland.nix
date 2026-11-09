@@ -74,7 +74,7 @@
 
   # XDG порталы (только gtk: hyprland-портал уже даёт NixOS-модуль)
   xdg.portal = {
-    enable = true;
+    enable = lib.mkForce true;
     extraPortals = with pkgs; [
       xdg-desktop-portal-gtk
     ];
