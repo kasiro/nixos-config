@@ -50,6 +50,7 @@
               })
             ];
             home-manager.extraSpecialArgs = { inherit inputs; };
+            home-manager.backupFileExtension = "hm-backup";
             home-manager.users.kasiro = import ./home/kasiro;
             home-manager.users.whitepeach = import ./home/whitepeach;
           }
