@@ -8,7 +8,6 @@
       ./desktop/common
       ./desktop/gnome
       ./desktop/sway
-      ./desktop/cosmic
       ./programs
       ./shell
       ./fish.nix
