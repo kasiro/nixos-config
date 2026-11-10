@@ -5,7 +5,7 @@ import subprocess
 
 def hypr_dispatch(lua_expr):
     """Отправляет Lua-выражение в Hyprland через hyprctl dispatch."""
-    subprocess.run(["hyprctl", "dispatch", lua_expr], check=True)
+    subprocess.run(["hyprctl", "dispatch", lua_expr], check=True, capture_output=True)
 
 
 def get_clients():
@@ -28,6 +28,15 @@ def get_direction(from_win, to_win):
         return "u" if dy < 0 else "d"
 
 
+def sort_windows_by_position(windows):
+    """
+    Сортирует окна по их визуальному положению:
+    сначала по горизонтали (слева направо), затем по вертикали (сверху вниз).
+    """
+    # Сначала сортируем по X (слева направо), затем по Y (сверху вниз)
+    return sorted(windows, key=lambda w: (w["at"][0], w["at"][1]))
+
+
 def main():
     clients = get_clients()
     current_ws = get_active_workspace()
@@ -36,15 +45,18 @@ def main():
     if len(ws_clients) < 2:
         return
 
-    first = ws_clients[0]
+    # Сортируем окна в желаемом порядке (например, слева направо, сверху вниз)
+    ordered_clients = sort_windows_by_position(ws_clients)
+
+    first = ordered_clients[0]
     first_addr = first["address"]
 
     # 1. Создаём группу из первого окна
     hypr_dispatch(f'hl.dsp.focus({{ window = "address:{first_addr}" }})')
     hypr_dispatch("hl.dsp.group.toggle()")
 
-    # 2. Добавляем остальные окна в группу
-    for client in ws_clients[1:]:
+    # 2. Добавляем остальные окна в группу в отсортированном порядке
+    for client in ordered_clients[1:]:
         addr = client["address"]
 
         # Фокусируемся на текущем окне
