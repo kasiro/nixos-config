@@ -20,13 +20,14 @@
 
   qt = {
     enable = lib.mkDefault true;
-    platformTheme = lib.mkDefault {
-      name = "gtk";
-      package = pkgs.qtstyleplugins;
-    };
+    platformTheme = lib.mkDefault "kvantum";
     style = lib.mkDefault {
-      name = "gtk";
-      package = pkgs.qtstyleplugins;
+      name = "kvantum";
+      package = with pkgs; [
+        libsForQt5.qtstyleplugin-kvantum
+        qt6Packages.qtstyleplugin-kvantum
+        catppuccin-kvantum
+      ];
     };
   };
 }
