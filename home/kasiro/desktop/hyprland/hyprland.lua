@@ -256,9 +256,9 @@ bind("X", hl.dsp.layout("togglesplit"))
 bind("SHIFT + M", hl.dsp.window.move({ workspace = "special:magic" }))
 
 -- Groups (вкладки Hyprland)
-bind("W", hl.dsp.exec_cmd("hyprctl dispatch exec ~/.config/hypr/scripts/group-all-windows.py")) -- SUPER+W: сгруппировать ВСЕ окна workspace (как Sway tabbed)
-bind("SHIFT + W", hl.dsp.group.toggle())                                                        -- SUPER+Shift+W: разгруппировать (toggle группы)
-bind("CONTROL + W", hl.dsp.group.next())                                                        -- CONTROL+W: циклически переключать группу (forward)
+bind("W", hl.dsp.exec_cmd("sh ~/.config/hypr/scripts/group-all-windows.py")) -- SUPER+W: сгруппировать ВСЕ окна workspace (как Sway tabbed)
+bind("SHIFT + W", hl.dsp.group.toggle())                                     -- SUPER+Shift+W: разгруппировать (toggle группы)
+bind("CONTROL + W", hl.dsp.group.next())                                     -- CONTROL+W: циклически переключать группу (forward)
 
 -- Smart move (COSMIC-style: на краю экрана — переход на соседний workspace)
 bind("SHIFT + LEFT",

@@ -18,15 +18,15 @@ if len(ws_clients) < 2:
 
 # Создаём группу из первого окна
 first = ws_clients[0]['address']
-subprocess.run(['hyprctl', 'dispatch', 'focuswindow', f'address:{first}'])
-subprocess.run(['hyprctl', 'dispatch', 'group', 'lock'])
+subprocess.run(['hyprctl', 'dispatch', 'exec', f'hyprctl dispatch focuswindow address:{first}'])
+subprocess.run(['hyprctl', 'dispatch', 'exec', 'hyprctl dispatch group lock'])
 
 # Добавляем остальные окна в группу
 for client in ws_clients[1:]:
     addr = client['address']
-    subprocess.run(['hyprctl', 'dispatch', 'focuswindow', f'address:{addr}'])
-    subprocess.run(['hyprctl', 'dispatch', 'moveintogroup', 'f'])
+    subprocess.run(['hyprctl', 'dispatch', 'exec', f'hyprctl dispatch focuswindow address:{addr}'])
+    subprocess.run(['hyprctl', 'dispatch', 'exec', 'hyprctl dispatch moveintogroup f'])
 
 # Возвращаемся на первое окно
-subprocess.run(['hyprctl', 'dispatch', 'focuswindow', f'address:{first}'])
-subprocess.run(['hyprctl', 'dispatch', 'group', 'unlock'])
+subprocess.run(['hyprctl', 'dispatch', 'exec', f'hyprctl dispatch focuswindow address:{first}'])
+subprocess.run(['hyprctl', 'dispatch', 'exec', 'hyprctl dispatch group unlock'])
