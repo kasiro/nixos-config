@@ -59,4 +59,9 @@
       };
     };
   };
+
+  # Unset GTK_THEME для всей user-сессии
+  home.sessionVariables = {
+    GTK_THEME = "";
+  };
 }

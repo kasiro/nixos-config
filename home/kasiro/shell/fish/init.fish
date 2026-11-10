@@ -1,3 +1,6 @@
+# Unset неправильной GTK_THEME из прошлой сессии
+set -e GTK_THEME
+
 # nix-your-shell
 if not contains /run/wrappers/bin $PATH
     set -gx PATH /run/wrappers/bin $PATH
