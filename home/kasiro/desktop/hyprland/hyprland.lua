@@ -253,12 +253,8 @@ bind("Q",         hl.dsp.exec_cmd("killactive"))           -- SUPER+Q: закр�
 bind("F",         hl.dsp.window.fullscreen({ action = "toggle" }))  -- SUPER+F: fullscreen
 bind("G",         hl.dsp.window.float({ action = "toggle" }))       -- SUPER+G: floating toggle
 bind("SPACE",     hl.dsp.exec_cmd("hyprctl dispatch focusmode_toggle"))  -- SUPER+Space: focus mode
-bind("D",         hl.dsp.exec_cmd("hyprctl dispatch focusparent"))  -- SUPER+D: focus parent (дублирует menu, оставить для совместимости)
-bind("SHIFT + Q", hl.dsp.window.close())         -- SUPER+Shift+Q: close window (альтернатива)
-bind("SHIFT + F", hl.dsp.window.fullscreen({ action = "toggle" }))  -- дубль для совместимости
 bind("SHIFT + T", hl.dsp.layout("togglesplit"))
 bind("SHIFT + M", hl.dsp.window.move({ workspace = "special:magic" }))
-bind("SHIFT + S", hl.dsp.window.float({ action = "toggle" }))  -- дубль
 bind("SHIFT + P", hl.dsp.window.pseudo({ action = "toggle" }))
 
 -- Groups (вкладки Hyprland)
@@ -271,12 +267,11 @@ bind("SHIFT + LEFT",  hl.dsp.exec_cmd("/home/kasiro/nixos-config/.venv/bin/pytho
 bind("SHIFT + RIGHT", hl.dsp.exec_cmd("/home/kasiro/nixos-config/.venv/bin/python3 /home/kasiro/nixos-config/home/kasiro/desktop/sway/scripts/smart-move.py right"))
 
 -- Resize mode
-bind("R", hl.dsp.exec_cmd("hyprctl dispatch togglespecialworkflow resize"))  -- SUPER+R: resize mode
+bind("R", hl.dsp.exec_cmd("hyprctl dispatch togglespecialworkspace resize"))  -- SUPER+R: resize mode
 bind("SHIFT + R", hl.dsp.exec_cmd("hyprctl reload && noctalia msg config-reload"))  -- SUPER+SHIFT+R: перезагрузить Hyprland + Noctalia
 
 -- System
 bind("SHIFT + E", hl.dsp.exec_cmd("hyprctl dispatch exit"))  -- SUPER+Shift+E: выход из сессии
-bind("SHIFT + ALT + E", hl.dsp.exit())
 hl.bind("CONTROL + L", hl.dsp.exec_cmd("hyprlock"))
 
 -- Brightness
