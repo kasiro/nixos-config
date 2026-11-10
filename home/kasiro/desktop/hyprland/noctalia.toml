@@ -10,7 +10,7 @@ enable_sounds = true
 
 # Noctalia v5 использует bar.main вместо bar.default
 [bar.main]
-position = "bottom"
+position = "top"
 background_opacity = 0.62
 capsule = true
 capsule_fill = "surface"

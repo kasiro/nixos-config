@@ -261,6 +261,11 @@ bind("SHIFT + M", hl.dsp.window.move({ workspace = "special:magic" }))
 bind("SHIFT + S", hl.dsp.window.float({ action = "toggle" }))  -- дубль
 bind("SHIFT + P", hl.dsp.window.pseudo({ action = "toggle" }))
 
+-- Groups (вкладки Hyprland)
+bind("W", hl.dsp.group.toggle())                                 -- SUPER+W: создать/переключить группу
+bind("SHIFT + W", hl.dsp.window.move({ out_of_group = true }))   -- SUPER+Shift+W: убрать из группы
+hl.bind("CONTROL + W", hl.dsp.group.next())                      -- CONTROL+W: циклически переключать группу
+
 -- Smart move (COSMIC-style: на краю экрана — переход на соседний workspace)
 bind("SHIFT + LEFT",  hl.dsp.exec_cmd("/home/kasiro/nixos-config/.venv/bin/python3 /home/kasiro/nixos-config/home/kasiro/desktop/sway/scripts/smart-move.py left"))
 bind("SHIFT + RIGHT", hl.dsp.exec_cmd("/home/kasiro/nixos-config/.venv/bin/python3 /home/kasiro/nixos-config/home/kasiro/desktop/sway/scripts/smart-move.py right"))
@@ -271,7 +276,7 @@ bind("R", hl.dsp.exec_cmd("hyprctl dispatch togglespecialworkflow resize"))  -- 
 -- System
 bind("SHIFT + E", hl.dsp.exec_cmd("hyprctl dispatch exit"))  -- SUPER+Shift+E: выход из сессии
 bind("SHIFT + ALT + E", hl.dsp.exit())
-bind("CONTROL + L", hl.dsp.exec_cmd("hyprlock"))
+hl.bind("CONTROL + L", hl.dsp.exec_cmd("hyprlock"))
 
 -- Brightness
 hl.bind("XF86MonBrightnessUp",   hl.dsp.exec_cmd("brightnessctl set +2%"), { locked = true, repeating = true })
@@ -308,7 +313,7 @@ for key, dir in pairs(directions) do
     bind("ALT + " .. key, hl.dsp.window.move({ direction = dir }))
 
     local step = resizeStep[key]
-    bind("CONTROL + " .. key,
+    hl.bind("CONTROL + " .. key,
         hl.dsp.window.resize({ x = step[1], y = step[2], relative = true }),
         { repeating = true })
 end
@@ -323,7 +328,7 @@ for key, dir in pairs(arrowDirections) do
     bind("ALT + " .. key, hl.dsp.window.move({ direction = dir }))
 
     local step = arrowResize[key]
-    bind("CONTROL + " .. key,
+    hl.bind("CONTROL + " .. key,
         hl.dsp.window.resize({ x = step[1], y = step[2], relative = true }),
         { repeating = true })
 end
@@ -337,7 +342,7 @@ for i = 1, 10 do
     local key = (i == 10) and 0 or i
     bind(tostring(key), hl.dsp.focus({ workspace = i }))           -- SUPER+1-10: переключение
     bind("SHIFT + " .. key, hl.dsp.window.move({ workspace = i }))  -- SUPER+Shift+1-10: перемещение окна
-    bind("CONTROL + " .. key, hl.dsp.focus({ workspace = i }))      -- CONTROL+1-10: переключение (Sway-style)
+    hl.bind("CONTROL + " .. key, hl.dsp.focus({ workspace = i }))   -- CONTROL+1-10: переключение (Sway-style)
 end
 
 bind("mouse_down", hl.dsp.focus({ workspace = "e+1" }))
