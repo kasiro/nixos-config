@@ -20,7 +20,7 @@
 
   qt = {
     enable = lib.mkDefault true;
-    platformTheme = lib.mkDefault "kvantum";
+    platformTheme = lib.mkDefault "qtct";
     style = lib.mkDefault {
       name = "kvantum";
       package = with pkgs; [
@@ -28,6 +28,20 @@
         qt6Packages.qtstyleplugin-kvantum
         catppuccin-kvantum
       ];
+    };
+    qt5ctSettings = {
+      Appearance = {
+        style = "kvantum";
+        icon_theme = "Papirus-Dark";
+        standard_dialogs = "xdgdesktopportal";
+      };
+    };
+    qt6ctSettings = {
+      Appearance = {
+        style = "kvantum";
+        icon_theme = "Papirus-Dark";
+        standard_dialogs = "xdgdesktopportal";
+      };
     };
   };
 }
