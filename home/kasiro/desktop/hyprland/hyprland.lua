@@ -15,7 +15,7 @@
 -- FEATURES --
 -- ======== --
 
-local features = {
+local features    = {
     dynamic_cursors = false,
     nvidia = false,
     extra_autostart = false,
@@ -25,11 +25,11 @@ local features = {
 -- PROGRAMS --
 -- ======== --
 
-local terminal     = "kitty"
-local fileManager  = "nemo"
-local browser      = "firefox" -- zen-browser в системе не установлен
-local taskManager  = terminal .. " -e btop"
-local menu         = "noctalia msg panel-toggle launcher"
+local terminal    = "kitty"
+local fileManager = "nemo"
+local browser     = "firefox" -- zen-browser в системе не установлен
+local taskManager = terminal .. " -e btop"
+local menu        = "noctalia msg panel-toggle launcher"
 
 -- ======== --
 -- MONITORS --
@@ -98,11 +98,11 @@ end
 
 hl.config({
     general = {
-        gaps_in     = 5,
-        gaps_out    = 15,
-        border_size = 3,
+        gaps_in                 = 5,
+        gaps_out                = 15,
+        border_size             = 3,
 
-        col = {
+        col                     = {
             active_border   = "rgb(7366bd)",
             inactive_border = "rgb(4c4f69)",
         },
@@ -118,7 +118,7 @@ hl.config({
         active_opacity     = 1.0,
         fullscreen_opacity = 1.0,
 
-        blur = {
+        blur               = {
             enabled            = true,
             size               = 8,
             passes             = 3,
@@ -128,23 +128,23 @@ hl.config({
             ignore_opacity     = true,
         },
 
-        shadow = {
+        shadow             = {
             enabled = false,
         },
 
-        dim_inactive = true,
-        dim_strength = 0.25,
-        dim_around   = 0.1,
+        dim_inactive       = true,
+        dim_strength       = 0.25,
+        dim_around         = 0.1,
     },
 
     input = {
         kb_layout      = "us, ru",
         kb_options     = "grp:alt_shift_toggle",
-        force_no_accel = true,   -- отключает акселерацию мыши (flat profile)
+        force_no_accel = true, -- отключает акселерацию мыши (flat profile)
         follow_mouse   = 1,
-        sensitivity    = -0.5,      -- 0 = нет ускорения/замедления (диапозон: -1.0 до 1.0)
+        sensitivity    = -0.5, -- 0 = нет ускорения/замедления (диапозон: -1.0 до 1.0)
 
-        touchpad = {
+        touchpad       = {
             natural_scroll = false,
         },
     },
@@ -185,14 +185,14 @@ if features.dynamic_cursors then
     hl.config({
         plugin = {
             ["dynamic-cursors"] = {
-                enabled   = true,
-                mode      = "tilt",
-                threshold = 1,
+                enabled    = true,
+                mode       = "tilt",
+                threshold  = 1,
 
-                rotate  = { length = 20, offset = 0.0 },
-                tilt    = { limit = 5000, ["function"] = "negative_quadratic", window = 100, full_tilt = 60 },
-                stretch = { limit = 3000, ["function"] = "quadratic", window = 100 },
-                shake   = { enabled = false },
+                rotate     = { length = 20, offset = 0.0 },
+                tilt       = { limit = 5000, ["function"] = "negative_quadratic", window = 100, full_tilt = 60 },
+                stretch    = { limit = 3000, ["function"] = "quadratic", window = 100 },
+                shake      = { enabled = false },
 
                 hyprcursor = {
                     nearest    = true,
@@ -209,25 +209,25 @@ end
 -- ANIMATIONS --
 -- ========== --
 
-hl.curve("wind",   { type = "bezier", points = { { 0.05, 0.9 }, { 0.1, 1 } } })
-hl.curve("winIn",  { type = "bezier", points = { { 0.1, 1 }, { 0.1, 1.05 } } })
+hl.curve("wind", { type = "bezier", points = { { 0.05, 0.9 }, { 0.1, 1 } } })
+hl.curve("winIn", { type = "bezier", points = { { 0.1, 1 }, { 0.1, 1.05 } } })
 hl.curve("winOut", { type = "bezier", points = { { 0.3, 0 }, { 0, 1 } } })
-hl.curve("layIn",  { type = "bezier", points = { { 0.1, 1 }, { 0.1, 1.1 } } })
+hl.curve("layIn", { type = "bezier", points = { { 0.1, 1 }, { 0.1, 1.1 } } })
 hl.curve("layOut", { type = "bezier", points = { { 0.3, 0 }, { 0, 1 } } })
-hl.curve("liner",  { type = "bezier", points = { { 1, 1 }, { 1, 1 } } })
+hl.curve("liner", { type = "bezier", points = { { 1, 1 }, { 1, 1 } } })
 
-hl.animation({ leaf = "windows",             enabled = true, speed = 6,  bezier = "wind",   style = "slide" })
-hl.animation({ leaf = "windowsIn",           enabled = true, speed = 6,  bezier = "winIn",  style = "slide" })
-hl.animation({ leaf = "windowsOut",          enabled = true, speed = 6,  bezier = "winOut", style = "slide" })
-hl.animation({ leaf = "windowsMove",         enabled = true, speed = 6,  bezier = "wind",   style = "slide" })
-hl.animation({ leaf = "border",              enabled = true, speed = 1,  bezier = "liner" })
-hl.animation({ leaf = "borderangle",         enabled = true, speed = 30, bezier = "liner",  style = "loop" })
-hl.animation({ leaf = "fade",                enabled = true, speed = 10, bezier = "default" })
-hl.animation({ leaf = "workspaces",          enabled = true, speed = 5,  bezier = "wind" })
-hl.animation({ leaf = "specialWorkspaceIn",  enabled = true, speed = 5,  bezier = "winIn",  style = "slidevert" })
-hl.animation({ leaf = "specialWorkspaceOut", enabled = true, speed = 6,  bezier = "winOut", style = "slidevert" })
-hl.animation({ leaf = "layersIn",            enabled = true, speed = 5,  bezier = "layIn",  style = "slide" })
-hl.animation({ leaf = "layersOut",           enabled = true, speed = 5,  bezier = "layOut", style = "slide" })
+hl.animation({ leaf = "windows", enabled = true, speed = 6, bezier = "wind", style = "slide" })
+hl.animation({ leaf = "windowsIn", enabled = true, speed = 6, bezier = "winIn", style = "slide" })
+hl.animation({ leaf = "windowsOut", enabled = true, speed = 6, bezier = "winOut", style = "slide" })
+hl.animation({ leaf = "windowsMove", enabled = true, speed = 6, bezier = "wind", style = "slide" })
+hl.animation({ leaf = "border", enabled = true, speed = 1, bezier = "liner" })
+hl.animation({ leaf = "borderangle", enabled = true, speed = 30, bezier = "liner", style = "loop" })
+hl.animation({ leaf = "fade", enabled = true, speed = 10, bezier = "default" })
+hl.animation({ leaf = "workspaces", enabled = true, speed = 5, bezier = "wind" })
+hl.animation({ leaf = "specialWorkspaceIn", enabled = true, speed = 5, bezier = "winIn", style = "slidevert" })
+hl.animation({ leaf = "specialWorkspaceOut", enabled = true, speed = 6, bezier = "winOut", style = "slidevert" })
+hl.animation({ leaf = "layersIn", enabled = true, speed = 5, bezier = "layIn", style = "slide" })
+hl.animation({ leaf = "layersOut", enabled = true, speed = 5, bezier = "layOut", style = "slide" })
 
 -- ======== --
 -- KEYBINDS --
@@ -240,79 +240,83 @@ local function bind(keys, dispatcher, opts)
 end
 
 -- Program launch (Sway-style)
-bind("Return", hl.dsp.exec_cmd(terminal))        -- SUPER+Return: терминал
-bind("A",      hl.dsp.exec_cmd("fuzzel"))        -- SUPER+A: fuzzel launcher
-bind("SHIFT + A", hl.dsp.exec_cmd("wofi --show drun"))  -- SUPER+Shift+A: wofi fallback
-bind("E",      hl.dsp.exec_cmd(fileManager))
-bind("Y",      hl.dsp.exec_cmd(browser))
-bind("D",      hl.dsp.exec_cmd(menu))
-bind("U",      hl.dsp.exec_cmd(taskManager))
+bind("Return", hl.dsp.exec_cmd(terminal))              -- SUPER+Return: терминал
+bind("A", hl.dsp.exec_cmd("fuzzel"))                   -- SUPER+A: fuzzel launcher
+bind("SHIFT + A", hl.dsp.exec_cmd("wofi --show drun")) -- SUPER+Shift+A: wofi fallback
+bind("A", hl.dsp.exec_cmd(menu))
+bind("U", hl.dsp.exec_cmd(taskManager))
 
 -- Window management (Sway-style)
-bind("Q",         hl.dsp.window.close())    -- SUPER+Q: закрыть окно
-bind("F",         hl.dsp.window.fullscreen({ action = "toggle" }))  -- SUPER+F: fullscreen
-bind("G",         hl.dsp.window.float({ action = "toggle" }))       -- SUPER+G: floating toggle
-bind("SPACE",     hl.dsp.exec_cmd("hyprctl dispatch focusmode_toggle"))  -- SUPER+Space: focus mode
+bind("Q", hl.dsp.window.close()) -- SUPER+Q: закрыть окно
+-- bind("F", hl.dsp.window.fullscreen({ action = "toggle" }))          -- SUPER+F: fullscreen
+bind("F", hl.dsp.window.pseudo({ action = "toggle" }))
+bind("G", hl.dsp.window.float({ action = "toggle" }))               -- SUPER+G: floating toggle
+bind("SPACE", hl.dsp.exec_cmd("hyprctl dispatch focusmode_toggle")) -- SUPER+Space: focus mode
 bind("SHIFT + T", hl.dsp.layout("togglesplit"))
 bind("SHIFT + M", hl.dsp.window.move({ workspace = "special:magic" }))
-bind("SHIFT + P", hl.dsp.window.pseudo({ action = "toggle" }))
 
 -- Groups (вкладки Hyprland)
-bind("W", hl.dsp.exec_cmd("~/.config/hypr/scripts/group-all-windows.py"))  -- SUPER+W: сгруппировать ВСЕ окна workspace (как Sway tabbed)
-bind("SHIFT + W", hl.dsp.group.toggle())   -- SUPER+Shift+W: разгруппировать (toggle группы)
-hl.bind("CONTROL + W", hl.dsp.group.next())                    -- CONTROL+W: циклически переключать группу (forward)
+bind("W", hl.dsp.exec_cmd("~/.config/hypr/scripts/group-all-windows.py")) -- SUPER+W: сгруппировать ВСЕ окна workspace (как Sway tabbed)
+bind("SHIFT + W", hl.dsp.group.toggle())                                  -- SUPER+Shift+W: разгруппировать (toggle группы)
+bind("CONTROL + W", hl.dsp.group.next())                                  -- CONTROL+W: циклически переключать группу (forward)
 
 -- Smart move (COSMIC-style: на краю экрана — переход на соседний workspace)
-bind("SHIFT + LEFT",  hl.dsp.exec_cmd("/home/kasiro/nixos-config/.venv/bin/python3 /home/kasiro/nixos-config/home/kasiro/desktop/sway/scripts/smart-move.py left"))
-bind("SHIFT + RIGHT", hl.dsp.exec_cmd("/home/kasiro/nixos-config/.venv/bin/python3 /home/kasiro/nixos-config/home/kasiro/desktop/sway/scripts/smart-move.py right"))
+bind("SHIFT + LEFT",
+    hl.dsp.exec_cmd(
+        "/home/kasiro/nixos-config/.venv/bin/python3 /home/kasiro/nixos-config/home/kasiro/desktop/sway/scripts/smart-move.py left"))
+bind("SHIFT + RIGHT",
+    hl.dsp.exec_cmd(
+        "/home/kasiro/nixos-config/.venv/bin/python3 /home/kasiro/nixos-config/home/kasiro/desktop/sway/scripts/smart-move.py right"))
 
 -- Resize mode
-bind("R", hl.dsp.exec_cmd("hyprctl dispatch togglespecialworkspace resize"))  -- SUPER+R: resize mode
-bind("SHIFT + R", hl.dsp.exec_cmd("hyprctl reload && noctalia msg config-reload"))  -- SUPER+SHIFT+R: перезагрузить Hyprland + Noctalia
+-- bind("R", hl.dsp.exec_cmd("hyprctl dispatch togglespecialworkspace resize"))       -- SUPER+R: resize mode
+bind("SHIFT + R", hl.dsp.exec_cmd("hyprctl reload && noctalia msg config-reload")) -- SUPER+SHIFT+R: перезагрузить Hyprland + Noctalia
 
 -- System
-bind("SHIFT + E", hl.dsp.exit())  -- SUPER+Shift+E: выход из сессии
-hl.bind("CONTROL + L", hl.dsp.exec_cmd("hyprlock"))
+bind("SHIFT + E", hl.dsp.exit()) -- SUPER+Shift+E: выход из сессии
+bind("CONTROL + L", hl.dsp.exec_cmd("hyprlock"))
 
 -- Brightness
-hl.bind("XF86MonBrightnessUp",   hl.dsp.exec_cmd("brightnessctl set +2%"), { locked = true, repeating = true })
-hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl set 2%-"), { locked = true, repeating = true })
+-- hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl set +2%"), { locked = true, repeating = true })
+-- hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl set 2%-"), { locked = true, repeating = true })
 
 -- Volume & media
-hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+"), { locked = true, repeating = true })
-hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"),        { locked = true, repeating = true })
-hl.bind("XF86AudioMute",        hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"),       { locked = true })
-hl.bind("XF86AudioMicMute",     hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"),     { locked = true })
-hl.bind("XF86AudioPlay",        hl.dsp.exec_cmd("playerctl play-pause"),                             { locked = true })
-hl.bind("XF86AudioNext",        hl.dsp.exec_cmd("playerctl next"),                                   { locked = true })
-hl.bind("XF86AudioPrev",        hl.dsp.exec_cmd("playerctl previous"),                               { locked = true })
+-- hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+"),
+--     { locked = true, repeating = true })
+-- hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"),
+--     { locked = true, repeating = true })
+-- hl.bind("XF86AudioMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"), { locked = true })
+-- hl.bind("XF86AudioMicMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"), { locked = true })
+-- hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
+-- hl.bind("XF86AudioNext", hl.dsp.exec_cmd("playerctl next"), { locked = true })
+-- hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true })
 
 -- Alt-tab
 bind("Tab", hl.dsp.window.cycle_next({ next = false }))
 hl.bind("ALT + Tab", hl.dsp.window.bring_to_top())
 
 -- Screenshots (Sway-style)
-hl.bind("Print", hl.dsp.exec_cmd([[grim - | wl-copy]]))  -- полный скриншот в буфер
-hl.bind("SHIFT + Print", hl.dsp.exec_cmd([[grim -g "$(slurp -d)" - | wl-copy]]))  -- область в буфер
-hl.bind("CONTROL + Print", hl.dsp.exec_cmd(
-    [[mkdir -p ~/Pictures/Screenshots && grim -g "$(slurp -d)" - ]] ..
-    [[| tee ~/Pictures/Screenshots/$(date +'%Y-%m-%d-%H%M%S').png | wl-copy]]
-))  -- область с сохранением
+hl.bind("Print", hl.dsp.exec_cmd([[grim - | wl-copy]]))                          -- полный скриншот в буфер
+hl.bind("SHIFT + Print", hl.dsp.exec_cmd([[grim -g "$(slurp -d)" - | wl-copy]])) -- область в буфер
+-- hl.bind("CONTROL + Print", hl.dsp.exec_cmd(
+--     [[mkdir -p ~/Pictures/Screenshots && grim -g "$(slurp -d)" - ]] ..
+--     [[| tee ~/Pictures/Screenshots/$(date +'%Y-%m-%d-%H%M%S').png | wl-copy]]
+-- )) -- область с сохранением
 
 -- Focus / move / resize with HJKL
-local directions = { H = "left", L = "right", K = "up", J = "down" }
-local resizeStep = { H = { -20, 0 }, L = { 20, 0 }, K = { 0, -20 }, J = { 0, 20 } }
+-- local directions = { H = "left", L = "right", K = "up", J = "down" }
+-- local resizeStep = { H = { -20, 0 }, L = { 20, 0 }, K = { 0, -20 }, J = { 0, 20 } }
 
-for key, dir in pairs(directions) do
-    bind(key, hl.dsp.focus({ direction = dir }))
-    bind("SHIFT + " .. key, hl.dsp.window.swap({ direction = dir }))
-    bind("ALT + " .. key, hl.dsp.window.move({ direction = dir }))
+-- for key, dir in pairs(directions) do
+--     bind(key, hl.dsp.focus({ direction = dir }))
+--     bind("SHIFT + " .. key, hl.dsp.window.swap({ direction = dir }))
+--     bind("ALT + " .. key, hl.dsp.window.move({ direction = dir }))
 
-    local step = resizeStep[key]
-    hl.bind("CONTROL + " .. key,
-        hl.dsp.window.resize({ x = step[1], y = step[2], relative = true }),
-        { repeating = true })
-end
+--     local step = resizeStep[key]
+--     hl.bind("CONTROL + " .. key,
+--         hl.dsp.window.resize({ x = step[1], y = step[2], relative = true }),
+--         { repeating = true })
+-- end
 
 -- Стрелки: навигация / перемещение / ресайз (дублируют HJKL)
 local arrowDirections = { left = "left", right = "right", up = "up", down = "down" }
@@ -330,22 +334,22 @@ for key, dir in pairs(arrowDirections) do
 end
 
 -- Cycle floating / tiled
-bind("N",         hl.dsp.window.cycle_next({ floating = true }))
-bind("SHIFT + N", hl.dsp.window.cycle_next({ tiled = true }))
+-- bind("N", hl.dsp.window.cycle_next({ floating = true }))
+-- bind("SHIFT + N", hl.dsp.window.cycle_next({ tiled = true }))
 
 -- Workspaces (Sway-style: Control+Num для переключения, SUPER+Num тоже оставить)
 for i = 1, 10 do
     local key = (i == 10) and 0 or i
     bind(tostring(key), hl.dsp.focus({ workspace = i }))           -- SUPER+1-10: переключение
-    bind("SHIFT + " .. key, hl.dsp.window.move({ workspace = i }))  -- SUPER+Shift+1-10: перемещение окна
-    hl.bind("CONTROL + " .. key, hl.dsp.focus({ workspace = i }))   -- CONTROL+1-10: переключение (Sway-style)
+    bind("SHIFT + " .. key, hl.dsp.window.move({ workspace = i })) -- SUPER+Shift+1-10: перемещение окна
+    bind("CONTROL + " .. key, hl.dsp.focus({ workspace = i }))     -- CONTROL+1-10: переключение (Sway-style)
 end
 
 bind("mouse_down", hl.dsp.focus({ workspace = "e+1" }))
-bind("mouse_up",   hl.dsp.focus({ workspace = "e-1" }))
+bind("mouse_up", hl.dsp.focus({ workspace = "e-1" }))
 
 -- Move / resize with mouse
-bind("mouse:272", hl.dsp.window.drag(),   { mouse = true })
+bind("mouse:272", hl.dsp.window.drag(), { mouse = true })
 bind("mouse:273", hl.dsp.window.resize(), { mouse = true })
 
 -- ============ --
@@ -353,8 +357,8 @@ bind("mouse:273", hl.dsp.window.resize(), { mouse = true })
 -- ============ --
 
 hl.window_rule({
-    name  = "waydroid-fullscreen",
-    match = { class = "Waydroid" },
+    name       = "waydroid-fullscreen",
+    match      = { class = "Waydroid" },
     float      = true,
     fullscreen = true,
 })
@@ -389,8 +393,8 @@ hl.window_rule({
 -- =========== --
 
 hl.layer_rule({
-    name  = "noctalia-blur",
-    match = { namespace = "^noctalia-(bar|desktop-widget)-.*$" },
+    name         = "noctalia-blur",
+    match        = { namespace = "^noctalia-(bar|desktop-widget)-.*$" },
     blur         = true,
     ignore_alpha = 0.35,
 })
