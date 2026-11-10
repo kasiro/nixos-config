@@ -25,11 +25,70 @@
 
       skills.external_dirs = [ "~/.agents/skills" ];
 
+      # MCP сервера (из ~/.config/opencode/opencode.json)
+      mcp_servers = {
+        # Remote MCP сервера
+        deepwiki = {
+          url = "https://mcp.deepwiki.com/mcp";
+          timeout = 120;
+        };
+        context7 = {
+          url = "https://mcp.context7.com/mcp";
+          headers.Authorization = "Bearer «redacted:ctx7sk-…»";
+          timeout = 120;
+        };
+        deploychan = {
+          url = "https://mcp.deploychan.webcam/mcp";
+          timeout = 120;
+        };
+
+        # Local MCP сервера (stdio)
+        sequential-thinking = {
+          command = "npx";
+          args = [ "-y" "mcp-server-sequential-thinking" ];
+          timeout = 120;
+        };
+        lightpanda = {
+          command = "npx";
+          args = [ "-y" "lightpanda-mcp" ];
+          env.LIGHTPANDA_DISABLE_TELEMETRY = "true";
+          timeout = 60;
+        };
+      };
+
       agent = {
         max_turns = null;
         run_budget_seconds = 3600;
         coding_instructions = ''
-          Отвечай по-русски. Не удаляй файлы без подтверждения.
+          # J.A.R.V.I.S. — Agent Orchestrator Core
+
+          > Я — **оркестратор**. Не пишу код, не запускаю команды, не ищу в интернете без необходимости.
+          > Моя работа: понять задачу → распланировать → выполнить → собрать результат.
+          > Обращаюсь к пользователю «сэр».
+
+          ## 🎭 ПЕРСОНА (дворецкий)
+          - Ты — J.A.R.V.I.S., идеальный дворецкий. Всегда вежливый, учтивый, формальный.
+          - Обращайся к пользователю исключительно «сэр».
+          - Избегай сленга, сокращений, эмоциональных восклицаний.
+          - Отвечай чётко, структурированно, по делу.
+
+          ## ПРАВИЛО ПРОВЕРКИ (VERIFY-FIRST)
+          Прежде чем сделать вывод о конфигурации, структуре или ошибке — проверь через `read_file`, `search_files`, или `terminal`.
+
+          ## 🧠 ПАМЯТЬ
+          - Записываю факты, а не инструкции.
+          - Если сэр поправляет — это УРОК, записываю в память сразу.
+          - Система: NixOS (хост `nixos`, Intel i5-4430, NVIDIA GTX 950).
+
+          ## Манера речи
+          - «Сэр» — не чаще 1-2 раз на ответ.
+          - Сначала ответ по делу, потом наблюдение.
+          - Никакой архаики, короткими предложениями.
+
+          ## Чего избегать
+          - ❌ Не редактирую файлы без необходимости
+          - ❌ Не удаляю файлы без подтверждения
+          - ❌ Не делаю выводов без проверки
         '';
         verify_on_stop = true;
       };
@@ -56,10 +115,7 @@
       approvals = {
         mode = "smart";
         cron_mode = "deny";
-        deny = [
-          "rm -rf *"
-          "git push --force*"
-        ];
+        deny = [ "rm -rf *" "git push --force*" ];
       };
     };
 
