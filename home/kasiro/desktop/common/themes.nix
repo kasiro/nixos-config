@@ -21,7 +21,7 @@
 
   qt = {
     enable = lib.mkDefault true;
-    platformTheme = lib.mkDefault "qtct";
+    platformTheme.name = lib.mkDefault "qtct";
     style = lib.mkDefault {
       name = "kvantum";
       package = with pkgs; [
