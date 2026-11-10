@@ -25,7 +25,8 @@ local features = {
 -- PROGRAMS --
 -- ======== --
 
-local terminal = "kitty --start-as=normal"
+-- local terminal = "kitty --start-as=normal"
+local terminal = "kitty"
 local menu     = "noctalia msg panel-toggle launcher"
 
 -- ======== --
