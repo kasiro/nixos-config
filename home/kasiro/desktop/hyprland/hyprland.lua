@@ -140,9 +140,9 @@ hl.config({
         follow_mouse   = 1,
         sensitivity    = -0.5, -- 0 = нет ускорения/замедления (диапозон: -1.0 до 1.0)
 
-        touchpad       = {
-            natural_scroll = false,
-        },
+        -- touchpad       = {
+        --     natural_scroll = false,
+        -- },
     },
 
     dwindle = {
@@ -242,9 +242,9 @@ bind("A", hl.dsp.exec_cmd(menu))
 -- bind("U", hl.dsp.exec_cmd(taskManager))
 
 -- Window management (Sway-style)
-bind("Q", hl.dsp.window.close())                           -- SUPER+Q: закрыть окно
-bind("F", hl.dsp.window.fullscreen({ action = "toggle" })) -- SUPER+F: fullscreen
--- bind("F", hl.dsp.window.fullscreen({ action = "toggle", mode = "maximized" }))
+bind("Q", hl.dsp.window.close()) -- SUPER+Q: закрыть окно
+-- bind("F", hl.dsp.window.fullscreen({ action = "toggle" })) -- SUPER+F: fullscreen
+bind("F", hl.dsp.window.fullscreen({ action = "toggle", mode = "maximized" }))
 bind("V", hl.dsp.window.pseudo({ action = "toggle" }))
 bind("G", hl.dsp.window.float({ action = "toggle" })) -- SUPER+G: floating toggle
 -- bind("SPACE", hl.dsp.exec_cmd("hyprctl dispatch focusmode_toggle")) -- SUPER+Space: focus mode
@@ -352,12 +352,12 @@ bind("mouse:273", hl.dsp.window.resize(), { mouse = true })
 -- WINDOW RULES --
 -- ============ --
 
--- hl.window_rule({
---     name       = "waydroid-fullscreen",
---     match      = { class = "Waydroid" },
---     float      = true,
---     fullscreen = true,
--- })
+hl.window_rule({
+    name       = "waydroid-fullscreen",
+    match      = { class = "Waydroid" },
+    float      = true,
+    fullscreen = true,
+})
 
 hl.window_rule({
     name    = "xwayland-no-blur",
