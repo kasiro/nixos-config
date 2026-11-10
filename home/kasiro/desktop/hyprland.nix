@@ -183,7 +183,7 @@
       initial_window_state = "normal";
 
       # Не спрашивать подтверждение при закрытии окна с запущенным процессом
-      confirm_os_window_close = "never";
+      confirm_os_window_close = 0;
 
       # Shell integration: только no-cursor, остальное — kitty по умолчанию
       shell_integration = "no-cursor";
