@@ -239,25 +239,39 @@ local function bind(keys, dispatcher, opts)
     return hl.bind(mainMod .. " + " .. keys, dispatcher, opts)
 end
 
--- Program launch
-bind("Return", hl.dsp.exec_cmd(terminal))
+-- Program launch (Sway-style)
+bind("Return", hl.dsp.exec_cmd(terminal))        -- SUPER+Return: терминал
+bind("A",      hl.dsp.exec_cmd("fuzzel"))        -- SUPER+A: fuzzel launcher
+bind("SHIFT + A", hl.dsp.exec_cmd("wofi --show drun"))  -- SUPER+Shift+A: wofi fallback
 bind("E",      hl.dsp.exec_cmd(fileManager))
 bind("Y",      hl.dsp.exec_cmd(browser))
 bind("D",      hl.dsp.exec_cmd(menu))
 bind("U",      hl.dsp.exec_cmd(taskManager))
 
--- Window mode
-bind("M",         hl.dsp.workspace.toggle_special("magic"))
-bind("SHIFT + F", hl.dsp.window.fullscreen({ action = "toggle" }))
+-- Window management (Sway-style)
+bind("Q",         hl.dsp.exec_cmd("hyprctl dispatch killactive"))  -- SUPER+Q: kill window
+bind("F",         hl.dsp.window.fullscreen({ action = "toggle" }))  -- SUPER+F: fullscreen
+bind("G",         hl.dsp.window.float({ action = "toggle" }))       -- SUPER+G: floating toggle
+bind("SPACE",     hl.dsp.exec_cmd("hyprctl dispatch focusmode_toggle"))  -- SUPER+Space: focus mode
+bind("D",         hl.dsp.exec_cmd("hyprctl dispatch focusparent"))  -- SUPER+D: focus parent (дублирует menu, оставить для совместимости)
+bind("SHIFT + Q", hl.dsp.window.close())         -- SUPER+Shift+Q: close window (альтернатива)
+bind("SHIFT + F", hl.dsp.window.fullscreen({ action = "toggle" }))  -- дубль для совместимости
 bind("SHIFT + T", hl.dsp.layout("togglesplit"))
 bind("SHIFT + M", hl.dsp.window.move({ workspace = "special:magic" }))
-bind("SHIFT + S", hl.dsp.window.float({ action = "toggle" }))
+bind("SHIFT + S", hl.dsp.window.float({ action = "toggle" }))  -- дубль
 bind("SHIFT + P", hl.dsp.window.pseudo({ action = "toggle" }))
 
+-- Smart move (COSMIC-style: на краю экрана — переход на соседний workspace)
+bind("SHIFT + LEFT",  hl.dsp.exec_cmd("/home/kasiro/nixos-config/.venv/bin/python3 /home/kasiro/nixos-config/home/kasiro/desktop/sway/scripts/smart-move.py left"))
+bind("SHIFT + RIGHT", hl.dsp.exec_cmd("/home/kasiro/nixos-config/.venv/bin/python3 /home/kasiro/nixos-config/home/kasiro/desktop/sway/scripts/smart-move.py right"))
+
+-- Resize mode
+bind("R", hl.dsp.exec_cmd("hyprctl dispatch togglespecialworkflow resize"))  -- SUPER+R: resize mode
+
 -- System
-bind("SHIFT + Q",       hl.dsp.window.close())
+bind("SHIFT + E", hl.dsp.exec_cmd("hyprctl dispatch exit"))  -- SUPER+Shift+E: выход из сессии
 bind("SHIFT + ALT + E", hl.dsp.exit())
-bind("CONTROL + L",     hl.dsp.exec_cmd("hyprlock"))
+bind("CONTROL + L", hl.dsp.exec_cmd("hyprlock"))
 
 -- Brightness
 hl.bind("XF86MonBrightnessUp",   hl.dsp.exec_cmd("brightnessctl set +2%"), { locked = true, repeating = true })
@@ -276,12 +290,13 @@ hl.bind("XF86AudioPrev",        hl.dsp.exec_cmd("playerctl previous"),          
 bind("Tab", hl.dsp.window.cycle_next({ next = false }))
 hl.bind("ALT + Tab", hl.dsp.window.bring_to_top())
 
--- Screenshots
-hl.bind("Print", hl.dsp.exec_cmd([[grim -g "$(slurp -d)" - | wl-copy]]))
-hl.bind("SHIFT + Print", hl.dsp.exec_cmd(
+-- Screenshots (Sway-style)
+hl.bind("Print", hl.dsp.exec_cmd([[grim - | wl-copy]]))  -- полный скриншот в буфер
+hl.bind("SHIFT + Print", hl.dsp.exec_cmd([[grim -g "$(slurp -d)" - | wl-copy]]))  -- область в буфер
+hl.bind("CONTROL + Print", hl.dsp.exec_cmd(
     [[mkdir -p ~/Pictures/Screenshots && grim -g "$(slurp -d)" - ]] ..
     [[| tee ~/Pictures/Screenshots/$(date +'%Y-%m-%d-%H%M%S').png | wl-copy]]
-))
+))  -- область с сохранением
 
 -- Focus / move / resize with HJKL
 local directions = { H = "left", L = "right", K = "up", J = "down" }
@@ -317,11 +332,12 @@ end
 bind("N",         hl.dsp.window.cycle_next({ floating = true }))
 bind("SHIFT + N", hl.dsp.window.cycle_next({ tiled = true }))
 
--- Workspaces
+-- Workspaces (Sway-style: Control+Num для переключения, SUPER+Num тоже оставить)
 for i = 1, 10 do
     local key = i % 10
-    bind(tostring(key), hl.dsp.focus({ workspace = i }))
-    bind("SHIFT + " .. key, hl.dsp.window.move({ workspace = i }))
+    bind(tostring(key), hl.dsp.focus({ workspace = i }))           -- SUPER+1-10: переключение
+    bind("SHIFT + " .. key, hl.dsp.window.move({ workspace = i }))  -- SUPER+Shift+1-10: перемещение окна
+    bind("CONTROL + " .. key, hl.dsp.focus({ workspace = i }))      -- CONTROL+1-10: переключение (Sway-style)
 end
 
 bind("mouse_down", hl.dsp.focus({ workspace = "e+1" }))
