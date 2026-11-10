@@ -249,7 +249,7 @@ bind("D",      hl.dsp.exec_cmd(menu))
 bind("U",      hl.dsp.exec_cmd(taskManager))
 
 -- Window management (Sway-style)
-bind("Q",         hl.dsp.killactive())           -- SUPER+Q: закрыть окно (исправлено)
+bind("Q",         hl.dsp.exec_cmd("killactive"))           -- SUPER+Q: закрыть окно (исправлено)
 bind("F",         hl.dsp.window.fullscreen({ action = "toggle" }))  -- SUPER+F: fullscreen
 bind("G",         hl.dsp.window.float({ action = "toggle" }))       -- SUPER+G: floating toggle
 bind("SPACE",     hl.dsp.exec_cmd("hyprctl dispatch focusmode_toggle"))  -- SUPER+Space: focus mode
@@ -263,8 +263,8 @@ bind("SHIFT + P", hl.dsp.window.pseudo({ action = "toggle" }))
 
 -- Groups (вкладки Hyprland)
 bind("W", hl.dsp.exec_cmd("/home/kasiro/nixos-config/home/kasiro/desktop/hyprland/scripts/group-all-windows.py"))  -- SUPER+W: сгруппировать ВСЕ окна workspace (как Sway tabbed)
-bind("SHIFT + W", hl.dsp.window.move({ out_of_group = true }))   -- SUPER+Shift+W: убрать из группы
-hl.bind("CONTROL + W", hl.dsp.group.next())                      -- CONTROL+W: циклически переключать группу
+bind("SHIFT + W", hl.dsp.exec_cmd("ungroup"))   -- SUPER+Shift+W: убрать из группы
+hl.bind("CONTROL + W", hl.dsp.exec_cmd("changegroupactive"))                      -- CONTROL+W: циклически переключать группу
 
 -- Smart move (COSMIC-style: на краю экрана — переход на соседний workspace)
 bind("SHIFT + LEFT",  hl.dsp.exec_cmd("/home/kasiro/nixos-config/.venv/bin/python3 /home/kasiro/nixos-config/home/kasiro/desktop/sway/scripts/smart-move.py left"))
