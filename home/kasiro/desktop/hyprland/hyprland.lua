@@ -258,7 +258,7 @@ bind("SHIFT + M", hl.dsp.window.move({ workspace = "special:magic" }))
 bind("SHIFT + P", hl.dsp.window.pseudo({ action = "toggle" }))
 
 -- Groups (вкладки Hyprland)
-bind("W", hl.dsp.exec_cmd("/home/kasiro/nixos-config/home/kasiro/desktop/hyprland/scripts/group-all-windows.py"))  -- SUPER+W: сгруппировать ВСЕ окна workspace (как Sway tabbed)
+bind("W", hl.dsp.exec_cmd("~/.config/hypr/scripts/group-all-windows.py"))  -- SUPER+W: сгруппировать ВСЕ окна workspace (как Sway tabbed)
 bind("SHIFT + W", hl.dsp.group.toggle())   -- SUPER+Shift+W: разгруппировать (toggle группы)
 hl.bind("CONTROL + W", hl.dsp.group.next())                    -- CONTROL+W: циклически переключать группу (forward)
 

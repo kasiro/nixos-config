@@ -94,5 +94,11 @@
 
     # Hyprlock конфиг
     "hypr/hyprlock.conf".source = ./hyprland/hyprlock.conf;
+
+    # Скрипт группировки окон
+    "hypr/scripts/group-all-windows.py" = {
+      source = ./hyprland/scripts/group-all-windows.py;
+      executable = true;
+    };
   };
 }
