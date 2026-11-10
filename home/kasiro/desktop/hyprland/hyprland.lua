@@ -249,7 +249,7 @@ bind("D",      hl.dsp.exec_cmd(menu))
 bind("U",      hl.dsp.exec_cmd(taskManager))
 
 -- Window management (Sway-style)
-bind("Q",         hl.dsp.kill())            -- SUPER+Q: закрыть окно
+bind("Q",         hl.dsp.window.close())    -- SUPER+Q: закрыть окно
 bind("F",         hl.dsp.window.fullscreen({ action = "toggle" }))  -- SUPER+F: fullscreen
 bind("G",         hl.dsp.window.float({ action = "toggle" }))       -- SUPER+G: floating toggle
 bind("SPACE",     hl.dsp.exec_cmd("hyprctl dispatch focusmode_toggle"))  -- SUPER+Space: focus mode
