@@ -16,7 +16,7 @@
       name = lib.mkDefault "Papirus-Dark";
       package = lib.mkDefault pkgs.papirus-icon-theme;
     };
-    colorScheme = lib.mkDefault "prefer-dark";
+    colorScheme = lib.mkDefault "dark";
   };
 
   qt = {
