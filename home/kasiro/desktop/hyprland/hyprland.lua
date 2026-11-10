@@ -140,9 +140,9 @@ hl.config({
     input = {
         kb_layout      = "us, ru",
         kb_options     = "grp:alt_shift_toggle",
-        force_no_accel = true,
+        force_no_accel = true,   -- отключает акселерацию мыши (flat profile)
         follow_mouse   = 1,
-        sensitivity    = 0,
+        sensitivity    = 0,      -- 0 = нет ускорения/замедления (диапазон: -1.0 до 1.0)
 
         touchpad = {
             natural_scroll = false,
@@ -334,7 +334,7 @@ bind("SHIFT + N", hl.dsp.window.cycle_next({ tiled = true }))
 
 -- Workspaces (Sway-style: Control+Num для переключения, SUPER+Num тоже оставить)
 for i = 1, 10 do
-    local key = i % 10
+    local key = (i == 10) and 0 or i
     bind(tostring(key), hl.dsp.focus({ workspace = i }))           -- SUPER+1-10: переключение
     bind("SHIFT + " .. key, hl.dsp.window.move({ workspace = i }))  -- SUPER+Shift+1-10: перемещение окна
     bind("CONTROL + " .. key, hl.dsp.focus({ workspace = i }))      -- CONTROL+1-10: переключение (Sway-style)
