@@ -1,5 +1,6 @@
 {
   pkgs,
+  inputs,
   ...
 }:
 {
@@ -12,6 +13,9 @@
       ./shell
       ./fish.nix
       ../common
+
+      # Типизированный HM-модуль noctalia (programs.noctalia) из flake проекта
+      inputs.noctalia.homeModules.default
     ];
 
   home.username = "kasiro";

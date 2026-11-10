@@ -7,10 +7,8 @@
     qbittorrent
     winetricks
     repomix
-    mpvpaper # mp4 как обои (sway)
-    socat # зависимость mpvpaper
+    # mpvpaper # mp4 как обои (sway)
+    # socat # зависимость mpvpaper
     mpv
-    ranger
-    nwg-dock # док для sway
   ];
 }

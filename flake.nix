@@ -16,6 +16,8 @@
     chaotic.url = "github:chaotic-cx/nyx/main";
     hermes-agent.url = "github:NousResearch/hermes-agent";
     hyprland.url = "github:hyprwm/Hyprland";
+    # HM-модуль noctalia (programs.noctalia, settings → TOML)
+    noctalia.url = "github:noctalia-dev/noctalia";
   };
 
   outputs =
