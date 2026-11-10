@@ -30,17 +30,31 @@
       ];
     };
     qt5ctSettings = {
+      General = {
+        color_scheme = "default";
+        style = "kvantum";
+      };
       Appearance = {
         style = "kvantum";
         icon_theme = "Papirus-Dark";
         standard_dialogs = "xdgdesktopportal";
       };
+      Kvantum = {
+        kvantum_theme = "catppuccin-frappe-blue";
+      };
     };
     qt6ctSettings = {
+      General = {
+        color_scheme = "default";
+        style = "kvantum";
+      };
       Appearance = {
         style = "kvantum";
         icon_theme = "Papirus-Dark";
         standard_dialogs = "xdgdesktopportal";
+      };
+      Kvantum = {
+        kvantum_theme = "catppuccin-frappe-blue";
       };
     };
   };
