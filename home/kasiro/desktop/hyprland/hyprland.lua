@@ -249,7 +249,7 @@ bind("D",      hl.dsp.exec_cmd(menu))
 bind("U",      hl.dsp.exec_cmd(taskManager))
 
 -- Window management (Sway-style)
-bind("Q",         hl.dsp.exec_cmd("killactive"))           -- SUPER+Q: закрыть окно (исправлено)
+bind("Q",         hl.dsp.kill())            -- SUPER+Q: закрыть окно
 bind("F",         hl.dsp.window.fullscreen({ action = "toggle" }))  -- SUPER+F: fullscreen
 bind("G",         hl.dsp.window.float({ action = "toggle" }))       -- SUPER+G: floating toggle
 bind("SPACE",     hl.dsp.exec_cmd("hyprctl dispatch focusmode_toggle"))  -- SUPER+Space: focus mode
@@ -259,8 +259,8 @@ bind("SHIFT + P", hl.dsp.window.pseudo({ action = "toggle" }))
 
 -- Groups (вкладки Hyprland)
 bind("W", hl.dsp.exec_cmd("/home/kasiro/nixos-config/home/kasiro/desktop/hyprland/scripts/group-all-windows.py"))  -- SUPER+W: сгруппировать ВСЕ окна workspace (как Sway tabbed)
-bind("SHIFT + W", hl.dsp.exec_cmd("ungroup"))   -- SUPER+Shift+W: убрать из группы
-hl.bind("CONTROL + W", hl.dsp.exec_cmd("changegroupactive f"))                    -- CONTROL+W: циклически переключать группу (forward)
+bind("SHIFT + W", hl.dsp.group.toggle())   -- SUPER+Shift+W: разгруппировать (toggle группы)
+hl.bind("CONTROL + W", hl.dsp.group.next())                    -- CONTROL+W: циклически переключать группу (forward)
 
 -- Smart move (COSMIC-style: на краю экрана — переход на соседний workspace)
 bind("SHIFT + LEFT",  hl.dsp.exec_cmd("/home/kasiro/nixos-config/.venv/bin/python3 /home/kasiro/nixos-config/home/kasiro/desktop/sway/scripts/smart-move.py left"))
@@ -271,7 +271,7 @@ bind("R", hl.dsp.exec_cmd("hyprctl dispatch togglespecialworkspace resize"))  --
 bind("SHIFT + R", hl.dsp.exec_cmd("hyprctl reload && noctalia msg config-reload"))  -- SUPER+SHIFT+R: перезагрузить Hyprland + Noctalia
 
 -- System
-bind("SHIFT + E", hl.dsp.exec_cmd("hyprctl dispatch exit"))  -- SUPER+Shift+E: выход из сессии
+bind("SHIFT + E", hl.dsp.exit())  -- SUPER+Shift+E: выход из сессии
 hl.bind("CONTROL + L", hl.dsp.exec_cmd("hyprlock"))
 
 -- Brightness
