@@ -20,7 +20,13 @@
 
   qt = {
     enable = lib.mkDefault true;
-    platformTheme = lib.mkDefault "gtk";
-    style = lib.mkDefault "gtk";
+    platformTheme = lib.mkDefault {
+      name = "gtk";
+      package = pkgs.qtstyleplugins;
+    };
+    style = lib.mkDefault {
+      name = "gtk";
+      package = pkgs.qtstyleplugins;
+    };
   };
 }
