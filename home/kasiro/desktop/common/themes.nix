@@ -2,7 +2,7 @@
 { pkgs, lib, ... }:
 {
   home.pointerCursor = lib.mkDefault {
-    name = "default";
+    name = "Bibata-Modern-Ice";
     package = pkgs.bibata-cursors;
   };
 
