@@ -239,12 +239,12 @@ end
 bind("Return", hl.dsp.exec_cmd(terminal))              -- SUPER+Return: терминал
 bind("SHIFT + A", hl.dsp.exec_cmd("wofi --show drun")) -- SUPER+Shift+A: wofi fallback
 bind("A", hl.dsp.exec_cmd(menu))
-bind("U", hl.dsp.exec_cmd(taskManager))
+-- bind("U", hl.dsp.exec_cmd(taskManager))
 
 -- Window management (Sway-style)
-bind("Q", hl.dsp.window.close()) -- SUPER+Q: закрыть окно
--- bind("F", hl.dsp.window.fullscreen({ action = "toggle" }))          -- SUPER+F: fullscreen
-bind("F", hl.dsp.window.fullscreen({ action = "toggle", mode = "maximized" }))
+bind("Q", hl.dsp.window.close())                           -- SUPER+Q: закрыть окно
+bind("F", hl.dsp.window.fullscreen({ action = "toggle" })) -- SUPER+F: fullscreen
+-- bind("F", hl.dsp.window.fullscreen({ action = "toggle", mode = "maximized" }))
 bind("V", hl.dsp.window.pseudo({ action = "toggle" }))
 bind("G", hl.dsp.window.float({ action = "toggle" })) -- SUPER+G: floating toggle
 -- bind("SPACE", hl.dsp.exec_cmd("hyprctl dispatch focusmode_toggle")) -- SUPER+Space: focus mode
@@ -257,12 +257,12 @@ bind("SHIFT + W", hl.dsp.group.toggle())                                  -- SUP
 bind("CONTROL + W", hl.dsp.group.next())                                  -- CONTROL+W: циклически переключать группу (forward)
 
 -- Smart move (COSMIC-style: на краю экрана — переход на соседний workspace)
-bind("SHIFT + LEFT",
-    hl.dsp.exec_cmd(
-        "/home/kasiro/nixos-config/.venv/bin/python3 /home/kasiro/nixos-config/home/kasiro/desktop/sway/scripts/smart-move.py left"))
-bind("SHIFT + RIGHT",
-    hl.dsp.exec_cmd(
-        "/home/kasiro/nixos-config/.venv/bin/python3 /home/kasiro/nixos-config/home/kasiro/desktop/sway/scripts/smart-move.py right"))
+-- bind("SHIFT + LEFT",
+--     hl.dsp.exec_cmd(
+--         "/home/kasiro/nixos-config/.venv/bin/python3 /home/kasiro/nixos-config/home/kasiro/desktop/sway/scripts/smart-move.py left"))
+-- bind("SHIFT + RIGHT",
+--     hl.dsp.exec_cmd(
+--         "/home/kasiro/nixos-config/.venv/bin/python3 /home/kasiro/nixos-config/home/kasiro/desktop/sway/scripts/smart-move.py right"))
 
 -- Resize mode
 -- bind("R", hl.dsp.exec_cmd("hyprctl dispatch togglespecialworkspace resize"))       -- SUPER+R: resize mode
