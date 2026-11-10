@@ -6,7 +6,6 @@ let
     "default.nix"
     "common"
     "gnome"
-    "sway"
   ];
 
   entries = builtins.readDir dir;

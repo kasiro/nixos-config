@@ -1,4 +1,4 @@
-{ pkgs, lib, sway, ... }:
+{ pkgs, lib, ... }:
 {
   # Ghostty — терминал с нативной поддержкой blur
   # https://ghostty.org/docs/config/reference
@@ -32,8 +32,8 @@
       # Тема
       theme = "Catppuccin Mocha"
 
-      # Цвет фона (из sway.catppuccin.base — Catppuccin Mocha base)
-      background = "${sway.catppuccin.base}"
+      # Цвет фона (Catppuccin Mocha base)
+      background = "#1e1e2e"
 
       # Cursor
       cursor-style = "block"

@@ -294,8 +294,8 @@ bind("CONTROL + L", hl.dsp.exec_cmd("hyprlock"))
 -- hl.bind("ALT + Tab", hl.dsp.window.bring_to_top())
 
 -- Screenshots (Sway-style)
-hl.bind("Print", hl.dsp.exec_cmd([[grim - | wl-copy]]))                          -- полный скриншот в буфер
-hl.bind("SHIFT + Print", hl.dsp.exec_cmd([[grim -g "$(slurp -d)" - | wl-copy]])) -- область в буфер
+hl.bind("Print", hl.dsp.exec_cmd([[grim - | wl-copy]]))               -- полный скриншот в буфер
+bind("Print", hl.dsp.exec_cmd([[grim -g "$(slurp -d)" - | wl-copy]])) -- область в буфер
 -- hl.bind("CONTROL + Print", hl.dsp.exec_cmd(
 --     [[mkdir -p ~/Pictures/Screenshots && grim -g "$(slurp -d)" - ]] ..
 --     [[| tee ~/Pictures/Screenshots/$(date +'%Y-%m-%d-%H%M%S').png | wl-copy]]
