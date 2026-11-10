@@ -53,11 +53,7 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("/run/wrappers/bin/xdg-desktop-portal-gtk")
 
     if features.extra_autostart then
-        hl.exec_cmd("Telegram -startintray")
-        hl.exec_cmd("udiskie -s -m flat --menu-update-workaround")
-        hl.exec_cmd("steam -silent", { workspace = "10 silent" })
-        hl.exec_cmd("discord --start-minimized", { workspace = "10 silent" })
-        hl.exec_cmd("firefox", { workspace = "1 silent" })
+        --
     end
 end)
 
@@ -151,7 +147,7 @@ hl.config({
 
     dwindle = {
         preserve_split = true,
-        force_split    = 2,
+        -- force_split    = 2,
     },
 
     cursor = {
@@ -356,12 +352,12 @@ bind("mouse:273", hl.dsp.window.resize(), { mouse = true })
 -- WINDOW RULES --
 -- ============ --
 
-hl.window_rule({
-    name       = "waydroid-fullscreen",
-    match      = { class = "Waydroid" },
-    float      = true,
-    fullscreen = true,
-})
+-- hl.window_rule({
+--     name       = "waydroid-fullscreen",
+--     match      = { class = "Waydroid" },
+--     float      = true,
+--     fullscreen = true,
+-- })
 
 hl.window_rule({
     name    = "xwayland-no-blur",
