@@ -248,10 +248,11 @@ bind("U", hl.dsp.exec_cmd(taskManager))
 -- Window management (Sway-style)
 bind("Q", hl.dsp.window.close()) -- SUPER+Q: закрыть окно
 -- bind("F", hl.dsp.window.fullscreen({ action = "toggle" }))          -- SUPER+F: fullscreen
-bind("F", hl.dsp.window.pseudo({ action = "toggle" }))
-bind("G", hl.dsp.window.float({ action = "toggle" }))               -- SUPER+G: floating toggle
-bind("SPACE", hl.dsp.exec_cmd("hyprctl dispatch focusmode_toggle")) -- SUPER+Space: focus mode
-bind("SHIFT + T", hl.dsp.layout("togglesplit"))
+bind("F", hl.dsp.window.fullscreen({ state = 1 }))
+bind("V", hl.dsp.window.pseudo({ action = "toggle" }))
+bind("G", hl.dsp.window.float({ action = "toggle" })) -- SUPER+G: floating toggle
+-- bind("SPACE", hl.dsp.exec_cmd("hyprctl dispatch focusmode_toggle")) -- SUPER+Space: focus mode
+bind("X", hl.dsp.layout("togglesplit"))
 bind("SHIFT + M", hl.dsp.window.move({ workspace = "special:magic" }))
 
 -- Groups (вкладки Hyprland)
@@ -291,8 +292,8 @@ bind("CONTROL + L", hl.dsp.exec_cmd("hyprlock"))
 -- hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true })
 
 -- Alt-tab
-bind("Tab", hl.dsp.window.cycle_next({ next = false }))
-hl.bind("ALT + Tab", hl.dsp.window.bring_to_top())
+-- bind("Tab", hl.dsp.window.cycle_next({ next = false }))
+-- hl.bind("ALT + Tab", hl.dsp.window.bring_to_top())
 
 -- Screenshots (Sway-style)
 hl.bind("Print", hl.dsp.exec_cmd([[grim - | wl-copy]]))                          -- полный скриншот в буфер
