@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import json
 import subprocess
+import sys
 
 
 def hypr_dispatch(lua_expr):
@@ -18,55 +19,42 @@ def get_active_workspace():
     return json.loads(out)["id"]
 
 
-def get_direction(from_win, to_win):
-    """Определяет примерное направление (l/r/u/d) от одного окна к другому."""
-    dx = to_win["at"][0] - from_win["at"][0]
-    dy = to_win["at"][1] - from_win["at"][1]
-    if abs(dx) > abs(dy):
-        return "l" if dx < 0 else "r"
-    else:
-        return "u" if dy < 0 else "d"
-
-
-def sort_windows_by_position(windows):
-    """
-    Сортирует окна по их визуальному положению:
-    сначала по горизонтали (слева направо), затем по вертикали (сверху вниз).
-    """
-    # Сначала сортируем по X (слева направо), затем по Y (сверху вниз)
-    return sorted(windows, key=lambda w: (w["at"][0], w["at"][1]))
-
-
 def main():
     clients = get_clients()
     current_ws = get_active_workspace()
-    ws_clients = [c for c in clients if c["workspace"]["id"] == current_ws]
 
-    if len(ws_clients) < 2:
+    # Ищем окна текущего рабочего стола, которые находятся в группе
+    grouped_clients = [
+        c
+        for c in clients
+        if c["workspace"]["id"] == current_ws
+        and c.get("grouped")
+        and len(c["grouped"]) > 0
+    ]
+
+    if not grouped_clients:
+        print("На текущем рабочем столе нет сгруппированных окон.")
         return
 
-    # Сортируем окна в желаемом порядке (например, слева направо, сверху вниз)
-    ordered_clients = sort_windows_by_position(ws_clients)
+    # Берём первое попавшееся сгруппированное окно как точку входа
+    # (все окна одной группы имеют одинаковый список `grouped`)
+    group_info = grouped_clients[0]["grouped"]
+    # `grouped` — это список адресов окон в порядке их следования в группе
+    addresses = [item["address"] for item in group_info]
 
-    first = ordered_clients[0]
-    first_addr = first["address"]
+    if len(addresses) < 2:
+        return
 
-    # 1. Создаём группу из первого окна
-    hypr_dispatch(f'hl.dsp.focus({{ window = "address:{first_addr}" }})')
-    hypr_dispatch("hl.dsp.group.toggle()")
+    print(f"Разгруппировываю {len(addresses)} окон в обратном порядке...")
 
-    # 2. Добавляем остальные окна в группу в отсортированном порядке
-    for client in ordered_clients[1:]:
-        addr = client["address"]
-
-        # Фокусируемся на текущем окне
+    # Извлекаем окна из группы по одному, начиная с последнего.
+    # Каждое извлечённое окно добавляется в конец рабочего стола,
+    # поэтому обратный порядок извлечения даёт правильный итоговый порядок.
+    for addr in reversed(addresses):
         hypr_dispatch(f'hl.dsp.focus({{ window = "address:{addr}" }})')
+        hypr_dispatch("hl.dsp.window.move({ out_of_group = true })")
 
-        # Определяем направление к первому окну (группе)
-        direction = get_direction(client, first)
-
-        # Перемещаем окно в группу в этом направлении
-        hypr_dispatch(f'hl.dsp.window.move({{ into_group = "{direction}" }})')
+    print("Готово.")
 
 
 if __name__ == "__main__":
