@@ -15,9 +15,9 @@
 -- FEATURES --
 -- ======== --
 
-local features    = {
+local features = {
     dynamic_cursors = false,
-    nvidia = false,
+    nvidia = true,
     extra_autostart = false,
 }
 
@@ -25,11 +25,8 @@ local features    = {
 -- PROGRAMS --
 -- ======== --
 
-local terminal    = "kitty"
-local fileManager = "nemo"
-local browser     = "firefox" -- zen-browser в системе не установлен
-local taskManager = terminal .. " -e btop"
-local menu        = "noctalia msg panel-toggle launcher"
+local terminal = "kitty"
+local menu     = "noctalia msg panel-toggle launcher"
 
 -- ======== --
 -- MONITORS --
@@ -53,7 +50,11 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("/run/wrappers/bin/xdg-desktop-portal-gtk")
 
     if features.extra_autostart then
-        --
+        -- hl.exec_cmd("Telegram -startintray")
+        -- hl.exec_cmd("udiskie -s -m flat --menu-update-workaround")
+        -- hl.exec_cmd("steam -silent", { workspace = "10 silent" })
+        -- hl.exec_cmd("discord --start-minimized", { workspace = "10 silent" })
+        -- hl.exec_cmd("firefox", { workspace = "1 silent" })
     end
 end)
 
