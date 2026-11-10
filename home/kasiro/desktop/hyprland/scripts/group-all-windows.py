@@ -45,30 +45,29 @@ def group_all(ws_clients):
 
 
 def ungroup_all(grouped_clients):
-    # Собираем уникальные группы по адресу первого окна
+    # Собираем уникальные группы по набору адресов.
+    # Поле `grouped` — это список строк (адресов), а не словарей.
     groups = {}
     for c in grouped_clients:
-        addresses = [item["address"] for item in c["grouped"]]
+        addresses = c["grouped"]  # <-- исправление: просто список строк
         if len(addresses) < 2:
             continue
-        groups.setdefault(addresses[0], addresses)
+        # Ключом группы может служить отсортированный кортеж адресов,
+        # чтобы одно и то же окно не обрабатывалось дважды.
+        key = tuple(sorted(addresses))
+        groups.setdefault(key, addresses)
+
     if not groups:
         print("Групп для разгруппировки не найдено.")
         return
+
     total = 0
     for addresses in groups.values():
         for addr in reversed(addresses):
-            # Пытаемся извлечь окно, явно указывая его адрес
-            try:
-                hypr_dispatch(
-                    f'hl.dsp.window.move({{ out_of_group = true, window = "address:{addr}" }})'
-                )
-            except subprocess.CalledProcessError as e:
-                # Запасной вариант: переключаем группу для окна
-                print(f"  out_of_group не сработал для {addr}, пробую group.toggle()")
-                hypr_dispatch(f'hl.dsp.focus({{ window = "address:{addr}" }})')
-                hypr_dispatch("hl.dsp.group.toggle()")
+            hypr_dispatch(f'hl.dsp.focus({{ window = "address:{addr}" }})')
+            hypr_dispatch("hl.dsp.window.move({ out_of_group = true })")
         total += len(addresses)
+
     print(f"Разгруппировано {total} окон в {len(groups)} группе(ах).")
 
 
@@ -77,12 +76,6 @@ def main():
     current_ws = get_active_workspace()
     ws_clients = [c for c in clients if c["workspace"]["id"] == current_ws]
     grouped = [c for c in ws_clients if c.get("grouped")]
-
-    # Отладка: показываем, что видит скрипт
-    print(f"Всего окон на рабочем столе: {len(ws_clients)}")
-    print(f"Окон с непустым полем 'grouped': {len(grouped)}")
-    for c in grouped:
-        print(f"  - {c['address']}: grouped={c['grouped']}")
 
     if grouped:
         ungroup_all(grouped)
