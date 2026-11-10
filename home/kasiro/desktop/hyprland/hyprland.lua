@@ -248,6 +248,7 @@ bind("U", hl.dsp.exec_cmd(taskManager))
 -- Window management (Sway-style)
 bind("Q", hl.dsp.window.close()) -- SUPER+Q: закрыть окно
 -- bind("F", hl.dsp.window.fullscreen({ action = "toggle" }))          -- SUPER+F: fullscreen
+-- bind("F", hl.dsp.window.fullscreen({ state = 1 }))
 bind("F", hl.dsp.exec_cmd("hyprctl dispatch fullscreen 1"))
 bind("V", hl.dsp.window.pseudo({ action = "toggle" }))
 bind("G", hl.dsp.window.float({ action = "toggle" })) -- SUPER+G: floating toggle
