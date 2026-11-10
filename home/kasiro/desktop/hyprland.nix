@@ -65,7 +65,7 @@
         padding = 14;
         widget_spacing = 6;
         font_scale = 1.0;
-        shadow = true;
+        shadow = false;
         reserve_space = true;
       };
 
@@ -105,10 +105,10 @@
           size = 28;
         };
 
-        shadow = {
-          alpha = 1.0;
-          direction = "center";
-        };
+        # shadow = {
+        #   alpha = 1.0;
+        #   direction = "center";
+        # };
       };
 
       theme = {

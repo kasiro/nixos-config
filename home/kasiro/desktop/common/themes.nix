@@ -40,7 +40,7 @@
         standard_dialogs = "xdgdesktopportal";
       };
       Kvantum = {
-        kvantum_theme = "catppuccin-frappe-blue";
+        kvantum_theme = "KvArcDark";
       };
     };
     qt6ctSettings = {
@@ -54,7 +54,7 @@
         standard_dialogs = "xdgdesktopportal";
       };
       Kvantum = {
-        kvantum_theme = "catppuccin-frappe-blue";
+        kvantum_theme = "KvArcDark";
       };
     };
   };
