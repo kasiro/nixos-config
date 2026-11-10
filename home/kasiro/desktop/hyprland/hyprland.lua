@@ -256,9 +256,9 @@ bind("X", hl.dsp.layout("togglesplit"))
 bind("SHIFT + M", hl.dsp.window.move({ workspace = "special:magic" }))
 
 -- Groups (вкладки Hyprland)
-bind("W", hl.dsp.exec_cmd("~/.config/hypr/scripts/group-all-windows.py")) -- SUPER+W: сгруппировать ВСЕ окна workspace (как Sway tabbed)
-bind("SHIFT + W", hl.dsp.group.toggle())                                  -- SUPER+Shift+W: разгруппировать (toggle группы)
-bind("CONTROL + W", hl.dsp.group.next())                                  -- CONTROL+W: циклически переключать группу (forward)
+bind("W", hl.dsp.exec_cmd("hyprctl dispatch exec ~/.config/hypr/scripts/group-all-windows.py")) -- SUPER+W: сгруппировать ВСЕ окна workspace (как Sway tabbed)
+bind("SHIFT + W", hl.dsp.group.toggle())                                                        -- SUPER+Shift+W: разгруппировать (toggle группы)
+bind("CONTROL + W", hl.dsp.group.next())                                                        -- CONTROL+W: циклически переключать группу (forward)
 
 -- Smart move (COSMIC-style: на краю экрана — переход на соседний workspace)
 bind("SHIFT + LEFT",
@@ -342,7 +342,7 @@ for i = 1, 10 do
     local key = (i == 10) and 0 or i
     bind(tostring(key), hl.dsp.focus({ workspace = i }))           -- SUPER+1-10: переключение
     bind("SHIFT + " .. key, hl.dsp.window.move({ workspace = i })) -- SUPER+Shift+1-10: перемещение окна
-    bind("CONTROL + " .. key, hl.dsp.focus({ workspace = i }))     -- CONTROL+1-10: переключение (Sway-style)
+    hl.bind("CONTROL + " .. key, hl.dsp.focus({ workspace = i }))  -- CONTROL+1-10: переключение (Sway-style)
 end
 
 bind("mouse_down", hl.dsp.focus({ workspace = "e+1" }))

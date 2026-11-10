@@ -8,9 +8,6 @@
 # Nix build outputs
 result/
 
-# Scripts
-scripts/
-
 # Config files (не код)
 .gitignore
 flake.lock
