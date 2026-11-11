@@ -45,7 +45,6 @@ hl.monitor({
 -- ========= --
 
 hl.on("hyprland.start", function()
-    hl.exec_cmd("hyprpm reload")
     hl.exec_cmd("noctalia -d")
     hl.exec_cmd("/run/wrappers/bin/xdg-desktop-portal-hyprland")
     hl.exec_cmd("/run/wrappers/bin/xdg-desktop-portal-gtk")
