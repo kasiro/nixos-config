@@ -44,13 +44,13 @@
 
         # Local MCP сервера (stdio)
         sequential-thinking = {
-          command = "npx";
-          args = [ "-y" "mcp-server-sequential-thinking" ];
+          command = "bunx";
+          args = [ "mcp-server-sequential-thinking" ];
           timeout = 120;
         };
         lightpanda = {
-          command = "npx";
-          args = [ "-y" "lightpanda-mcp" ];
+          command = "bunx";
+          args = [ "lightpanda-mcp" ];
           env.LIGHTPANDA_DISABLE_TELEMETRY = "true";
           timeout = 60;
         };
