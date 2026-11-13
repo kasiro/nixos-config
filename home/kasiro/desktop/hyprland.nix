@@ -28,8 +28,7 @@
 
     # Плагины Hyprland (из flake-входа hyprland-plugins)
     plugins = [
-      inputs.hyprland-plugins.packages.${pkgs.stdenv.hostPlatform.system}.borders-plus-plus  # Следы от окон (красивый эффект)
-      # inputs.hyprland-plugins.hyprspace       # Виртуальные воркспейсы с анимацией
+      # Плагины не требуются
     ];
   };
 
@@ -55,6 +54,18 @@
         enable_sounds = true;
       };
 
+      # Докбар: плавающий, авто-скрытие, почти прозрачный, поверх fullscreen
+      dock = {
+        enabled = true;
+        position = "bottom";
+        auto_hide = true;             # слайд-аут при уходе курсора
+        margin_edge = 8;              # отступ 8 px от края экрана
+        shadow = false;               # без тени
+        reserve_space = false;        # не резервировать место под док
+        background_opacity = 0.08;    # почти прозрачный
+        layer = "overlay";            # wayland layer overlay (над fullscreen)
+      };
+
       # Noctalia v5 использует bar.main вместо bar.default
       bar.default = {
         position = "top";
@@ -62,7 +73,8 @@
         capsule = true;
         capsule_fill = "surface";
         center = [ "clock" "date" ];
-        end = [ "tray" "sysmon" "bluetooth" "battery" "settings" "session" "control-center" ];
+        # "clipboard" — кнопка истории буфера обмена (открывает clipboard-панель)
+        end = [ "clipboard" "tray" "sysmon" "bluetooth" "battery" "settings" "session" "control-center" ];
         font_family = "ComicShannsMono Nerd Font";
         margin_ends = 0;
         radius = 16;
@@ -75,6 +87,64 @@
         reserve_space = true;
       };
 
+      # Местоположение: авто-определение по IP выключено
+      location = {
+        auto_locate = false;
+      };
+
+      # Встроенная погода выключена (open-meteo недоступен из сети, замена — плагин)
+      weather = {
+        enabled = false;
+      };
+
+      # Плагины Noctalia. Значения — зеркало GUI-слоя (~/.local/state/noctalia/
+      # settings.toml): CLI включил плагин погоды и добавил персональный source.
+      plugins = {
+        # Автообновление git-source'ов выключено (обновлять вручную)
+        auto_update = "none";
+        # Включённые плагины: погода Цайюнь (personal) + официальные
+        enabled = [
+          "noctalia/timer"
+          "noctalia/screen_recorder"
+          "noctalia/wallhaven"
+          "0x1ce/caiyun-weather"
+        ];
+
+        # Git-source'ы плагинов: official/community — встроенные дефолты,
+        # personal — репо с плагином погоды caiyun-weather
+        source = [
+          {
+            kind = "git";
+            location = "https://github.com/noctalia-dev/official-plugins";
+            name = "official";
+          }
+          {
+            kind = "git";
+            location = "https://github.com/noctalia-dev/community-plugins";
+            name = "community";
+          }
+          {
+            kind = "git";
+            location = "https://github.com/OHMCFXG/noctalia-plugins.git";
+            name = "personal";
+          }
+        ];
+      };
+
+      # Координаты для плагина 0x1ce/caiyun-weather (Новосибирск).
+      # Плагин читает их через plugin_settings (тип string в manifest).
+      plugin_settings."0x1ce/caiyun-weather" = {
+        latitude = "55.0226";
+        longitude = "82.9317";
+      };
+
+      # Центр уведомлений (Control Center):
+      # боковая панель при открытии вкладки — Полная; ширина — 800 px
+      control_center = {
+        sidebar_section = "full"; # full | compact | none
+        width = 800;              # 600–1200, ширина full-sidebar режима
+      };
+
       osd = {
         background_opacity = 0.58;
         offset_x = 8;
@@ -84,11 +154,15 @@
 
       shell = {
         corner_radius_scale = 2.0;
-        font_family = "ComicShannsMono Nerd Font";
+        font_family = "FiraCode Nerd Font";
+
+        # Система → экранное время: вкл (учёт времени по приложениям для Control Center)
+        screen_time_enabled = true;
 
         launcher = {
           provider_prefix = ">";
           layout = "full";
+          app_grid = true;
           width = 760;
           show_icons = true;
           track_usage = true;
@@ -101,8 +175,9 @@
         };
 
         panel = {
-          launcher_placement = "attached";
-          open_near_click_launcher = true;
+          launcher_placement = "floating";
+          launcher_position = "center";
+          open_near_click_launcher = false;
           transparency_mode = "glass";
         };
 
@@ -127,6 +202,12 @@
         templates = {
           builtin_ids = [ "cava" "gtk3" "gtk4" "kcolorscheme" "qt" ];
         };
+      };
+
+      # Экран блокировки: фон — снимок рабочего стола
+      # (Безопасность → «Использовать снимок рабочего стола как фон экрана блокировки»)
+      lockscreen = {
+        blurred_desktop = true;
       };
 
       # Настройки виджетов в Noctalia v5 интегрированы в bar.main;
@@ -256,6 +337,7 @@
     # Шрифты
     nerd-fonts._0xproto
     nerd-fonts.comic-shanns-mono
+    nerd-fonts.fira-code
     noto-fonts-cjk-sans
     noto-fonts-cjk-serif
 
