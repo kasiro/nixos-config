@@ -48,6 +48,8 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("noctalia -d")
     hl.exec_cmd("/run/wrappers/bin/xdg-desktop-portal-hyprland")
     hl.exec_cmd("/run/wrappers/bin/xdg-desktop-portal-gtk")
+    hl.exec_cmd("xrdb ~/.Xresources")
+
 
     if features.extra_autostart then
         -- hl.exec_cmd("Telegram -startintray")

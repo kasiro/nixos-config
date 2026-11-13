@@ -3,7 +3,7 @@
 #
 # Единственный источник конфига — ./hyprland/hyprland.lua (Lua API Hyprland 0.57).
 
-{ pkgs, lib, ... }:
+{ pkgs, lib, inputs, ... }:
 
 {
   wayland.windowManager.hyprland = {
@@ -25,6 +25,15 @@
     # поэтому содержимое репозиториевского Lua вставляется в генерируемый
     # ~/.config/hypr/hyprland.lua через extraConfig.
     extraConfig = lib.fileContents ./hyprland/hyprland.lua;
+
+    # Плагины Hyprland (из flake-входа hyprland-plugins)
+    plugins = [
+      # Примеры популярных плагинов:
+      inputs.hyprland-plugins.hyprtrails      # Следы от окон (красивый эффект)
+      # inputs.hyprland-plugins.hyprspace       # Виртуальные воркспейсы с анимацией
+      inputs.hyprland-plugins.hyprexpo        # Expo режим (как в GNOME)
+      # inputs.hyprland-plugins.hyprbars        # Кастомные бары для окон
+    ];
   };
 
   # Noctalia — типизированный HM-модуль (flake-вход noctalia, импорт в
