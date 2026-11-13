@@ -28,7 +28,7 @@
 
     # Плагины Hyprland (из flake-входа hyprland-plugins)
     plugins = [
-      inputs.hyprland-plugins.packages.${pkgs.system}.borders-plus-plus  # Следы от окон (красивый эффект)
+      inputs.hyprland-plugins.packages.${pkgs.stdenv.hostPlatform.system}.borders-plus-plus  # Следы от окон (красивый эффект)
       # inputs.hyprland-plugins.hyprspace       # Виртуальные воркспейсы с анимацией
     ];
   };
