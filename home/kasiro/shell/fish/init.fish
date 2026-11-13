@@ -13,6 +13,3 @@ end
 if test -d "$HOME/.bun/bin"
     set -gx PATH "$HOME/.bun/bin" $PATH
 end
-if command -q bun
-    bun completions fish | source
-end

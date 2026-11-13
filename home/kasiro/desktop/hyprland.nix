@@ -50,7 +50,7 @@
       };
 
       # Noctalia v5 использует bar.main вместо bar.default
-      bar.main = {
+      bar.default = {
         position = "top";
         background_opacity = 0.62;
         capsule = true;
