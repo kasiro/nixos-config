@@ -28,11 +28,8 @@
 
     # Плагины Hyprland (из flake-входа hyprland-plugins)
     plugins = [
-      # Примеры популярных плагинов:
-      inputs.hyprland-plugins.hyprtrails      # Следы от окон (красивый эффект)
+      inputs.hyprland-plugins.borders-plus-plus  # Следы от окон (красивый эффект)
       # inputs.hyprland-plugins.hyprspace       # Виртуальные воркспейсы с анимацией
-      inputs.hyprland-plugins.hyprexpo        # Expo режим (как в GNOME)
-      # inputs.hyprland-plugins.hyprbars        # Кастомные бары для окон
     ];
   };
 
