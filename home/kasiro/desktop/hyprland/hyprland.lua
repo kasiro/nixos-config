@@ -102,7 +102,7 @@ hl.config({
         border_size             = 3,
 
         col                     = {
-            -- active_border   = "rgb(7366bd)",
+            active_border   = "rgb(7366bd)",
             inactive_border = "rgb(4c4f69)",
         },
 
@@ -423,3 +423,6 @@ for i, name in ipairs(workspaceNames) do
         default_name = name,
     })
 end
+
+-- For Noctalia Color templates
+require("noctalia").apply_theme()
