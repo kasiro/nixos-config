@@ -5,6 +5,47 @@
 
 { pkgs, lib, inputs, ... }:
 
+# Пиннутые ревизии репозиториев плагинов Noctalia (rev из catalog.toml каждого
+# репозитория, выбранные под plugin_api 3..30 noctalia v5.0.1):
+#   official-plugins @ 03411380 — notes 1.3.0 (api 26, первый коммит 1.3.0)
+#   official-plugins @ 8c6b90fa — mpvpaper 1.2.1 (api 26, release-строка каталога)
+#   community-plugins @ a4e31fa3 — noctes 0.20.1 (api 26, release-строка каталога)
+# Каждый path-каталог — одна ревизия, поэтому в нём symlink ровно одного
+# плагина; noctalia читает <source>/<subdir>/plugin.toml, где subdir — часть id
+# после «author/» (pluginSubdirFromId отбрасывает автора: «noctalia/notes» → notes/).
+let
+  officialNotesSrc = pkgs.fetchFromGitHub {
+    owner = "noctalia-dev";
+    repo = "official-plugins";
+    rev = "0341138083d0d9351c87013faca67737431ab01a";
+    hash = "sha256-4qph0Fdjdk13g9UCe7PjgQwuX+B2p4umOp4diO7uDSw=";
+  };
+  officialMpvpaperSrc = pkgs.fetchFromGitHub {
+    owner = "noctalia-dev";
+    repo = "official-plugins";
+    rev = "8c6b90fa92519bd2da1dd8b5f2cc940cce08367f";
+    hash = "sha256-sPxOFsGN3rCJ56gUtSRShvYOv1H11nqA+4FL0iraoac=";
+  };
+  communityNoctesSrc = pkgs.fetchFromGitHub {
+    owner = "noctalia-dev";
+    repo = "community-plugins";
+    rev = "a4e31fa3f3ac6817b448e725f8ee4bc3489fe2ff";
+    hash = "sha256-7VLo9orG23mN5XLdm4YjeMkFJ9YVIF2SkbZeb4idr70=";
+  };
+
+  noctaliaNotesPlugin = pkgs.runCommand "noctalia-notes-plugin" { } ''
+    mkdir -p $out
+    ln -s ${officialNotesSrc}/notes $out/notes
+  '';
+  noctaliaMpvpaperPlugin = pkgs.runCommand "noctalia-mpvpaper-plugin" { } ''
+    mkdir -p $out
+    ln -s ${officialMpvpaperSrc}/mpvpaper $out/mpvpaper
+  '';
+  noctaliaNoctesPlugin = pkgs.runCommand "noctalia-noctes-plugin" { } ''
+    mkdir -p $out
+    ln -s ${communityNoctesSrc}/noctes $out/noctes
+  '';
+in
 {
   wayland.windowManager.hyprland = {
     enable = true;
@@ -108,6 +149,10 @@
           "noctalia/screen_recorder"
           "noctalia/wallhaven"
           "0x1ce/caiyun-weather"
+          # Плагины из path-источников ниже (nix store, пиннутые ревизии)
+          "noctalia/notes"
+          "noctalia/mpvpaper"
+          "remo/noctes"
         ];
 
         # Git-source'ы плагинов: official/community — встроенные дефолты,
@@ -127,6 +172,24 @@
             kind = "git";
             location = "https://github.com/OHMCFXG/noctalia-plugins.git";
             name = "personal";
+          }
+          # Path-источники (nix store): поздние перекрывают ранние; в каждом
+          # каталоге ровно один плагин. Обновление/удаление для них — no-op,
+          # автообновление (auto_update) их не касается.
+          {
+            kind = "path";
+            location = "${noctaliaNotesPlugin}";
+            name = "nix-notes";
+          }
+          {
+            kind = "path";
+            location = "${noctaliaMpvpaperPlugin}";
+            name = "nix-mpvpaper";
+          }
+          {
+            kind = "path";
+            location = "${noctaliaNoctesPlugin}";
+            name = "nix-community";
           }
         ];
       };
