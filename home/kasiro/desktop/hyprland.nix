@@ -48,7 +48,7 @@ let
 
   noctaliaSettingsToNixPlugin = pkgs.runCommand "noctalia-settings-to-nix-plugin" { } ''
     mkdir -p $out
-    ln -s ${communityPluginsSrc}/dmopp/settings-to-nix $out/settings-to-nix
+    ln -s ${communityPluginsSrc}/settings-to-nix $out/settings-to-nix
   '';
 in
 {
