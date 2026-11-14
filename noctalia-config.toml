@@ -1,0 +1,306 @@
+[accessibility]
+ui_scale = 1.05
+
+[audio]
+enable_sounds = true
+
+[bar.default]
+background_opacity = 0.62
+capsule = true
+capsule_fill = "surface"
+capsule_radius = 10
+center = [ "group:g1", "bar", "bar_2", "wallhaven", "wallpaper", "bar_3" ]
+concave_edge_corners = false
+end = [ "keyboard_layout", "clipboard", "tray", "sysmon", "bluetooth", "battery", "settings", "session", "control-center" ]
+font_family = "ComicShannsMono Nerd Font"
+font_scale = 1.0
+margin_edge = 5
+margin_ends = 7
+padding = 10
+position = "top"
+radius = 13
+reserve_space = true
+scale = 1.0500000081956387
+shadow = false
+start = [ "launcher", "workspaces", "audio_visualizer", "active_window" ]
+thickness = 34
+widget_spacing = 6
+
+    [[bar.default.capsule_group]]
+    accordion = false
+    accordion_direction = "end"
+    enabled = true
+    fill = "surface"
+    id = "g1"
+    members = [ "clock", "date" ]
+    opacity = 1.0
+    padding = 6.0
+    radius = 16.0
+    widget_spacing = 7
+
+[calendar]
+
+[control_center]
+sidebar_section = "full"
+width = 800
+
+    [control_center.calendar]
+    show_events_card = false
+
+[desktop_widgets]
+schema_version = 2
+widget_order = [ "desktop-widget-0000000000000004", "desktop-widget-0000000000000005" ]
+
+    [desktop_widgets.grid]
+    cell_size = 16
+    major_interval = 4
+    visible = true
+
+    [desktop_widgets.widget.desktop-widget-0000000000000004]
+    box_height = 112.0
+    box_width = 496.0
+    cx = 520.0
+    cy = 1004.0
+    output = "DVI-I-1"
+    placement_height = 1080.0
+    placement_width = 1920.0
+    rotation = 0.0
+    type = "audio_visualizer"
+
+        [desktop_widgets.widget.desktop-widget-0000000000000004.settings]
+        background_color = "surface_variant"
+        background_opacity = 0.70000000000000007
+        bands = 44
+        centered = false
+        mirrored = false
+        reversed = false
+        show_when_idle = false
+
+    [desktop_widgets.widget.desktop-widget-0000000000000005]
+    box_height = 288.0
+    box_width = 528.0
+    cx = 1640.0
+    cy = 924.0
+    output = "DVI-I-1"
+    placement_height = 1080.0
+    placement_width = 1920.0
+    rotation = 0.0
+    type = "label"
+
+        [desktop_widgets.widget.desktop-widget-0000000000000005.settings]
+        background_opacity = 0.81000000000000005
+        description = "Боитесь что то сделать?         сделайте по приколу.                 не получится - будет прикол.    получится - будет ебааать прикол.  если измерять всё в приколах - не будет так страшно) кому похуй - тот неуязвим."
+        opacity = 1.0
+        title = "приколы"
+
+[dock]
+auto_hide = false
+background_opacity = 0.079999998211860657
+border = "primary"
+border_width = 3.0
+concave_edge_corners = false
+enabled = true
+layer = "overlay"
+margin_edge = 8
+pinned = [ "chromium-browser", "dev.zed.Zed", "kitty", "obsidian" ]
+position = "bottom"
+reserve_space = false
+shadow = false
+show_dots = true
+smart_auto_hide = true
+
+[input.keyboard]
+layout = "us,ru"
+options = "grp:alt_shift_toggle"
+repeat_delay = 600
+repeat_rate = 25
+
+[input.mouse]
+accel_profile = "flat"
+left_handed = false
+natural_scroll = false
+sensitivity = 0.0
+
+[location]
+auto_locate = false
+
+[lockscreen]
+blurred_desktop = true
+fingerprint = false
+
+[lockscreen_widgets]
+enabled = false
+schema_version = 2
+widget_order = [ "lockscreen-login-box@DVI-I-1" ]
+
+    [lockscreen_widgets.grid]
+    cell_size = 16
+    major_interval = 4
+    visible = true
+
+    [lockscreen_widgets.widget."lockscreen-login-box@DVI-I-1"]
+    box_height = 196.0
+    box_width = 810.0
+    cx = 960.0
+    cy = 898.0
+    output = "DVI-I-1"
+    placement_height = 1080.0
+    placement_width = 1920.0
+    rotation = 0.0
+    type = "login_box"
+
+        [lockscreen_widgets.widget."lockscreen-login-box@DVI-I-1".settings]
+        background_color = "surface_variant"
+        background_opacity = 0.88
+        background_radius = 12.0
+        center_password_text = false
+        input_opacity = 1.0
+        input_radius = 6.0
+        layout = "regular"
+        show_caps_lock = true
+        show_keyboard_layout = true
+        show_login_button = true
+        show_media = true
+        show_session_buttons = true
+        show_unlock_hint = true
+        show_weather = true
+
+[notification]
+position = "top_center"
+
+[osd]
+background_opacity = 0.57999999999999996
+offset_x = 8
+offset_y = 15
+position = "top_center"
+
+[plugin_settings."0x1ce/caiyun-weather"]
+latitude = "55.0226"
+longitude = "82.9317"
+
+[plugin_settings."noctalia/notes"]
+panel_position = "center"
+
+[plugins]
+auto_update = "official"
+enabled = [ "noctalia/timer", "noctalia/screen_recorder", "noctalia/wallhaven", "noctalia/mpvpaper" ]
+
+    [[plugins.source]]
+    kind = "git"
+    location = "https://github.com/noctalia-dev/official-plugins"
+    name = "official"
+
+    [[plugins.source]]
+    kind = "git"
+    location = "https://github.com/noctalia-dev/community-plugins"
+    name = "community"
+
+    [[plugins.source]]
+    kind = "git"
+    location = "https://github.com/OHMCFXG/noctalia-plugins.git"
+    name = "personal"
+
+[shell]
+avatar_path = "/home/kasiro/Загрузки/5289763524160726659.jpg"
+corner_radius_scale = 2.0
+font_family = "FiraCode Nerd Font"
+password_style = "random"
+screen_time_enabled = true
+settings_window_translucent = true
+
+    [shell.launcher]
+    app_grid = true
+    layout = "full"
+    pinned = [
+        "zed",
+        "obsidian",
+        "chromium-browser",
+        "com.mitchellh.ghostty",
+        "chrome-jaadefahflmkfinoajcpnhcejikckjdh-Default",
+        "org.gnome.Nautilus"
+    ]
+    provider_prefix = ">"
+    show_icons = true
+    sort_by_usage = true
+    track_usage = true
+    width = 760
+
+        [shell.launcher.providers.calculator]
+        global = false
+        prefix = ""
+
+    [shell.panel]
+    control_center_placement = "floating"
+    control_center_position = "center"
+    launcher_placement = "floating"
+    launcher_position = "center"
+    open_near_click_launcher = false
+    shadow = false
+    transparency_mode = "glass"
+
+    [shell.screen_corners]
+    enabled = true
+    size = 28
+
+    [shell.screenshot]
+    show_cursor = true
+
+[theme]
+builtin = "Noctalia"
+community_palette = "Ayu Red"
+custom_palette = "ab5idxtz-ts"
+mode = "dark"
+source = "custom"
+wallpaper_scheme = "m3-rainbow"
+
+    [theme.templates]
+    builtin_ids = [ "alacritty", "btop", "cava", "gtk3", "gtk4", "ghostty", "hyprland", "kcolorscheme", "kitty", "qt", "starship" ]
+
+[wallpaper]
+directory = "/home/kasiro/Загрузки/wallpapers"
+
+    [wallpaper.default]
+    path = "/home/kasiro/Загрузки/wallpapers/wallhaven-ogw3z5.png"
+
+    [wallpaper.last]
+    path = "/home/kasiro/Загрузки/wallpapers/wallhaven-e8rxdw.png"
+
+    [wallpaper.monitors.DVI-I-1]
+    path = "/home/kasiro/Загрузки/wallpapers/wallhaven-e8rxdw.png"
+
+[weather]
+enabled = false
+
+[widget.audio_visualizer]
+bands = 17
+centered = false
+mirrored = false
+width = 128
+
+[widget.bar]
+type = "noctalia/timer:bar"
+
+[widget.bar_2]
+type = "0x1ce/caiyun-weather:bar"
+
+[widget.bar_3]
+type = "ahmedhossamdev/sticky-notes:bar"
+
+[widget.battery]
+enabled = false
+
+[widget.bluetooth]
+enabled = false
+
+[widget.control-center]
+enabled = false
+
+[widget.launcher]
+custom_image_colorize = true
+
+[widget.wallhaven]
+type = "noctalia/wallhaven:wallhaven"
+
+[widget.workspaces]
+font_weight = 400
+label_source = "name"

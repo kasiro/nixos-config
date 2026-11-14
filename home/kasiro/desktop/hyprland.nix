@@ -26,11 +26,11 @@ let
     rev = "8c6b90fa92519bd2da1dd8b5f2cc940cce08367f";
     hash = "sha256-sPxOFsGN3rCJ56gUtSRShvYOv1H11nqA+4FL0iraoac=";
   };
-  communityNoctesSrc = pkgs.fetchFromGitHub {
+  communityPluginsSrc = pkgs.fetchFromGitHub {
     owner = "noctalia-dev";
     repo = "community-plugins";
-    rev = "a4e31fa3f3ac6817b448e725f8ee4bc3489fe2ff";
-    hash = "sha256-7VLo9orG23mN5XLdm4YjeMkFJ9YVIF2SkbZeb4idr70=";
+    rev = "3f6037a1ee9ce3a1028f66a94bf469d13276b7ec";
+    hash = "sha256-UXxQUp02YFqayCcYz8pr5OWPVuicDgGAGCxAasuz56g=";
   };
 
   noctaliaNotesPlugin = pkgs.runCommand "noctalia-notes-plugin" { } ''
@@ -43,7 +43,12 @@ let
   '';
   noctaliaNoctesPlugin = pkgs.runCommand "noctalia-noctes-plugin" { } ''
     mkdir -p $out
-    ln -s ${communityNoctesSrc}/noctes $out/noctes
+    ln -s ${communityPluginsSrc}/noctes $out/noctes
+  '';
+
+  noctaliaSettingsToNixPlugin = pkgs.runCommand "noctalia-settings-to-nix-plugin" { } ''
+    mkdir -p $out
+    ln -s ${communityPluginsSrc}/dmopp/settings-to-nix $out/settings-to-nix
   '';
 in
 {
@@ -153,6 +158,7 @@ in
           "noctalia/notes"
           "noctalia/mpvpaper"
           "remo/noctes"
+          "dmopp/settings-to-nix"
         ];
 
         # Git-source'ы плагинов: official/community — встроенные дефолты,
@@ -190,6 +196,11 @@ in
             kind = "path";
             location = "${noctaliaNoctesPlugin}";
             name = "nix-community";
+          }
+          {
+            kind = "path";
+            location = "${noctaliaSettingsToNixPlugin}";
+            name = "nix-settings-to-nix";
           }
         ];
       };
@@ -263,7 +274,7 @@ in
         wallpaper_scheme = "m3-content";
 
         templates = {
-          builtin_ids = [ "cava" "gtk3" "gtk4" "kcolorscheme" "qt" "hyperland" "ghostty" "kitty" "btop" "starship" ];
+          builtin_ids = [ "cava" "gtk3" "gtk4" "kcolorscheme" "qt" "hyperland" "ghostty" "btop" "alacritty" ];
         };
       };
 
@@ -463,6 +474,40 @@ in
     "hypr/scripts/group-all-windows.py" = {
       source = ./hyprland/scripts/group-all-windows.py;
       executable = true;
+    };
+  };
+
+  # Starship — промпт под управлением Nix (noctalia-шаблон больше не нужен)
+  programs.starship = {
+    enable = true;
+    enableFishIntegration = true;
+    settings = {
+      format = "$all$nix_shell$python\n$directory$git_branch$git_status\n$character";
+      character = {
+        error_symbol = "[❯](bold red)";
+        success_symbol = "[❯](bold green)";
+      };
+      directory = {
+        style = "bold cyan";
+        truncation_length = 3;
+      };
+      git_branch = {
+        format = "[$symbol$branch]($style) ";
+        style = "bold purple";
+      };
+      git_status = {
+        format = "[$all_status$ahead_behind]($style) ";
+        style = "bold red";
+      };
+      nix_shell = {
+        format = "via [$symbol $name]($style) ";
+        heuristic = true;
+        impure_msg = "impure";
+        pure_msg = "pure";
+        style = "bold blue";
+        symbol = "❄️";
+        unknown_msg = "";
+      };
     };
   };
 }
