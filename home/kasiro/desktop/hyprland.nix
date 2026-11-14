@@ -263,7 +263,7 @@ in
         wallpaper_scheme = "m3-content";
 
         templates = {
-          builtin_ids = [ "cava" "gtk3" "gtk4" "kcolorscheme" "qt" ];
+          builtin_ids = [ "cava" "gtk3" "gtk4" "kcolorscheme" "qt" "hyperland" "ghostty" "kitty" "btop" "starship" ];
         };
       };
 
@@ -391,6 +391,14 @@ in
       italic_font      auto
       bold_italic_font auto
       # END_KITTY_FONTS
+
+      # Тема Noctalia: apply-скрипт шаблона «kitty» ищет эту строку по точному
+      # совпадению («include themes/noctalia.conf»). Пока строка на месте,
+      # скрипт не изменяет kitty.conf (HM-симлинк в store, запись в него
+      # невозможна), а пишет только ~/.config/kitty/themes/noctalia.conf.
+      # include стоит ПОСЛЕ настроек HM (settings собираются с mkOrder 540,
+      # пользовательский extraConfig — после них) и перекрывает блок цветов.
+      include themes/noctalia.conf
     '';
   };
 
