@@ -9,7 +9,7 @@
     man = {
       enable = false;
       cache.enable = false;   # каноническое имя; generateCaches — obsolete-алиас
-      manualPages = [ ];      # не линковать /share/man вообще
+      man-db.manualPages = [ ];      # не линковать /share/man вообще
     };
     info.enable = false;
     doc.enable = false;
