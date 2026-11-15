@@ -14,7 +14,7 @@
       }
     ];
     packages = [
-      "com.usebottles.bottles"
+      # "com.usebottles.bottles"
       "io.keet.Keet"
     ];
   };

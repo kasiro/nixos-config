@@ -4,6 +4,8 @@ let
 
   ignored = [
     "default.nix"
+    "qbittorrent.nix"
+    "ydotool.nix"
   ];
 
   entries = builtins.readDir dir;

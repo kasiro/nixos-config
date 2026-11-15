@@ -1,7 +1,7 @@
 # Firefox
 { ... }:
 {
-  programs.firefox.enable = true;
+  programs.firefox.enable = false;
 
   # Фикс темы: Firefox не следует libadwaita-цветам GTK (сломанный контраст)
   programs.firefox.preferences = {

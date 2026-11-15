@@ -1,56 +1,66 @@
 #!/usr/bin/env bash
-# install.sh — разворачивает NixOS-конфиг и запускает nixos-rebuild switch.
-# Запускать ОТ ОБЫЧНОГО ПОЛЬЗОВАТЕЛЯ (не через sudo) — pkexec сам поднимет права.
+# install.sh — разворачивает NixOS-конфиг и переключает систему.
+# Запускать от обычного пользователя; права поднимает sudo/doas.
 set -euo pipefail
 
-# Проверка: это NixOS?
-if [ ! -f /etc/NIXOS ]; then
-  echo "❌ Ошибка: это не NixOS. Скрипт работает только на NixOS."
-  exit 1
-fi
+[ -f /etc/NIXOS ] || { echo "❌ Это не NixOS"; exit 1; }
 
-# ------------------------------- настройки -------------------------------
-# ⚠️ поменяй на свой реальный репозиторий (или передавай через env REPO_URL=...)
 REPO_URL="${REPO_URL:-https://github.com/kasiro/nixos-config}"
 TARGET_DIR="${TARGET_DIR:-$HOME/nixos-config}"
 FLAKE_ATTR="${FLAKE_ATTR:-nixos}"
-HWD_REL="modules/hardware/hardware-configuration.nix"
-# -------------------------------------------------------------------------
+HWD_PATH="$TARGET_DIR/modules/hardware/hardware-configuration.nix"
 
-echo "==> Repo URL:   $REPO_URL"
-echo "==> Target dir: $TARGET_DIR"
-echo "==> Flake attr: $FLAKE_ATTR"
-echo
+# Флейки нужны ДО первого switch — в конфиге они включатся только после.
+FLAKES="experimental-features = nix-command flakes"
 
-# --- 1. Клонирование конфига ---------------------------------
-if [ -d "$TARGET_DIR/.git" ]; then
-  echo "==> [$TARGET_DIR] уже существует, пропускаю..."
+# Чем поднимать права: pkexec из nix-shell не setuid, на него не полагаемся.
+if [ "$(id -u)" -eq 0 ]; then
+  ROOT=(env)
+elif command -v sudo >/dev/null 2>&1; then
+  ROOT=(sudo env)
+elif command -v doas >/dev/null 2>&1; then
+  ROOT=(doas env)
 else
-  echo "==> Клонирую $REPO_URL -> $TARGET_DIR"
+  echo "❌ Нет ни sudo, ни doas — запусти от root"; exit 1
+fi
+
+# --- 1. Репозиторий -------------------------------------------------------
+if [ -d "$TARGET_DIR/.git" ]; then
+  echo "==> [$TARGET_DIR] уже репозиторий, пропускаю клон"
+elif [ -e "$TARGET_DIR" ]; then
+  echo "❌ $TARGET_DIR существует и не является git-репозиторием"; exit 1
+else
   git clone "$REPO_URL" "$TARGET_DIR"
 fi
-
 cd "$TARGET_DIR"
 
-# --- 2. Удаление старого hardware-configuration.nix -----------------------
-HWD_PATH="$TARGET_DIR/$HWD_REL"
-if [ -f "$HWD_PATH" ]; then
-  echo "==> Удаляю старый $HWD_REL"
-  rm -f "$HWD_PATH"
-fi
+# --- 2. hardware-configuration -------------------------------------------
+# Генерим во временный файл: прямой `> "$HWD_PATH"` обрезал бы старый конфиг
+# ещё до запуска генератора, и при ошибке остался бы пустышка без fileSystems.
+tmp="$(mktemp)"
+trap 'rm -f "$tmp"' EXIT
 
-# --- 3. Генерация нового hardware-configuration.nix -----------------------
-echo "==> Генерирую новый $HWD_REL"
-nix-shell -p nixos-install-tools --run "nixos-generate-config --show-hardware-config" > "$HWD_PATH"
+"${ROOT[@]}" NIX_CONFIG="$FLAKES" \
+  nix --extra-experimental-features 'nix-command flakes' \
+  shell nixpkgs#nixos-install-tools \
+  -c nixos-generate-config --show-hardware-config > "$tmp"
 
-# Флейки видят только те файлы, что добавлены в git — иначе nixos-rebuild
-# скажет "path '...' is not tracked by Git".
+[ -s "$tmp" ] || { echo "❌ генератор вернул пустой hardware-config"; exit 1; }
+grep -q 'fileSystems' "$tmp" || { echo "❌ в hardware-config нет fileSystems"; exit 1; }
+
+mv "$tmp" "$HWD_PATH"
+trap - EXIT
+echo "==> $HWD_PATH обновлён"
+
+# Флейки видят только отслеживаемые файлы.
 git add .
 
-# --- 4. Установка ---------------------------------------------------------
-echo
-echo "==> nixos-rebuild switch (flake: $TARGET_DIR#$FLAKE_ATTR)"
-echo
+# --- 3. Проверка ДО переключения -----------------------------------------
+# Полный eval: ловит несуществующие опции за минуты, а не на середине сборки.
+echo "==> eval конфигурации"
+nix --extra-experimental-features 'nix-command flakes' \
+  eval ".#nixosConfigurations.$FLAKE_ATTR.config.system.build.toplevel.drvPath" \
+  --raw >/dev/null
 
-# exec — чтобы pkexec получил stdin/stdout напрямую и мы видели весь вывод
-exec nix-shell -p pkexec --run "pkexec nixos-rebuild switch --flake $TARGET_DIR#$FLAKE_ATTR --show-trace"
+# --- 4. Переключение ------------------------------------------------------
+exec "${ROOT[@]}" NIX_CONFIG="$FLAKES" nixos-rebuild switch --flake "$TARGET_DIR#$FLAKE_ATTR" --show-trace

@@ -204,6 +204,10 @@ let
           "com.mitchellh.ghostty"
           "chrome-jaadefahflmkfinoajcpnhcejikckjdh-Default"
           "org.gnome.Nautilus"
+          "chrome-hmjcdonmhijmnefklekckjkeoknbiipb-Default"
+          "org.telegram.desktop"
+          "kitty"
+          "chrome-callopjomjkljkgpgnflciibleibpnbp-Default"
         ];
       };
       panel = {

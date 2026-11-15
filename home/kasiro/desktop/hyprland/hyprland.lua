@@ -142,7 +142,7 @@ hl.config({
         kb_options     = "grp:alt_shift_toggle",
         force_no_accel = true, -- отключает акселерацию мыши (flat profile)
         follow_mouse   = 1,
-        sensitivity    = -0.5, -- 0 = нет ускорения/замедления (диапозон: -1.0 до 1.0)
+        sensitivity    = -0.6, -- 0 = нет ускорения/замедления (диапозон: -1.0 до 1.0)
 
         -- touchpad       = {
         --     natural_scroll = false,
