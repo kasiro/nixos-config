@@ -16,6 +16,8 @@
       { id = "jephanpkonkmnkekmlkcijdjgniikppl"; } # vknext
       { id = "gighmmpiobklfepjocnamgkkbiglidom"; } # adblock
       { id = "khaeoloooombmngooihcajknfhcadpko"; } # type back
+      { id = "agddafeppiiohhalnjfhcfjemjjcgmcb"; } # save image as type
+      { id = "mcdflhheeodfhpjfdoionknnnplbojoa"; } # bentotabs (мультиаккаунт/группы как в firefox)
     ];
   };
 

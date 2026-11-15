@@ -7,8 +7,8 @@
     qbittorrent
     winetricks
     repomix
-    # mpvpaper # mp4 как обои (sway)
-    # socat # зависимость mpvpaper
+    mpvpaper
+    socat
     mpv
   ];
 }

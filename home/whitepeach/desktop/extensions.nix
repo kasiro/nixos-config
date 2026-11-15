@@ -12,8 +12,7 @@
       "app-hider@lynith.dev"
       "clipboard-history@alexsaveau.dev"
       "lockscreen-extension@pratap.fastmail.fm"
-      # "window-calls@domandoman.xyz"
-      "kando-integration@kando-menu.github.io"
+      "window-calls@domandoman.xyz"
     ];
   };
 }

@@ -8,8 +8,7 @@
     neovim
     obsidian
     telegram-desktop
-
-    appimage-run
+    
     gnome-randr
     usbutils
 
@@ -46,6 +45,7 @@
     nix-direnv
     dconf2nix
     nix-prefetch-github
+    nix-prefetch
     nix-your-shell
     update-nix-fetchgit
     nix-output-monitor

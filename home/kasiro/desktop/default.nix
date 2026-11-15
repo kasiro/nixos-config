@@ -4,8 +4,8 @@ let
 
   ignored = [
     "default.nix"
-    "common"
-    "gnome"
+    # "common"
+    # "gnome"
   ];
 
   entries = builtins.readDir dir;
