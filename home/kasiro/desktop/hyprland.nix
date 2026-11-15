@@ -327,24 +327,6 @@ in
           label_source = "name";
         };
       };
-
-      # Input настройки для мыши/клавиатуры (Noctalia v5 / Umbriel)
-      # Примечание: для Hyprland эти настройки НЕ применяются — используется hyprland.lua
-      input = {
-        mouse = {
-          sensitivity = 0.0;
-          natural_scroll = false;
-          left_handed = false;
-          accel_profile = "flat";
-        };
-
-        keyboard = {
-          layout = "us,ru";
-          options = "grp:alt_shift_toggle";
-          repeat_rate = 25;
-          repeat_delay = 600;
-        };
-      };
     } noctaliaGuiSettings;
   };
 
