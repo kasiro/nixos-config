@@ -20,6 +20,7 @@
 
       environment.NO_PROXY = "localhost,127.0.0.1";
       environment.no_proxy = "localhost,127.0.0.1";
+      environment.PATH = "/run/current-system/sw/bin:$PATH";
 
       timezone = "Asia/Novosibirsk";
 
