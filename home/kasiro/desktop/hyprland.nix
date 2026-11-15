@@ -482,7 +482,6 @@ in
       xdg-desktop-portal-gtk
     ];
     configPackages = with pkgs; [
-      hyprland
       noctalia
     ];
   };

@@ -70,6 +70,7 @@ hl.env("QT_ENABLE_HIGHDPI_SCALING", "1")
 hl.env("QT_FONT_DPI", "81")
 hl.env("QT_WAYLAND_DISABLE_WINDOWDECORATION", "1")
 hl.env("QT_QPA_PLATFORMTHEME", "qt5ct")
+hl.env("QT_STYLE_OVERRIDE", "kvantum")   -- паритет с HM qt.style.name
 hl.env("QT_QPA_PLATFORM", "wayland;xcb")
 hl.env("QT_SCALE_FACTOR_ROUNDING_POLICY", "RoundPreferFloor")
 hl.env("GTK_SCALE", "1")
