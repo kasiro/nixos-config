@@ -47,8 +47,7 @@
         modules = [
           ./configuration.nix
           home-manager.nixosModules.home-manager
-          chaotic.nixosModules.default
-          {
+          chaotic.nixosModules.default {
             _module.args.pkgs-unstable = pkgs-unstable;
             nixpkgs.overlays = [
               (final: prev: {
@@ -59,6 +58,7 @@
             home-manager.backupFileExtension = "hm-backup";
             home-manager.users.kasiro = import ./home/kasiro;
             home-manager.users.whitepeach = import ./home/whitepeach;
+            home-manager.useGlobalPkgs = true;
           }
         ];
       };

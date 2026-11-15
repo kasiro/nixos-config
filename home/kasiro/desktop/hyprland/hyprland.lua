@@ -46,9 +46,9 @@ hl.monitor({
 
 hl.on("hyprland.start", function()
     hl.exec_cmd("noctalia -d")
-    hl.exec_cmd("/run/wrappers/bin/xdg-desktop-portal-hyprland")
-    hl.exec_cmd("/run/wrappers/bin/xdg-desktop-portal-gtk")
-    hl.exec_cmd("xrdb ~/.Xresources")
+    -- hl.exec_cmd("/run/wrappers/bin/xdg-desktop-portal-hyprland")
+    -- hl.exec_cmd("/run/wrappers/bin/xdg-desktop-portal-gtk")
+    -- hl.exec_cmd("xrdb ~/.Xresources")
 
 
     if features.extra_autostart then
@@ -80,9 +80,9 @@ hl.env("HYPRCURSOR_THEME", "afterglow")
 hl.env("HYPRCURSOR_SIZE", "24")
 
 -- NVIDIA (GTX 950, legacy_580) — выставляем всегда, независимо от features.nvidia
-hl.env("LIBVA_DRIVER_NAME", "nvidia")
-hl.env("__GLX_VENDOR_LIBRARY_NAME", "nvidia")
-hl.env("GBM_BACKEND", "nvidia-drm")
+-- hl.env("LIBVA_DRIVER_NAME", "nvidia")
+-- hl.env("__GLX_VENDOR_LIBRARY_NAME", "nvidia")
+-- hl.env("GBM_BACKEND", "nvidia-drm")
 
 if features.nvidia then
     hl.env("LIBVA_DRIVER_NAME", "nvidia")

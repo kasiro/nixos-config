@@ -11,7 +11,6 @@
       "tophat@fflewddur.github.io"
       "app-hider@lynith.dev"
       "clipboard-history@alexsaveau.dev"
-      "lockscreen-extension@pratap.fastmail.fm"
       "window-calls@domandoman.xyz"
     ];
   };

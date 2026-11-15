@@ -72,8 +72,6 @@
     playerctl
     wireplumber
     pipewire
-    nemo
-    nemo-fileroller
     noctalia
     xdg-desktop-portal-gtk
 
@@ -85,7 +83,7 @@
     gnomeExtensions.clipboard-history
     gnomeExtensions.window-calls
     gnomeExtensions.app-hider
-    gnomeExtensions.kando-integration
+    # gnomeExtensions.kando-integration
     bibata-cursors
   ];
   fonts.packages = with pkgs; [

@@ -3,14 +3,17 @@
 {
   # Разрешаем unfree-пакеты (obsidian и т.п.)
   nixpkgs.config.allowUnfree = true;
+  
   documentation = {
     enable = false;
     man = {
       enable = false;
-      cache.enable = false;  # Отключить man-cache (apropos, man -k)
+      cache.enable = false;   # каноническое имя; generateCaches — obsolete-алиас
+      manualPages = [ ];      # не линковать /share/man вообще
     };
     info.enable = false;
     doc.enable = false;
+    dev.enable = false;
     nixos.enable = false;
   };
 

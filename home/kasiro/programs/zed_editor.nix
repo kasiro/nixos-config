@@ -1,121 +1,87 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 let
-
   # Собираем path-server из исходников
   path-server = pkgs.rustPlatform.buildRustPackage rec {
     pname = "path-server";
-    version = "1.4.2"; # Проверь актуальную версию на GitHub
+    version = "1.4.2";
 
     src = pkgs.fetchFromGitHub {
       owner = "kunlinglio";
       repo = "path-server";
-      rev = "v${version}"; # или конкретный коммит
+      rev = "v${version}";
       hash = "sha256-DKIDQZB9hzbS02fLheGo5yIdelpP2G6+VvRrVs0cj50=";
     };
 
-    # Если в репозитории есть Cargo.lock, укажи его хэш
     cargoHash = "sha256-e9m175il3hzmMqVzuMF6e+8ByvAF+7XQheIS/f8JyUY=";
-
-    # Отключаем ненужные проверки, если они мешают
     doCheck = false;
   };
 
+  # WAYLAND_DISPLAY="" — намеренный XWayland. MESA_VK_DEVICE_SELECT убран:
+  # на проприетарном драйвере NVIDIA он не влияет ни на что (это ключ mesa).
   zedLaunch = pkgs.writeShellScriptBin "zed-launch" ''
     export WAYLAND_DISPLAY=""
-    export MESA_VK_DEVICE_SELECT=10de:1402
     exec ${pkgs.zed-editor}/bin/zeditor "$@"
   '';
-
 in
 {
-  targets.genericLinux.nixGL.vulkan.enable = true;
-
-  home.packages =
-    (with pkgs; [
-      nixd
-      nil
-      rust-analyzer
-      pyright
-      luaPackages.lua-lsp
-      fish-lsp
-    ])
-    ++ [
-      zedLaunch
-      path-server
-    ];
+  # targets.genericLinux.nixGL.* убран: genericLinux — таргет для НЕ-NixOS.
 
   programs.zed-editor = {
     enable = true;
     package = pkgs.zed-editor;
 
+    # LSP — в PATH обёртки Zed (тогда binary.path_lookup их находит).
+    # nil убран: два Nix-сервера одновременно не нужны, оставлен nixd.
+    extraPackages = with pkgs; [
+      nixd
+      rust-analyzer
+      pyright
+      lua-language-server
+      fish-lsp
+      path-server
+    ];
+
+    # Zed сам пишет settings.json/keymap.json при правках из UI. Без mutable*
+    # это симлинк в store → «read-only». Размен: GUI-правки живут, но могут
+    # разъехаться с Nix. Хочешь чистую декларативность — поставь false.
+    mutableUserSettings = true;
+    mutableUserKeymaps = true;
+
+    # Кеймапы живут в keymap.json, а не в settings.json
+    userKeymaps = [
+      {
+        context = "Editor";
+        bindings = { "alt-d" = "editor::DuplicateLineDown"; };
+      }
+    ];
+
     userSettings = {
-      # Тема и шрифты
       theme = "Catppuccin Macchiato - No Italics";
       show_completions_on_input = true;
+      auto_update = false;
+      hour_format = "hour24";
+      vim_mode = false;
 
-      keymap = [
-        {
-          key = "alt+d";
-          command = "editor::DuplicateLineDown";
-        }
-      ];
-
-      # Настройки терминала
-      # terminal = {
-      #   shell = {
-      #     with_arguments = {
-      #       program = "${pkgs.fish}/bin/fish";
-      #     };
-      #   };
-      #   line_height = "comfortable";
-      #   env = {
-      #     PATH = "/run/wrappers/bin:/run/current-system/sw/bin:$PATH";
-      #   };
-      # };
-      languages.nix = {
+      # Имя языка — как в UI Zed, с большой буквы. "nix" игнорировался.
+      languages.Nix = {
         ensure_final_newline_on_save = false;
         remove_trailing_whitespace_on_save = false;
         format_on_save = "off";
       };
 
-      # Настройки LSP (языковых серверов)
-      # Это решит проблему, когда Zed не может скачать серверы сам
-      lsp =
-        pkgs.lib.genAttrs
-          [
-            "nix"
-            "rust-analyzer"
-            "pyright"
-            "lua"
-            "path-server-lsp"
-            "fish-lsp"
-          ]
-          (name: {
-            binary.path_lookup = true;
-          });
+      # Ключи lsp — имена СЕРВЕРОВ, не языков ("nix"/"lua" были мимо)
+      lsp = lib.genAttrs
+        [ "nixd" "rust-analyzer" "pyright" "lua-language-server" "fish-lsp" "path-server-lsp" ]
+        (_: { binary.path_lookup = true; });
 
-      # Другие полезные настройки
-      auto_update = false; # Отключаем автообновление, т.к. управляем через Nix
-      hour_format = "hour24";
-      vim_mode = false;
-
-      extension_development_paths = [
-        "/home/kasiro/Документы/dl/zed-dl"
-      ];
+      extension_development_paths = [ "/home/kasiro/Документы/dl/zed-dl" ];
     };
 
-    # Список расширений для автоматической установки
-    extensions = [
-      "nix"
-      "toml"
-      "rust"
-      "make"
-      "pylsp"
-      "lua"
-      "path-server-lsp"
-      "fish"
-    ];
+    # "pylsp" убран: в пакетах pyright, а расширение тянет другой сервер
+    extensions = [ "nix" "toml" "rust" "make" "lua" "fish" "path-server-lsp" ];
   };
+
+  home.packages = [ zedLaunch ];
 
   xdg.desktopEntries.zed = {
     name = "Zed";
@@ -123,14 +89,8 @@ in
     exec = "${zedLaunch}/bin/zed-launch %F";
     icon = "zed";
     terminal = false;
-    categories = [
-      "Development"
-      "IDE"
-      "TextEditor"
-    ];
+    categories = [ "Development" "IDE" "TextEditor" ];
     mimeType = [ "text/plain" ];
-    settings = {
-      StartupWMClass = "dev.zed.Zed";
-    };
+    settings.StartupWMClass = "dev.zed.Zed";
   };
 }

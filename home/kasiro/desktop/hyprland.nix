@@ -443,34 +443,30 @@ in
   fonts.fontconfig.enable = true;
   home.packages = with pkgs; [
     # Шрифты
-    nerd-fonts._0xproto
-    nerd-fonts.comic-shanns-mono
-    nerd-fonts.fira-code
-    noto-fonts-cjk-sans
-    noto-fonts-cjk-serif
+    # nerd-fonts._0xproto
+    # nerd-fonts.comic-shanns-mono
+    # nerd-fonts.fira-code
+    # noto-fonts-cjk-sans
+    # noto-fonts-cjk-serif
 
     # Утилиты для Hyprland
-    hyprlock
-    hypridle
-    hyprpicker
-    hyprlang
+    # hyprlock
+    # hypridle
+    # hyprpicker
+    # hyprlang
 
     # Утилиты
-    grim
-    slurp
-    wl-clipboard
-    brightnessctl
-    playerctl
-    wireplumber
-    pipewire
-    pulseaudio
-
-    # Файловый менеджер
-    nemo
-    nemo-fileroller
+    # grim
+    # slurp
+    # wl-clipboard
+    # brightnessctl
+    # playerctl
+    # wireplumber
+    # pipewire
+    # pulseaudio
 
     # Системные
-    btop
+    # btop
     xrdb
     xrandr
     xsetroot
