@@ -5,6 +5,7 @@ let
   # Файлы, которые НЕ нужно импортировать
   ignored = [
     "default.nix"
+    "dbeaver.nix"
   ];
 
   entries = builtins.readDir dir;
