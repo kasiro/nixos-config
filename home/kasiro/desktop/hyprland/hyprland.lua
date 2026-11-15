@@ -243,7 +243,6 @@ end
 
 -- Program launch (Sway-style)
 bind("Return", hl.dsp.exec_cmd(terminal))              -- SUPER+Return: терминал
-bind("SHIFT + A", hl.dsp.exec_cmd("wofi --show drun")) -- SUPER+Shift+A: wofi fallback
 bind("A", hl.dsp.exec_cmd(menu))
 -- bind("U", hl.dsp.exec_cmd(taskManager))
 
