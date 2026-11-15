@@ -355,34 +355,11 @@ bind("mouse:273", hl.dsp.window.resize(), { mouse = true })
 -- WINDOW RULES --
 -- ============ --
 
-hl.window_rule({
-    name       = "waydroid-fullscreen",
-    match      = { class = "Waydroid" },
-    float      = true,
-    fullscreen = true,
-})
-
-hl.window_rule({
-    name    = "xwayland-no-blur",
-    match   = { xwayland = true },
-    no_blur = true,
-})
-
--- Blur для Wayland-приложений (браузер, Obsidian, Zed)
-hl.window_rule({
-    blur = true,
-    match = { class = "chromium-browser" },
-})
-
-hl.window_rule({
-    blur = true,
-    match = { class = "md.obsidian.Obsidian" },
-})
-
-hl.window_rule({
-    blur = true,
-    match = { class = "dev.zed.Zed" },
-})
+-- hl.window_rule({
+--     name    = "xwayland-no-blur",
+--     match   = { xwayland = true },
+--     no_blur = true,
+-- })
 
 hl.window_rule({
     name             = "xwayland-float-no-initial-focus",
