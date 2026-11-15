@@ -548,6 +548,13 @@ class RebuildProcess:
 
         Порядок: коммит → prehook → rebuild → posthook → push.
         """
+        # Без изменений в git rebuild не выполняется: пересборка нужна
+        # только когда конфиг поменялся. Обход — флаг --force.
+        if not self.args.force and not self.has_changes():
+            print("\n○ Изменений в git нет — rebuild не требуется")
+            print("  Для принудительной пересборки: rebuild.py --force")
+            sys.exit(0)
+
         # Коммитим изменения если есть
         committed = False
         if not self.args.no_commit and self.has_changes():
@@ -604,6 +611,12 @@ def main():
     )
     parser.add_argument("--no-commit", action="store_true", help="Не делать коммит")
     parser.add_argument("--no-push", action="store_true", help="Не делать push")
+    parser.add_argument(
+        "-f",
+        "--force",
+        action="store_true",
+        help="Выполнить rebuild даже без изменений в git",
+    )
 
     args = parser.parse_args()
 
