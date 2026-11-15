@@ -50,6 +50,83 @@ let
     mkdir -p $out
     ln -s ${communityPluginsSrc}/settings-to-nix $out/settings-to-nix
   '';
+
+  # Плагины Noctalia — единый источник для ручного слоя и GUI-экспорта ниже.
+  # Значения — зеркало GUI-слоя (~/.local/state/noctalia/settings.toml):
+  # CLI включил плагин погоды и добавил персональный source.
+  # Автообновление git-source'ов выключено (обновлять вручную).
+  noctaliaPluginsAutoUpdate = "none";
+  noctaliaPluginsEnabled = [
+    "noctalia/timer"
+    "noctalia/screen_recorder"
+    "noctalia/wallhaven"
+    "0x1ce/caiyun-weather"
+    # Плагины из path-источников ниже (nix store, пиннутые ревизии)
+    "noctalia/notes"
+    "noctalia/mpvpaper"
+    "remo/noctes"
+    "dmopp/settings-to-nix"
+  ];
+  # Git-source'ы плагинов: official/community — встроенные дефолты,
+  # personal — репо с плагином погоды caiyun-weather. Path-источники
+  # (nix store): поздние перекрывают ранние; в каждом каталоге ровно один
+  # плагин. Обновление/удаление для них — no-op, auto_update их не касается.
+  noctaliaPluginsSource = [
+    {
+      kind = "git";
+      location = "https://github.com/noctalia-dev/official-plugins";
+      name = "official";
+    }
+    {
+      kind = "git";
+      location = "https://github.com/noctalia-dev/community-plugins";
+      name = "community";
+    }
+    {
+      kind = "git";
+      location = "https://github.com/OHMCFXG/noctalia-plugins.git";
+      name = "personal";
+    }
+    {
+      kind = "path";
+      location = "${noctaliaNotesPlugin}";
+      name = "nix-notes";
+    }
+    {
+      kind = "path";
+      location = "${noctaliaMpvpaperPlugin}";
+      name = "nix-mpvpaper";
+    }
+    {
+      kind = "path";
+      location = "${noctaliaNoctesPlugin}";
+      name = "nix-community";
+    }
+    {
+      kind = "path";
+      location = "${noctaliaSettingsToNixPlugin}";
+      name = "nix-settings-to-nix";
+    }
+  ];
+
+  # Экспорт GUI-настроек noctalia (плагин dmopp/settings-to-nix зеркалит
+  # state-слой в файл ./hyprland/noctalia-gui-settings.nix автоматически).
+  # settings-attrset мержится ПОВЕРХ ручного слоя в programs.noctalia.settings.
+  noctaliaGuiSettings =
+    let
+      gui = (import ./hyprland/noctalia-gui-settings.nix { inherit pkgs; }).settings;
+    in
+    gui // {
+      # plugins из экспорта не годятся как есть: enabled урезан (нет
+      # notes/noctes/caiyun-weather), в source зашит store-путь прошлой
+      # сборки, а auto_update = "all" включает автообновление git-source'ов.
+      # Берём значения из ручного слоя (списки выше — единый источник).
+      plugins = {
+        auto_update = noctaliaPluginsAutoUpdate;
+        enabled = noctaliaPluginsEnabled;
+        source = noctaliaPluginsSource;
+      };
+    };
 in
 {
   wayland.windowManager.hyprland = {
@@ -91,7 +168,10 @@ in
     enable = true;
     package = pkgs.noctalia;
 
-    settings = {
+    # settings: ручной слой снизу, GUI-экспорт ПОВЕРХ (noctaliaGuiSettings
+    # побеждает при recursiveUpdate — плагин dmopp/settings-to-nix зеркалит
+    # актуальный state-слой, ручной attrset остаётся как fallback/основа).
+    settings = lib.recursiveUpdate {
       accessibility = {
         ui_scale = 1.05;
       };
@@ -143,66 +223,12 @@ in
         enabled = false;
       };
 
-      # Плагины Noctalia. Значения — зеркало GUI-слоя (~/.local/state/noctalia/
-      # settings.toml): CLI включил плагин погоды и добавил персональный source.
+      # Плагины Noctalia — значения из let-блока (единый источник с
+      # GUI-экспортом; в самом экспорте списки урезаны/с протухшими путями).
       plugins = {
-        # Автообновление git-source'ов выключено (обновлять вручную)
-        auto_update = "none";
-        # Включённые плагины: погода Цайюнь (personal) + официальные
-        enabled = [
-          "noctalia/timer"
-          "noctalia/screen_recorder"
-          "noctalia/wallhaven"
-          "0x1ce/caiyun-weather"
-          # Плагины из path-источников ниже (nix store, пиннутые ревизии)
-          "noctalia/notes"
-          "noctalia/mpvpaper"
-          "remo/noctes"
-          "dmopp/settings-to-nix"
-        ];
-
-        # Git-source'ы плагинов: official/community — встроенные дефолты,
-        # personal — репо с плагином погоды caiyun-weather
-        source = [
-          {
-            kind = "git";
-            location = "https://github.com/noctalia-dev/official-plugins";
-            name = "official";
-          }
-          {
-            kind = "git";
-            location = "https://github.com/noctalia-dev/community-plugins";
-            name = "community";
-          }
-          {
-            kind = "git";
-            location = "https://github.com/OHMCFXG/noctalia-plugins.git";
-            name = "personal";
-          }
-          # Path-источники (nix store): поздние перекрывают ранние; в каждом
-          # каталоге ровно один плагин. Обновление/удаление для них — no-op,
-          # автообновление (auto_update) их не касается.
-          {
-            kind = "path";
-            location = "${noctaliaNotesPlugin}";
-            name = "nix-notes";
-          }
-          {
-            kind = "path";
-            location = "${noctaliaMpvpaperPlugin}";
-            name = "nix-mpvpaper";
-          }
-          {
-            kind = "path";
-            location = "${noctaliaNoctesPlugin}";
-            name = "nix-community";
-          }
-          {
-            kind = "path";
-            location = "${noctaliaSettingsToNixPlugin}";
-            name = "nix-settings-to-nix";
-          }
-        ];
+        auto_update = noctaliaPluginsAutoUpdate;
+        enabled = noctaliaPluginsEnabled;
+        source = noctaliaPluginsSource;
       };
 
       # Координаты для плагина 0x1ce/caiyun-weather (Новосибирск).
@@ -319,7 +345,7 @@ in
           repeat_delay = 600;
         };
       };
-    };
+    } noctaliaGuiSettings;
   };
 
   # Kitty — типизированный HM-модуль вместо plain kitty.conf.
