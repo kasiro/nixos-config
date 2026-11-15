@@ -15,6 +15,7 @@
       { id = "hkgfoiooedgoejojocmhlaklaeopbecg"; } # picture in picture
       { id = "jephanpkonkmnkekmlkcijdjgniikppl"; } # vknext
       { id = "gighmmpiobklfepjocnamgkkbiglidom"; } # adblock
+      { id = "khaeoloooombmngooihcajknfhcadpko"; } # type back
     ];
   };
 
