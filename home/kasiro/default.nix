@@ -23,5 +23,10 @@
   # Пакеты только для kasiro (DE-specific в desktop/*/packages.nix)
   home.packages = with pkgs; [
     nvtopPackages.nvidia
+    ffmpeg
+    nodePackages.pnpm
+    ripgrep
+    fd
+    jq
   ];
 }
