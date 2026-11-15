@@ -367,6 +367,8 @@ def push_projects():
     Posthook: коммит и push изменений в проектах из PROJECTS.
     Для каждого пути: проверяем незакоммиченные изменения и ahead-коммиты,
     при необходимости коммитим, затем пушим.
+    Чужой home (/home/whitepeach, 0700) kasiro напрямую не читает — такие
+    проекты пушатся через `doas -u <владелец> git`.
     Провал одного проекта не прерывает остальные; функция возвращает None
     (не False), чтобы run_hooks не помечал весь posthook как упавший.
     """
@@ -379,17 +381,152 @@ def push_projects():
 
     for p in PROJECTS:
         path = Path(p["path"]).expanduser()
+        # Владелец каталога — третий компонент пути: /home/<user>/...
+        user = path.parts[2]
 
-        # /home/whitepeach закрыт (0700) — stat под kasiro бросает PermissionError;
-        # раньше в PROJECTS не было чужих home, теперь есть (Marsel).
+        # /home/whitepeach закрыт (0700): stat под kasiro бросает PermissionError.
+        # None = «неизвестно, каталог чужой» → решаем через doas.
         try:
-            is_dir = path.is_dir()
+            exists = path.is_dir()
         except OSError:
-            print(f"⚠ Папка недоступна, пропущено: {path}")
-            skip_count += 1
+            exists = None
+
+        parent = path.parent
+
+        # Родитель не доступен на запись (чужой home) или stat упал → все git-
+        # операции через doas от имени владельца: только у него есть права.
+        foreign = exists is None or not os.access(parent, os.W_OK)
+
+        if foreign:
+            label = path.name
+            # Существование и git-репозиторий проверяем из-под владельца:
+            # проверки под kasiro здесь невозможны (0700).
+            try:
+                probe = subprocess.run(["doas", "-u", user, "test", "-d", str(path)])
+                if probe.returncode != 0:
+                    print(f"⚠ [{user}] {label}: папка не найдена, пропущено")
+                    skip_count += 1
+                    continue
+
+                git_probe = subprocess.run(
+                    ["doas", "-u", user, "test", "-d", str(path / ".git")]
+                )
+                if git_probe.returncode != 0:
+                    print(f"⚠ [{user}] {label}: не git-репозиторий, пропущено")
+                    skip_count += 1
+                    continue
+
+                # Проект без remote не трогаем вовсе: ни add, ни commit — иначе
+                # останется закоммиченное, которое некуда пушить.
+                remotes = subprocess.run(
+                    ["doas", "-u", user, "git", "-C", str(path), "remote"],
+                    capture_output=True,
+                    text=True,
+                )
+                if remotes.returncode != 0 or remotes.stdout.strip() == "":
+                    print(f"⚠ [{user}] {label}: remote не настроен, пропуск")
+                    skip_count += 1
+                    continue
+
+                # 1. Проверяем незакоммиченные изменения
+                status = subprocess.run(
+                    ["doas", "-u", user, "git", "-C", str(path), "status", "--porcelain"],
+                    capture_output=True,
+                    text=True,
+                )
+                if status.returncode != 0:
+                    print(
+                        f"❌ [{user}] {label}: git status упал: {status.stderr.strip()}"
+                    )
+                    fail_count += 1
+                    continue
+
+                has_uncommitted = status.stdout.strip() != ""
+
+                # 2. Проверяем ahead-коммиты (закоммичено, но не запушено)
+                ahead = subprocess.run(
+                    [
+                        "doas",
+                        "-u",
+                        user,
+                        "git",
+                        "-C",
+                        str(path),
+                        "rev-list",
+                        "@{u}..HEAD",
+                    ],
+                    capture_output=True,
+                    text=True,
+                )
+                # returncode != 0 — нет upstream, считаем ahead=0
+                has_ahead = ahead.returncode == 0 and ahead.stdout.strip() != ""
+
+                # 3. Если нет изменений и нет ahead — пропускаем
+                if not has_uncommitted and not has_ahead:
+                    print(f"○ [{user}] {label}: нет изменений для push")
+                    skip_count += 1
+                    continue
+
+                # 4. Коммитим только если есть незакоммиченные изменения
+                if has_uncommitted:
+                    add_result = subprocess.run(
+                        ["doas", "-u", user, "git", "-C", str(path), "add", "."],
+                        capture_output=True,
+                        text=True,
+                    )
+                    if add_result.returncode != 0:
+                        err = (add_result.stderr or add_result.stdout).strip()
+                        print(f"❌ [{user}] {label}: git add упал: {err}")
+                        fail_count += 1
+                        continue
+
+                    commit_result = subprocess.run(
+                        [
+                            "doas",
+                            "-u",
+                            user,
+                            "git",
+                            "-C",
+                            str(path),
+                            "commit",
+                            "-m",
+                            "push",
+                        ],
+                        capture_output=True,
+                        text=True,
+                    )
+                    if commit_result.returncode != 0:
+                        err = (commit_result.stderr or commit_result.stdout).strip()
+                        print(f"❌ [{user}] {label}: git commit упал: {err}")
+                        fail_count += 1
+                        continue
+
+                # 5. Push делаем всегда (либо новый коммит, либо ahead)
+                push_result = subprocess.run(
+                    ["doas", "-u", user, "git", "-C", str(path), "push"],
+                    capture_output=True,
+                    text=True,
+                )
+                if push_result.returncode != 0:
+                    err = (push_result.stderr or push_result.stdout).strip()
+                    print(f"❌ [{user}] {label}: git push упал: {err}")
+                    fail_count += 1
+                    continue
+
+                print(f"✓ [{user}] {label}: запушено (через doas)")
+                ok_count += 1
+
+            except FileNotFoundError:
+                # Нет doas или git: остальные проекты тоже не пушить.
+                print("❌ doas/git не найден")
+                print("─" * 32)
+                return False
+            except Exception as e:
+                print(f"❌ [{user}] {label}: ошибка: {e}")
+                fail_count += 1
             continue
 
-        if not is_dir:
+        if not exists:
             print(f"⚠ Папка не найдена, пропущено: {path}")
             skip_count += 1
             continue
