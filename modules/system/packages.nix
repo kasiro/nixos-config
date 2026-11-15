@@ -61,7 +61,7 @@
     tree-sitter
 
     # Hyprland
-    hyprland
+    # hyprland
     hyprlock
     hypridle
     hyprpicker

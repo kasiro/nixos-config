@@ -7,18 +7,4 @@
     portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
     xwayland.enable = true;
   };
-  
-  # Портал регистрирует nixpkgs-модуль programs.hyprland сам (portalPackage выше).
-  security.polkit.enable = true;
-  hardware.graphics = {
-    enable = true;
-    enable32Bit = true;
-  };
-  
-  # NVIDIA legacy_580 (GTX 950)
-  hardware.nvidia = {
-    branch = "legacy_580";
-    modesetting.enable = true;
-    nvidiaSettings = true;
-  };
 }
