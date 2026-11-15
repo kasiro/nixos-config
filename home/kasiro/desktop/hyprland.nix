@@ -33,19 +33,11 @@ let
     hash = "sha256-UXxQUp02YFqayCcYz8pr5OWPVuicDgGAGCxAasuz56g=";
   };
 
-  noctaliaNotesPlugin = pkgs.runCommand "noctalia-notes-plugin" { } ''
-    mkdir -p $out
-    ln -s ${officialNotesSrc}/notes $out/notes
-  '';
   noctaliaMpvpaperPlugin = pkgs.runCommand "noctalia-mpvpaper-plugin" { } ''
     mkdir -p $out
     ln -s ${officialMpvpaperSrc}/mpvpaper $out/mpvpaper
   '';
-  noctaliaNoctesPlugin = pkgs.runCommand "noctalia-noctes-plugin" { } ''
-    mkdir -p $out
-    ln -s ${communityPluginsSrc}/noctes $out/noctes
-  '';
-
+  
   noctaliaSettingsToNixPlugin = pkgs.runCommand "noctalia-settings-to-nix-plugin" { } ''
     mkdir -p $out
     ln -s ${communityPluginsSrc}/settings-to-nix $out/settings-to-nix
@@ -58,13 +50,9 @@ let
   noctaliaPluginsAutoUpdate = "none";
   noctaliaPluginsEnabled = [
     "noctalia/timer"
-    "noctalia/screen_recorder"
     "noctalia/wallhaven"
-    "0x1ce/caiyun-weather"
     # Плагины из path-источников ниже (nix store, пиннутые ревизии)
-    "noctalia/notes"
     "noctalia/mpvpaper"
-    "remo/noctes"
     "dmopp/settings-to-nix"
   ];
   # Git-source'ы плагинов: official/community — встроенные дефолты,
@@ -87,20 +75,10 @@ let
       location = "https://github.com/OHMCFXG/noctalia-plugins.git";
       name = "personal";
     }
-    {
-      kind = "path";
-      location = "${noctaliaNotesPlugin}";
-      name = "nix-notes";
-    }
-    {
+        {
       kind = "path";
       location = "${noctaliaMpvpaperPlugin}";
       name = "nix-mpvpaper";
-    }
-    {
-      kind = "path";
-      location = "${noctaliaNoctesPlugin}";
-      name = "nix-community";
     }
     {
       kind = "path";
