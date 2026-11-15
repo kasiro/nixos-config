@@ -369,17 +369,17 @@ hl.window_rule({
 })
 
 -- Blur для Wayland-приложений (браузер, Obsidian, Zed)
-hl.window_rulev2({
+hl.window_rule({
     blur = true,
     match = { class = "chromium-browser" },
 })
 
-hl.window_rulev2({
+hl.window_rule({
     blur = true,
     match = { class = "md.obsidian.Obsidian" },
 })
 
-hl.window_rulev2({
+hl.window_rule({
     blur = true,
     match = { class = "dev.zed.Zed" },
 })
