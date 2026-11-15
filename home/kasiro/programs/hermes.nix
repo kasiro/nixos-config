@@ -119,6 +119,6 @@
       };
     };
 
-    extraPackages = with pkgs; [ ripgrep fd jq ];
+    extraPackages = with pkgs; [ ffmpeg pnpm ripgrep fd jq ];
   };
 }
