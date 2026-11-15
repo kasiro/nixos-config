@@ -272,6 +272,8 @@ def project_init():
     Prehook: инициализация проектов (клонирование отсутствующих).
     Перенесено из modules/system/activation-scripts.nix: раньше клонирование
     выполнялось при каждой активации системы, теперь — перед пересборкой.
+    Чужой home (/home/whitepeach, 0700) kasiro напрямую не пишет — такие
+    проекты клонируются через `doas -u <владелец>`.
     Провал одного проекта не прерывает остальные; функция возвращает None
     (не False), чтобы run_hooks не помечал весь prehook как упавший.
     """
@@ -285,14 +287,53 @@ def project_init():
         user = path.parts[2]
 
         # /home/whitepeach закрыт (0700): stat под kasiro бросает PermissionError.
-        # Такой каталог считаем существующим — клонировать в чужой home всё равно нельзя.
+        # None = «неизвестно, каталог чужой» → решаем через doas.
         try:
             exists = path.is_dir()
         except OSError:
-            exists = True
+            exists = None
 
         if exists:
             print(f"○ [{user}] {label}: уже существует")
+            continue
+
+        parent = path.parent
+
+        # Родитель не доступен на запись (чужой home) или stat упал → mkdir + clone
+        # через doas от имени владельца: только у него есть права в своём home.
+        if exists is None or not os.access(parent, os.W_OK):
+            try:
+                # Существование проверяем из-под владельца: is_dir() под kasiro упал,
+                # а clone в уже готовый каталог дал бы ложную ошибку.
+                if exists is None:
+                    probe = subprocess.run(
+                        ["doas", "-u", user, "test", "-d", str(path)]
+                    )
+                    if probe.returncode == 0:
+                        print(f"○ [{user}] {label}: уже существует")
+                        continue
+
+                print(f"==> [{user}] {label}: клонирую через doas ({user})")
+                # Родителя может не быть (новый пользователь) — создаём от владельца.
+                subprocess.run(
+                    ["doas", "-u", user, "mkdir", "-p", str(parent)], check=True
+                )
+                subprocess.run(
+                    ["doas", "-u", user, "git", "clone", p["git"], str(path)],
+                    check=True,
+                )
+            except FileNotFoundError:
+                # Нет doas или git: остальные проекты тоже не клонировать.
+                print("❌ doas/git не найден")
+                print("─" * 32)
+                return False
+            except subprocess.CalledProcessError as e:
+                print(
+                    f"❌ [{user}] {label}: клонирование через doas не удалось ({e.returncode})"
+                )
+                continue
+
+            print(f"✓ [{user}] {label}: готово (через doas)")
             continue
 
         print(f"==> [{user}] {label}: клонирую")
