@@ -19,7 +19,7 @@ import time
 from pathlib import Path
 
 # Проекты: полная информация (путь + git URL).
-# Используется в push_projects().
+# Используется в push_projects() и project_init().
 # Формат: {"path": "~...", "git": "https://..."}
 PROJECTS = [
     {"path": "~/Документы/kasiro-proxy", "git": "https://github.com/kasiro/proxy"},
@@ -30,6 +30,10 @@ PROJECTS = [
     },
     {"path": "~/.config/nvim", "git": "https://github.com/kasiro/nvim_config"},
     {"path": "~/Документы/dl", "git": "https://github.com/kasiro/dl"},
+    {
+        "path": "/home/whitepeach/Документы/Marsel",
+        "git": "https://github.com/korneevnaanastasia-beep/Mars",
+    },
 ]
 
 
@@ -263,6 +267,60 @@ def flake_check():
         return False
 
 
+def project_init():
+    """
+    Prehook: инициализация проектов (клонирование отсутствующих).
+    Перенесено из modules/system/activation-scripts.nix: раньше клонирование
+    выполнялось при каждой активации системы, теперь — перед пересборкой.
+    Провал одного проекта не прерывает остальные; функция возвращает None
+    (не False), чтобы run_hooks не помечал весь prehook как упавший.
+    """
+    print("\n📂 Prehook: project_init")
+    print("─" * 32)
+
+    for p in PROJECTS:
+        path = Path(p["path"]).expanduser()
+        label = path.name
+        # Владелец каталога — третий компонент пути: /home/<user>/...
+        user = path.parts[2]
+
+        # /home/whitepeach закрыт (0700): stat под kasiro бросает PermissionError.
+        # Такой каталог считаем существующим — клонировать в чужой home всё равно нельзя.
+        try:
+            exists = path.is_dir()
+        except OSError:
+            exists = True
+
+        if exists:
+            print(f"○ [{user}] {label}: уже существует")
+            continue
+
+        print(f"==> [{user}] {label}: клонирую")
+        try:
+            subprocess.run(["git", "clone", p["git"], str(path)], check=True)
+        except FileNotFoundError:
+            # Нет самого git, а не проблема репозитория: без него остальные
+            # проекты тоже не клонировать — валим prehook целиком.
+            print("❌ git не найден")
+            print("─" * 32)
+            return False
+        except subprocess.CalledProcessError as e:
+            print(f"❌ [{user}] {label}: git clone упал ({e.returncode})")
+            continue
+
+        # Владелец каталога: под root (активация NixOS) срабатывает всегда,
+        # из-под обычного пользователя — только если владелец уже совпадает.
+        try:
+            subprocess.run(["chown", "-R", f"{user}:users", str(path)], check=True)
+        except (FileNotFoundError, subprocess.CalledProcessError) as e:
+            print(f"⚠ [{user}] {label}: chown не выполнен ({e})")
+
+        print(f"✓ [{user}] {label}: готово")
+
+    print("─" * 32)
+    return None
+
+
 def push_projects():
     """
     Posthook: коммит и push изменений в проектах из PROJECTS.
@@ -281,7 +339,16 @@ def push_projects():
     for p in PROJECTS:
         path = Path(p["path"]).expanduser()
 
-        if not path.is_dir():
+        # /home/whitepeach закрыт (0700) — stat под kasiro бросает PermissionError;
+        # раньше в PROJECTS не было чужих home, теперь есть (Marsel).
+        try:
+            is_dir = path.is_dir()
+        except OSError:
+            print(f"⚠ Папка недоступна, пропущено: {path}")
+            skip_count += 1
+            continue
+
+        if not is_dir:
             print(f"⚠ Папка не найдена, пропущено: {path}")
             skip_count += 1
             continue
@@ -382,6 +449,7 @@ def push_projects():
 
 # Prehook функции - выполняются ДО rebuild
 PREHOOKS = [
+    "project_init",  # клонирование отсутствующих проектов (из activation-scripts.nix)
     # "flake_check",  # отключено
     # "analyze_build",  # временно отключено
 ]
