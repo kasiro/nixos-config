@@ -30,10 +30,10 @@ PROJECTS = [
     },
     {"path": "~/.config/nvim", "git": "https://github.com/kasiro/nvim_config"},
     {"path": "~/Документы/dl", "git": "https://github.com/kasiro/dl"},
-    {
-        "path": "/home/whitepeach/Документы/Marsel",
-        "git": "https://github.com/korneevnaanastasia-beep/Mars",
-    },
+    # {
+    #     "path": "/home/whitepeach/Документы/Marsel",
+    #     "git": "https://github.com/korneevnaanastasia-beep/Mars",
+    # },
 ]
 
 
@@ -151,120 +151,120 @@ def stream_subprocess(cmd, *, env=None, stdin=None, on_start=None, prefix=None):
     return proc.wait()
 
 
-def analyze_build():
-    """
-    Анализ предстоящей сборки NixOS.
-    Запускает nh os switch . --dry-run и парсит вывод.
-    """
-    print("\n📦 Предстоящая сборка:")
-    print("─" * 32)
-
-    try:
-        # Запускаем nh с --dry для получения информации
-        result = subprocess.run(
-            ["nh", "os", "switch", ".", "--dry"],
-            capture_output=True,
-            text=True,
-            timeout=120,
-        )
-
-        output = result.stdout + result.stderr
-
-        # Парсим количество дериваций
-        derivations_count = 0
-        build_count = 0
-        download_count = 0
-
-        # Реальный формат вывода nh:
-        # these 8 derivations will be built:
-        #   /nix/store/xxx-foo.drv
-        #   /nix/store/yyy-bar.drv
-        deriv_match = re.search(
-            r"these\s+(\d+)\s+derivations?\s+will be built", output, re.IGNORECASE
-        )
-        if deriv_match:
-            derivations_count = int(deriv_match.group(1))
-
-        # Если не нашли стандартный паттерн — считаем строки с .drv
-        if derivations_count == 0:
-            deriv_lines = [
-                line
-                for line in output.split("\n")
-                if "/nix/store/" in line and ".drv" in line
-            ]
-            derivations_count = len(deriv_lines)
-
-        # nh не различает явно build/download в dry-run
-        # Считаем всё как "будет построено" (консервативная оценка)
-        build_count = derivations_count
-        download_count = 0
-
-        # Вычисляем проценты
-        if derivations_count > 0:
-            build_pct = 100
-            download_pct = 0
-        else:
-            build_pct = 0
-            download_pct = 0
-
-        # Вывод результатов
-        print(f"Дериваций: {derivations_count}")
-        print(f"Сборка из исходников: {build_count} ({build_pct:.0f}%)")
-        print(f"Скачивание бинарников: {download_count} ({download_pct:.0f}%)")
-
-        # Оценка: ~30 сек на деривацию
-        if build_count > 0:
-            estimated_sec = build_count * 30
-            time_str = (
-                f"~{estimated_sec // 60} мин"
-                if estimated_sec >= 60
-                else f"~{estimated_sec} сек"
-            )
-        else:
-            time_str = "<1 мин"
-
-        print(f"Примерное время: {time_str} (оценка)")
-
-        print("─" * 32)
-
-    except FileNotFoundError:
-        print("❌ Команда 'nh' не найдена. Установите nh или используйте nix-build.")
-    except subprocess.TimeoutExpired:
-        print("⚠ Таймаут анализа сборки (>120 сек)")
-    except Exception as e:
-        print(f"⚠ Ошибка анализа: {e}")
-
-
-def flake_check():
-    """
-    Prehook: проверка конфига (nix flake check --no-build).
-    Ловит несуществующие NixOS-опции на этапе eval (без долгой сборки).
-    Выполняется в текущей рабочей директории — той же, что у nh os switch .
-    Возвращает False, если проверка упала.
-    """
-    print("\n🔍 Prehook: nix flake check --no-build")
-    print("─" * 32)
-
-    try:
-        returncode = stream_subprocess(
-            ["nix", "flake", "check", "--no-build", "--offline"]
-        )
-
-        if returncode != 0:
-            print(f"⚠ nix flake check завершился с кодом {returncode}")
-            print("─" * 32)
-            return False
-
-        print("✓ Конфигурация прошла проверку")
-        print("─" * 32)
-        return True
-
-    except FileNotFoundError:
-        print("❌ Команда 'nix' не найдена. Установите nix.")
-        return False
-    except Exception as e:
-        print(f"⚠ Ошибка prehook: {e}")
-        return False
+# def analyze_build():
+#     """
+#     Анализ предстоящей сборки NixOS.
+#     Запускает nh os switch . --dry-run и парсит вывод.
+#     """
+#     print("\n📦 Предстоящая сборка:")
+#     print("─" * 32)
+#
+#     try:
+#         # Запускаем nh с --dry для получения информации
+#         result = subprocess.run(
+#             ["nh", "os", "switch", ".", "--dry"],
+#             capture_output=True,
+#             text=True,
+#             timeout=120,
+#         )
+#
+#         output = result.stdout + result.stderr
+#
+#         # Парсим количество дериваций
+#         derivations_count = 0
+#         build_count = 0
+#         download_count = 0
+#
+#         # Реальный формат вывода nh:
+#         # these 8 derivations will be built:
+#         #   /nix/store/xxx-foo.drv
+#         #   /nix/store/yyy-bar.drv
+#         deriv_match = re.search(
+#             r"these\s+(\d+)\s+derivations?\s+will be built", output, re.IGNORECASE
+#         )
+#         if deriv_match:
+#             derivations_count = int(deriv_match.group(1))
+#
+#         # Если не нашли стандартный паттерн — считаем строки с .drv
+#         if derivations_count == 0:
+#             deriv_lines = [
+#                 line
+#                 for line in output.split("\n")
+#                 if "/nix/store/" in line and ".drv" in line
+#             ]
+#             derivations_count = len(deriv_lines)
+#
+#         # nh не различает явно build/download в dry-run
+#         # Считаем всё как "будет построено" (консервативная оценка)
+#         build_count = derivations_count
+#         download_count = 0
+#
+#         # Вычисляем проценты
+#         if derivations_count > 0:
+#             build_pct = 100
+#             download_pct = 0
+#         else:
+#             build_pct = 0
+#             download_pct = 0
+#
+#         # Вывод результатов
+#         print(f"Дериваций: {derivations_count}")
+#         print(f"Сборка из исходников: {build_count} ({build_pct:.0f}%)")
+#         print(f"Скачивание бинарников: {download_count} ({download_pct:.0f}%)")
+#
+#         # Оценка: ~30 сек на деривацию
+#         if build_count > 0:
+#             estimated_sec = build_count * 30
+#             time_str = (
+#                 f"~{estimated_sec // 60} мин"
+#                 if estimated_sec >= 60
+#                 else f"~{estimated_sec} сек"
+#             )
+#         else:
+#             time_str = "<1 мин"
+#
+#         print(f"Примерное время: {time_str} (оценка)")
+#
+#         print("─" * 32)
+#
+#     except FileNotFoundError:
+#         print("❌ Команда 'nh' не найдена. Установите nh или используйте nix-build.")
+#     except subprocess.TimeoutExpired:
+#         print("⚠ Таймаут анализа сборки (>120 сек)")
+#     except Exception as e:
+#         print(f"⚠ Ошибка анализа: {e}")
+#
+#
+# def flake_check():
+#     """
+#     Prehook: проверка конфига (nix flake check --no-build).
+#     Ловит несуществующие NixOS-опции на этапе eval (без долгой сборки).
+#     Выполняется в текущей рабочей директории — той же, что у nh os switch .
+#     Возвращает False, если проверка упала.
+#     """
+#     print("\n🔍 Prehook: nix flake check --no-build")
+#     print("─" * 32)
+#
+#     try:
+#         returncode = stream_subprocess(
+#             ["nix", "flake", "check", "--no-build", "--offline"]
+#         )
+#
+#         if returncode != 0:
+#             print(f"⚠ nix flake check завершился с кодом {returncode}")
+#             print("─" * 32)
+#             return False
+#
+#         print("✓ Конфигурация прошла проверку")
+#         print("─" * 32)
+#         return True
+#
+#     except FileNotFoundError:
+#         print("❌ Команда 'nix' не найдена. Установите nix.")
+#         return False
+#     except Exception as e:
+#         print(f"⚠ Ошибка prehook: {e}")
+#         return False
 
 
 def project_init():

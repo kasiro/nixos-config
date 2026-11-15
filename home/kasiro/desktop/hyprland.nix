@@ -3,7 +3,7 @@
 #
 # Единственный источник конфига — ./hyprland/hyprland.lua (Lua API Hyprland 0.57).
 
-{ pkgs, lib, inputs, ... }:
+{ pkgs, lib, ... }:
 
 # Пиннутые ревизии репозиториев плагинов Noctalia (rev из catalog.toml каждого
 # репозитория, выбранные под plugin_api 3..30 noctalia v5.0.1):
