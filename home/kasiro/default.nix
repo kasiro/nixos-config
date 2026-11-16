@@ -24,7 +24,7 @@
   home.packages = with pkgs; [
     nvtopPackages.nvidia
     ffmpeg
-    nodePackages.pnpm
+    pnpm
     ripgrep
     fd
     jq
