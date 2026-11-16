@@ -9,6 +9,8 @@
 # репозитория, выбранные под plugin_api 3..30 noctalia v5.0.1):
 #   official-plugins @ 03411380 — notes 1.3.0 (api 26, первый коммит 1.3.0)
 #   official-plugins @ 8c6b90fa — mpvpaper 1.2.1 (api 26, release-строка каталога)
+#   official-plugins @ 73d4aea7 — timer 1.5.0 (api 20, release-строка каталога)
+#   official-plugins @ f4aafbda — wallhaven 1.3.1 (api 26, release-строка каталога)
 #   community-plugins @ a4e31fa3 — noctes 0.20.1 (api 26, release-строка каталога)
 # Каждый path-каталог — одна ревизия, поэтому в нём symlink ровно одного
 # плагина; noctalia читает <source>/<subdir>/plugin.toml, где subdir — часть id
@@ -26,6 +28,18 @@ let
     rev = "8c6b90fa92519bd2da1dd8b5f2cc940cce08367f";
     hash = "sha256-sPxOFsGN3rCJ56gUtSRShvYOv1H11nqA+4FL0iraoac=";
   };
+  officialTimerSrc = pkgs.fetchFromGitHub {
+    owner = "noctalia-dev";
+    repo = "official-plugins";
+    rev = "73d4aea7bd3f18d30f5f74ed5dc874eab1c664d6";
+    hash = "sha256-1uVa2RNSWayBvm+4Z330vanrkWuOfIFCZwfQD4qJ19g=";
+  };
+  officialWallhavenSrc = pkgs.fetchFromGitHub {
+    owner = "noctalia-dev";
+    repo = "official-plugins";
+    rev = "f4aafbda29540bd1abebddd07fb5192704afa2a5";
+    hash = "sha256-mvrLkM7M53EHVmr/mMAIpwalLiVH9c9SQusKA9gJDho=";
+  };
   communityPluginsSrc = pkgs.fetchFromGitHub {
     owner = "noctalia-dev";
     repo = "community-plugins";
@@ -37,7 +51,17 @@ let
     mkdir -p $out
     ln -s ${officialMpvpaperSrc}/mpvpaper $out/mpvpaper
   '';
-  
+
+  noctaliaTimerPlugin = pkgs.runCommand "noctalia-timer-plugin" { } ''
+    mkdir -p $out
+    ln -s ${officialTimerSrc}/timer $out/timer
+  '';
+
+  noctaliaWallhavenPlugin = pkgs.runCommand "noctalia-wallhaven-plugin" { } ''
+    mkdir -p $out
+    ln -s ${officialWallhavenSrc}/wallhaven $out/wallhaven
+  '';
+
   noctaliaSettingsToNixPlugin = pkgs.runCommand "noctalia-settings-to-nix-plugin" { } ''
     mkdir -p $out
     ln -s ${communityPluginsSrc}/settings-to-nix $out/settings-to-nix
@@ -84,6 +108,16 @@ let
       kind = "path";
       location = "${noctaliaSettingsToNixPlugin}";
       name = "nix-settings-to-nix";
+    }
+    {
+      kind = "path";
+      location = "${noctaliaTimerPlugin}";
+      name = "nix-timer";
+    }
+    {
+      kind = "path";
+      location = "${noctaliaWallhavenPlugin}";
+      name = "nix-wallhaven";
     }
   ];
 
@@ -209,12 +243,8 @@ in
         source = noctaliaPluginsSource;
       };
 
-      # Координаты для плагина 0x1ce/caiyun-weather (Новосибирск).
-      # Плагин читает их через plugin_settings (тип string в manifest).
-      plugin_settings."0x1ce/caiyun-weather" = {
-        latitude = "55.0226";
-        longitude = "82.9317";
-      };
+      # Координаты для плагина 0x1ce/caiyun-weather (Новосибирск) удалены
+      # вместе с самим блоком: плагин выпал из enabled (WARN 6).
 
       # Центр уведомлений (Control Center):
       # боковая панель при открытии вкладки — Полная; ширина — 800 px
@@ -239,11 +269,8 @@ in
 
         launcher = {
           provider_prefix = ">";
-          layout = "full";
           app_grid = true;
-          width = 760;
           show_icons = true;
-          track_usage = true;
           sort_by_usage = true;
 
           providers.calculator = {
