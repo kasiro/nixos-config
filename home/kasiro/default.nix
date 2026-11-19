@@ -28,5 +28,6 @@
     ripgrep
     fd
     jq
+    zoom-us
   ];
 }
