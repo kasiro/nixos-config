@@ -213,7 +213,7 @@ let
         ];
       };
       panel = {
-        control_center_placement = "floating";
+        control_center_placement = "attached";
         control_center_position = "center";
         launcher_placement = "floating";
         shadow = false;
