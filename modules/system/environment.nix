@@ -13,4 +13,12 @@
   environment.sessionVariables = {
     NIXOS_OZONE_WL = "1";
   };
+
+  # /tmp в tmpfs для уменьшения записей на HDD
+  boot.tmp.useTmpfs = true;
+
+  systemd.tmpfiles.rules = [
+    "d /tmp/.X11-unix 1777 root root -"
+    "d /var/tmp 1777 root root -"
+  ];
 }

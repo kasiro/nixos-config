@@ -7,6 +7,9 @@
     ./network.nix
     ./packages.nix
     ./zram.nix
+    ./udev.nix
+    ./filesystem.nix
+    ./journald.nix
     ./boot.nix
     ./fish.nix
     ./fontconfig-cache.nix

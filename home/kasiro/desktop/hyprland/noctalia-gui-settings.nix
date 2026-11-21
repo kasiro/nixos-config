@@ -208,6 +208,8 @@ let
           "org.telegram.desktop"
           "kitty"
           "chrome-callopjomjkljkgpgnflciibleibpnbp-Default"
+          "Happ"
+          "chrome-bknofkbphlmjdamhfgnibeebjmfjklfh-Default"
         ];
       };
       panel = {
