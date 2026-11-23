@@ -19,7 +19,7 @@
 
   nix.settings = {
     # Параллелизм (HDD + 8GB RAM)
-    max-jobs = 2;
+    max-jobs = 1;
     cores = 2;
     
     # Кэширование — все публичные кэши
