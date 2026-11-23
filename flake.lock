@@ -143,6 +143,7 @@
       "original": {
         "owner": "NousResearch",
         "repo": "hermes-agent",
+        "rev": "31a161a6d2b9169dddf6633c096fe038e6925d0f",
         "type": "github"
       }
     },
@@ -295,6 +296,7 @@
       "original": {
         "owner": "hyprwm",
         "repo": "Hyprland",
+        "rev": "423da96907feb3eef7ca4e06dc5cb69e9eec63a8",
         "type": "github"
       }
     },
@@ -374,6 +376,7 @@
       "original": {
         "owner": "hyprwm",
         "repo": "hyprland-plugins",
+        "rev": "2e03a09a92ba8b0adcd2840a69d84ffc2174b886",
         "type": "github"
       }
     },
@@ -567,6 +570,7 @@
       "original": {
         "owner": "gmodena",
         "repo": "nix-flatpak",
+        "rev": "02656785ab214fa1c9655f1beaaf0269eeeec2ca",
         "type": "github"
       }
     },
@@ -696,6 +700,7 @@
       "original": {
         "owner": "noctalia-dev",
         "repo": "noctalia",
+        "rev": "30daf36c1e7729ac29fa787b48bc2af136689635",
         "type": "github"
       }
     },

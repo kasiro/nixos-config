@@ -1,8 +1,8 @@
 # Игры: Steam + GameMode
-{ pkgs, ... }: {
+{ pkgs, pkgs-steam, ... }: {
   programs.steam = {
     enable = true;
-    package = pkgs.steam;
+    package = pkgs-steam.steam;
     remotePlay.openFirewall = true;
     dedicatedServer.openFirewall = true;
     extraCompatPackages = [ ];
