@@ -11,6 +11,7 @@ set -gx EDITOR nvim
 # Алиас на Python-скрипт rebuild
 alias rebuild="python3 /home/kasiro/nixos-config/scripts/rebuild.py"
 alias cpx="python /home/kasiro/Документы/project_scope/main.py"
+alias bat="bat --theme 'Catppuccin Mocha'"
 
 function devshell-init --description "Создать flake.nix + .envrc в текущей директории"
     if test -e flake.nix
