@@ -22,6 +22,7 @@
 
   # Пакеты только для kasiro (DE-specific в desktop/*/packages.nix)
   home.packages = with pkgs; [
+    gpu-screen-recorder
     ffmpeg
     pnpm
     ripgrep

@@ -26,7 +26,7 @@ let
         }
       ];
       capsule_radius = 10;
-      center = [ "group:g1" "bar" "wallpaper" "wallhaven" "mpvpaper" ];
+      center = [ "group:g1" "bar" "wallpaper" "wallhaven" "mpvpaper" "recorder" ];
       concave_edge_corners = false;
       end = [
         "keyboard_layout"
@@ -168,6 +168,7 @@ let
         "noctalia/wallhaven"
         "noctalia/mpvpaper"
         "dmopp/settings-to-nix"
+        "noctalia/screen_recorder"
       ];
       source = [
         {
@@ -255,6 +256,7 @@ let
       bluetooth.enabled = false;
       control-center.enabled = false;
       mpvpaper.type = "noctalia/mpvpaper:mpvpaper";
+      recorder.type = "noctalia/screen_recorder:recorder";
       wallhaven.type = "noctalia/wallhaven:wallhaven";
     };
   };
