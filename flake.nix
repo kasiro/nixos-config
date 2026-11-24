@@ -17,10 +17,6 @@
     chaotic.url = "github:chaotic-cx/nyx/main";
     hermes-agent.url = "github:NousResearch/hermes-agent?rev=31a161a6d2b9169dddf6633c096fe038e6925d0f";
     hyprland.url = "github:hyprwm/Hyprland?rev=423da96907feb3eef7ca4e06dc5cb69e9eec63a8";
-    hyprland-plugins = {
-      url = "github:hyprwm/hyprland-plugins?rev=2e03a09a92ba8b0adcd2840a69d84ffc2174b886";
-      inputs.hyprland.follows = "hyprland";
-    };
     # HM-модуль noctalia (programs.noctalia, settings → TOML)
     noctalia.url = "github:noctalia-dev/noctalia?rev=30daf36c1e7729ac29fa787b48bc2af136689635";
   };
@@ -34,7 +30,6 @@
       chaotic,
       hermes-agent,
       hyprland,
-      hyprland-plugins,
       nixpkgs-steam,
       ...
     }@inputs:

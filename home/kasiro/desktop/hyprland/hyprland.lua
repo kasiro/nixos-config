@@ -16,7 +16,6 @@
 -- ======== --
 
 local features = {
-    dynamic_cursors = false,
     nvidia = true,
     extra_autostart = false,
 }
@@ -183,31 +182,6 @@ hl.config({
     },
 })
 
--- Plugin options
-if features.dynamic_cursors then
-    hl.config({
-        plugin = {
-            ["dynamic-cursors"] = {
-                enabled    = true,
-                mode       = "tilt",
-                threshold  = 1,
-
-                rotate     = { length = 20, offset = 0.0 },
-                tilt       = { limit = 5000, ["function"] = "negative_quadratic", window = 100, full_tilt = 60 },
-                stretch    = { limit = 3000, ["function"] = "quadratic", window = 100 },
-                shake      = { enabled = false },
-
-                hyprcursor = {
-                    nearest    = true,
-                    enabled    = true,
-                    resolution = -1,
-                    fallback   = "clientside",
-                },
-            },
-        },
-    })
-end
-
 -- ========== --
 -- ANIMATIONS --
 -- ========== --
@@ -257,26 +231,12 @@ bind("G", hl.dsp.window.float({ action = "toggle" })) -- SUPER+G: floating toggl
 bind("X", hl.dsp.layout("togglesplit"))
 bind("SHIFT + M", hl.dsp.window.move({ workspace = "special:magic" }))
 
--- Groups (вкладки Hyprland)
-bind("W", hl.dsp.exec_cmd("~/.config/hypr/scripts/group-all-windows.py")) -- SUPER+W: сгруппировать ВСЕ окна workspace (как Sway tabbed)
-bind("SHIFT + W", hl.dsp.group.toggle())                                  -- SUPER+Shift+W: разгруппировать (toggle группы)
-bind("CONTROL + W", hl.dsp.group.next())                                  -- CONTROL+W: циклически переключать группу (forward)
-
--- Smart move (COSMIC-style: на краю экрана — переход на соседний workspace)
--- bind("SHIFT + LEFT",
---     hl.dsp.exec_cmd(
---         "/home/kasiro/nixos-config/.venv/bin/python3 /home/kasiro/nixos-config/home/kasiro/desktop/sway/scripts/smart-move.py left"))
--- bind("SHIFT + RIGHT",
---     hl.dsp.exec_cmd(
---         "/home/kasiro/nixos-config/.venv/bin/python3 /home/kasiro/nixos-config/home/kasiro/desktop/sway/scripts/smart-move.py right"))
-
 -- Resize mode
 -- bind("R", hl.dsp.exec_cmd("hyprctl dispatch togglespecialworkspace resize"))       -- SUPER+R: resize mode
 bind("SHIFT + R", hl.dsp.exec_cmd("hyprctl reload && noctalia msg config-reload")) -- SUPER+SHIFT+R: перезагрузить Hyprland + Noctalia
 
 -- System
-bind("SHIFT + E", hl.dsp.exit()) -- SUPER+Shift+E: выход из сессии
-bind("CONTROL + L", hl.dsp.exec_cmd("hyprlock"))
+bind("L", hl.dsp.exec_cmd("hyprlock"))
 
 -- Brightness
 hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl set +2%"), { locked = true, repeating = true })
@@ -322,9 +282,59 @@ bind("Print", hl.dsp.exec_cmd([[grim -g "$(slurp -d)" - | wl-copy]])) -- обл�
 local arrowDirections = { left = "left", right = "right", up = "up", down = "down" }
 local arrowResize = { left = { -20, 0 }, right = { 20, 0 }, up = { 0, -20 }, down = { 0, 20 } }
 
+-- Перенос окна в стиле COSMIC (SUPER+SHIFT+Left/Right):
+--   плавающее / fullscreen / maximized окно — сразу на соседний воркспейс;
+--   тайловое окно у края рабочей области — на соседний воркспейс;
+--   иначе — обычный сдвиг внутри воркспейса (movewindow: обмен местами с соседом).
+-- Перенос идёт с фокусом: окно и фокус переезжают вместе.
+local function move_window_cosmic(direction)
+    local win = hl.get_active_window()
+    if not win or not win.mapped or win.pinned then
+        return
+    end
+
+    -- относительный воркспейс: -1/+1 от текущего номера (создаётся при отсутствии)
+    local neighbour = (direction == "left") and "-1" or "+1"
+
+    -- плавающее, fullscreen и maximized (fullscreen ~= 0) — без промежуточного сдвига
+    if win.floating or (win.fullscreen or 0) ~= 0 then
+        hl.dispatch(hl.dsp.window.move({ workspace = neighbour, follow = true }))
+        return
+    end
+
+    -- край рабочей области = монитор минус reserved (бар) и gaps_out;
+    -- рамка окна (border_size) отступает от края ещё на свою толщину — отсюда допуск
+    local mon  = win.monitor or hl.get_active_monitor()
+    local gaps = hl.get_config("general.gaps_out")
+    if type(gaps) ~= "table" then
+        gaps = { left = gaps or 0, right = gaps or 0 }
+    end
+
+    local tol   = (hl.get_config("general.border_size") or 0) + 2
+    local left  = mon.x + (mon.reserved.left or 0) + (gaps.left or 0)
+    local right = mon.x + mon.width - (mon.reserved.right or 0) - (gaps.right or 0)
+
+    local at_edge
+    if direction == "left" then
+        at_edge = win.at.x <= left + tol
+    else
+        at_edge = win.at.x + win.size.x >= right - tol
+    end
+
+    if at_edge then
+        hl.dispatch(hl.dsp.window.move({ workspace = neighbour, follow = true }))
+    else
+        hl.dispatch(hl.dsp.window.move({ direction = direction }))
+    end
+end
+
 for key, dir in pairs(arrowDirections) do
     bind(key, hl.dsp.focus({ direction = dir }))
-    bind("SHIFT + " .. key, hl.dsp.window.swap({ direction = dir }))
+    if dir == "left" or dir == "right" then
+        bind("SHIFT + " .. key, function() move_window_cosmic(dir) end) -- COSMIC-перенос (см. выше)
+    else
+        bind("SHIFT + " .. key, hl.dsp.window.swap({ direction = dir }))
+    end
     bind("ALT + " .. key, hl.dsp.window.move({ direction = dir }))
 
     local step = arrowResize[key]

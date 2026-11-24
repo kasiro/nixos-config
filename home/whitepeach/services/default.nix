@@ -1,7 +1,7 @@
 { lib, ... }:
 let
   dir = ./.;
-  ignored = [ "default.nix" "kando.nix" ];
+  ignored = [ "default.nix" ];
   entries = builtins.readDir dir;
   modules = lib.filterAttrs
     (name: type:

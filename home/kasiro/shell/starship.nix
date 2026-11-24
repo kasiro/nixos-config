@@ -1,16 +1,35 @@
-# Starship — промпт
-#
-# ВАЖНО: programs.starship.settings намеренно НЕ задаётся. HM при непустых
-# settings генерирует ~/.config/starship.toml как симлинк в /nix/store,
-# из-за чего шаблон noctalia «starship» не может писать в файл в рантайме.
-# При settings = {} HM файл не генерирует вообще
-# (hasGeneratedConfig = settings != {} || presets != []), поэтому базовый
-# конфиг сеет активация starshipSeed ниже: она гарантирует, что после
-# переключения ~/.config/starship.toml — обычный файл, но не перезатирает
-# его содержимое (в том числе правки шаблона noctalia) после первого сидирования.
-# Starship — промпт под управлением Nix
-# Конфиг задаётся в home/kasiro/desktop/hyprland.nix
 { ... }:
 {
-  # Пустой файл — конфигурация перенесена в hyprland.nix
+  programs.starship = {
+    enable = true;
+    enableFishIntegration = true;
+    settings = {
+      format = "$all$nix_shell$python\n$directory$git_branch$git_status\n$character";
+      character = {
+        error_symbol = "[❯](bold red)";
+        success_symbol = "[❯](bold green)";
+      };
+      directory = {
+        style = "bold cyan";
+        truncation_length = 3;
+      };
+      git_branch = {
+        format = "[$symbol$branch]($style) ";
+        style = "bold purple";
+      };
+      git_status = {
+        format = "[$all_status$ahead_behind]($style) ";
+        style = "bold red";
+      };
+      nix_shell = {
+        format = "via [$symbol $name]($style) ";
+        heuristic = true;
+        impure_msg = "impure";
+        pure_msg = "pure";
+        style = "bold blue";
+        symbol = "❄️";
+        unknown_msg = "";
+      };
+    };
+  };
 }
